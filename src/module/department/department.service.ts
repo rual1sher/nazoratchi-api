@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
@@ -19,11 +23,15 @@ export class DepartmentService {
 
       if (!worker?.company_id) throw new NotFoundException('Worker not found');
       dto.company_id = worker.company_id;
-    } else {
+    } else if (!workerId) {
       const company = await this.prisma.company.findUnique({
         where: { id: dto.company_id },
       });
       if (!company) throw new NotFoundException('Company not found');
+    } else {
+      throw new BadRequestException(
+        'If you are not an administrator, you cannot create a job with a company ID (company_id).',
+      );
     }
 
     return await this.prisma.department.create({ data: dto });
@@ -56,10 +64,11 @@ export class DepartmentService {
     return department;
   }
 
-  async update(id: number, dto: UpdateDepartmentDto) {
-    const department = await this.prisma.department.findUnique({
-      where: { id, deleted_at: null },
-    });
+  async update(id: number, dto: UpdateDepartmentDto, workerId: number) {
+    const where: Prisma.departmentWhereInput = { id, deleted_at: null };
+    if (workerId) where.company = { worker: { some: { id: workerId } } };
+
+    const department = await this.prisma.department.findFirst({ where });
     if (!department) throw new NotFoundException('Department not found');
 
     if (dto?.company_id) {
@@ -72,10 +81,11 @@ export class DepartmentService {
     return await this.prisma.department.update({ where: { id }, data: dto });
   }
 
-  async remove(id: number) {
-    const department = await this.prisma.department.findUnique({
-      where: { id, deleted_at: null },
-    });
+  async remove(id: number, workerId: number) {
+    const where: Prisma.departmentWhereInput = { id, deleted_at: null };
+    if (workerId) where.company = { worker: { some: { id: workerId } } };
+
+    const department = await this.prisma.department.findFirst({ where });
     if (!department) throw new NotFoundException('Department not found');
 
     return await this.prisma.department.update({

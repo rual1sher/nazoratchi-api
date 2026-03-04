@@ -60,14 +60,19 @@ export class DepartmentController {
   async update(
     @Param('id') id: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto,
+    @WorkerId() workerId: string,
   ) {
-    const data = await this.departmentService.update(+id, updateDepartmentDto);
+    const data = await this.departmentService.update(
+      +id,
+      updateDepartmentDto,
+      +workerId,
+    );
     return new ApiResponse(data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const data = await this.departmentService.remove(+id);
+  async remove(@Param('id') id: string, @WorkerId() workerId: string) {
+    const data = await this.departmentService.remove(+id, +workerId);
     return new ApiResponse(data);
   }
 }

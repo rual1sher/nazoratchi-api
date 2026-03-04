@@ -8,5 +8,6 @@ model company {
 
   filial     filial[]
   department department[]
+  position   position[]
   worker     worker[]
 }
