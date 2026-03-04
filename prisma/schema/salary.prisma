@@ -1,0 +1,20 @@
+model salary {
+  id Int @id @default(autoincrement())
+
+  amount     String      @db.VarChar(255)
+  type       salary_type
+  date_time  DateTime    @db.Timestamptz(0)
+  status     Boolean     @default(true)
+  worker_id  Int
+  created_at DateTime    @default(now())
+  updated_at DateTime    @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  worker worker @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "salary_worker_id_foreign")
+}
+
+enum salary_type {
+  month
+  day
+  hours
+}

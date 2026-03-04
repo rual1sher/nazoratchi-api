@@ -1,0 +1,11 @@
+model day {
+  id Int @id @default(autoincrement())
+
+  title      String    @db.VarChar(255)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  worker          worker[]
+  worker_schedule worker_schedule[]
+}

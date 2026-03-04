@@ -1,0 +1,15 @@
+model worker_schedule {
+  id Int @id @default(autoincrement())
+
+  day         DateTime  @db.Date
+  start_time  DateTime  @db.Time(0)
+  end_time    DateTime  @db.Time(0)
+  break_start DateTime  @db.Time(0)
+  break_end   DateTime  @db.Time(0)
+  day_id      Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+
+  days day @relation(fields: [day_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_schedule_day_id_foreign")
+}

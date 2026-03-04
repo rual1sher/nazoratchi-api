@@ -1,0 +1,21 @@
+model penalty {
+  id Int @id @default(autoincrement())
+
+  type              penalty_type
+  time              DateTime     @db.Time(0)
+  amount            String       @db.VarChar(255)
+  comment           String
+  penalties_name_id Int
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @default(now()) @updatedAt
+  deleted_at        DateTime?
+
+  penalties_name penalties_name @relation(fields: [penalties_name_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "penalty_penalties_name_id_foreign")
+}
+
+enum penalty_type {
+  late_arrival
+  early_leave
+  no_exit
+  not_arrive
+}

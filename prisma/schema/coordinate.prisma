@@ -1,0 +1,10 @@
+model coordinate {
+  id Int @id @default(autoincrement())
+
+  coordinate Float[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  filial_id  Int
+
+  filial filial @relation(fields: [filial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coordinate_filial_id_foreign")
+}

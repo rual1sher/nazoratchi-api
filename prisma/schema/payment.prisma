@@ -1,0 +1,20 @@
+model payment {
+  id Int @id @default(autoincrement())
+
+  amount     String       @db.VarChar(255)
+  type       payment_type
+  date       DateTime     @db.Date
+  comment    String?
+  worker_id  Int
+  created_at DateTime     @default(now())
+  updated_at DateTime     @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  worker worker @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payment_worker_id_foreign")
+}
+
+enum payment_type {
+  income
+  bonus
+  penalty
+}

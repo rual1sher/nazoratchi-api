@@ -1,0 +1,29 @@
+model worker {
+  id            Int         @id @default(autoincrement())
+  company_id    Int
+  department_id Int?
+  day_id        Int?
+  position_id   Int?
+  user_id       Int
+  role          worker_role @default(worker)
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @default(now()) @updatedAt
+  deleted_at    DateTime?
+
+  company    company     @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_company_id_foreign")
+  day        day?        @relation(fields: [day_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_day_id_foreign")
+  department department? @relation(fields: [department_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_department_id_foreign")
+  position   position?   @relation(fields: [position_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_position_id_foreign")
+  user       user        @relation(fields: [user_id], references: [id])
+
+  attendance attendance[]
+  payment    payment[]
+  salary     salary[]
+
+  @@index([user_id, company_id])
+}
+
+enum worker_role {
+  worker
+  maneger
+}
