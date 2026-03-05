@@ -2,9 +2,15 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateDepartmentDto {
   @IsString()
-  title: string;
+  title_uz: string;
 
-  @IsOptional()
+  @IsString()
+  title_ru: string;
+
+  @IsString()
+  title_en: string;
+
   @IsNumber()
+  @IsOptional()
   company_id: number;
 }

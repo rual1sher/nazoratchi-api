@@ -4,6 +4,7 @@ import { UpdateFilialDto } from './dto/update-filial.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { IFilialQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class FilialService {
@@ -43,7 +44,11 @@ export class FilialService {
       where: { id, deleted_at: null },
       include: { coordinate: true },
     });
-    if (!filial) throw new NotFoundException('Filial not found');
+    if (!filial) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Filial'),
+      );
+    }
 
     const { coordinate, ...data } = filial;
 
@@ -54,7 +59,11 @@ export class FilialService {
     const filial = await this.prisma.filial.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!filial) throw new NotFoundException('Filial not found');
+    if (!filial) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Filial'),
+      );
+    }
 
     const { coordinates, ...data } = updateFilialDto;
 
@@ -80,7 +89,11 @@ export class FilialService {
     const filial = await this.prisma.filial.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!filial) throw new NotFoundException('Filial not found');
+    if (!filial) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Filial'),
+      );
+    }
 
     return await this.prisma.filial.update({
       where: { id },

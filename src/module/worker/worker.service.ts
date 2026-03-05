@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { hashingPassword } from 'src/helpers/hash/password';
 import { IWorkerQuery } from 'src/helpers/types/types';
 import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class WorkerService {
@@ -23,7 +25,11 @@ export class WorkerService {
       const chechUser = await this.prisma.user.findUnique({
         where: { phone: createWorkerDto.user.phone },
       });
-      if (chechUser) throw new ConflictException('User already exists');
+      if (chechUser) {
+        throw new ConflictException(
+          ErrorMessages.conflict.alreadyExists('User'),
+        );
+      }
 
       const hashedPassword = hashingPassword(createWorkerDto.user.password);
       createWorkerDto.user.password = hashedPassword;
@@ -38,17 +44,21 @@ export class WorkerService {
         where: { id: createWorkerDto.user_id, deleted_at: null },
       });
 
-      if (!user) throw new NotFoundException('User not found');
+      if (!user) {
+        throw new NotFoundException(
+          ErrorMessages.notFound.modelNotFound('User'),
+        );
+      }
 
       user_id = user.id;
     } else {
-      throw new BadRequestException('User or user_id not found');
+      throw new BadRequestException(
+        ErrorMessages.badRequest.userOrUserIdNotFound,
+      );
     }
 
     if (createWorkerDto?.role && role !== 'admin') {
-      throw new BadRequestException(
-        'To create a workspace with the role of admin access',
-      );
+      throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
     }
 
     return await this.prisma.worker.create({
@@ -82,9 +92,19 @@ export class WorkerService {
   async findOne(id: number) {
     const worker = await this.prisma.worker.findUnique({
       where: { id, deleted_at: null },
-      include: { user: { omit: { token: true, password: true, role: true } } },
+      include: {
+        user: { omit: { token: true, password: true, role: true } },
+        department: true,
+        position: true,
+        company: true,
+        day: true,
+      },
     });
-    if (!worker) throw new NotFoundException('Worker not found');
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
 
     return worker;
   }
@@ -93,10 +113,9 @@ export class WorkerService {
     const worker = await this.prisma.worker.findUnique({
       where: { id: workerId, user_id: userId, deleted_at: null },
     });
-
     if (!worker) {
       throw new BadRequestException(
-        'The connection between the worker and the user is not established',
+        ErrorMessages.notFound.modelNotFound('User or Worker'),
       );
     }
 
@@ -107,7 +126,11 @@ export class WorkerService {
     const worker = await this.prisma.worker.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!worker) throw new NotFoundException('Worker not found');
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
 
     try {
       return await this.prisma.worker.update({
@@ -115,7 +138,9 @@ export class WorkerService {
         data: dto,
       });
     } catch (e) {
-      if (e.code === 'P2003') throw new BadRequestException('realtion involid');
+      if (e.code === 'P2003') {
+        throw new BadRequestException(ErrorMessages.badRequest.invalidRelation);
+      }
       throw new Error(e);
     }
   }
@@ -124,7 +149,11 @@ export class WorkerService {
     const worker = await this.prisma.worker.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!worker) throw new NotFoundException('Worker not found');
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
 
     return await this.prisma.worker.update({
       where: { id },

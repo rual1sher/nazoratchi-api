@@ -4,6 +4,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { IRequest } from 'src/helpers/types/types';
+import { ErrorMessages } from '../error/error.message';
 
 export class AdminGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
@@ -11,7 +12,7 @@ export class AdminGuard implements CanActivate {
     const user = request.user;
 
     if (user?.role !== 'admin') {
-      throw new ForbiddenException('administrator access only');
+      throw new ForbiddenException(ErrorMessages.forbidden.adminOnly);
     }
 
     return true;

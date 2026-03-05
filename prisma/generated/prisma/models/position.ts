@@ -28,68 +28,90 @@ export type AggregatePosition = {
 
 export type PositionAvgAggregateOutputType = {
   id: number | null
+  company_id: number | null
 }
 
 export type PositionSumAggregateOutputType = {
   id: number | null
+  company_id: number | null
 }
 
 export type PositionMinAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
+  company_id: number | null
 }
 
 export type PositionMaxAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
+  company_id: number | null
 }
 
 export type PositionCountAggregateOutputType = {
   id: number
-  title: number
+  title_uz: number
+  title_ru: number
+  title_en: number
   created_at: number
   updated_at: number
   deleted_at: number
+  company_id: number
   _all: number
 }
 
 
 export type PositionAvgAggregateInputType = {
   id?: true
+  company_id?: true
 }
 
 export type PositionSumAggregateInputType = {
   id?: true
+  company_id?: true
 }
 
 export type PositionMinAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  company_id?: true
 }
 
 export type PositionMaxAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  company_id?: true
 }
 
 export type PositionCountAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  company_id?: true
   _all?: true
 }
 
@@ -181,10 +203,13 @@ export type positionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type PositionGroupByOutputType = {
   id: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
+  company_id: number
   _count: PositionCountAggregateOutputType | null
   _avg: PositionAvgAggregateOutputType | null
   _sum: PositionSumAggregateOutputType | null
@@ -212,19 +237,27 @@ export type positionWhereInput = {
   OR?: Prisma.positionWhereInput[]
   NOT?: Prisma.positionWhereInput | Prisma.positionWhereInput[]
   id?: Prisma.IntFilter<"position"> | number
-  title?: Prisma.StringFilter<"position"> | string
+  title_uz?: Prisma.StringFilter<"position"> | string
+  title_ru?: Prisma.StringFilter<"position"> | string
+  title_en?: Prisma.StringFilter<"position"> | string
   created_at?: Prisma.DateTimeFilter<"position"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"position"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"position"> | Date | string | null
+  company_id?: Prisma.IntFilter<"position"> | number
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   worker?: Prisma.WorkerListRelationFilter
 }
 
 export type positionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  company_id?: Prisma.SortOrder
+  company?: Prisma.companyOrderByWithRelationInput
   worker?: Prisma.workerOrderByRelationAggregateInput
 }
 
@@ -233,19 +266,26 @@ export type positionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.positionWhereInput | Prisma.positionWhereInput[]
   OR?: Prisma.positionWhereInput[]
   NOT?: Prisma.positionWhereInput | Prisma.positionWhereInput[]
-  title?: Prisma.StringFilter<"position"> | string
+  title_uz?: Prisma.StringFilter<"position"> | string
+  title_ru?: Prisma.StringFilter<"position"> | string
+  title_en?: Prisma.StringFilter<"position"> | string
   created_at?: Prisma.DateTimeFilter<"position"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"position"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"position"> | Date | string | null
+  company_id?: Prisma.IntFilter<"position"> | number
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   worker?: Prisma.WorkerListRelationFilter
 }, "id">
 
 export type positionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   _count?: Prisma.positionCountOrderByAggregateInput
   _avg?: Prisma.positionAvgOrderByAggregateInput
   _max?: Prisma.positionMaxOrderByAggregateInput
@@ -258,56 +298,76 @@ export type positionScalarWhereWithAggregatesInput = {
   OR?: Prisma.positionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.positionScalarWhereWithAggregatesInput | Prisma.positionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"position"> | number
-  title?: Prisma.StringWithAggregatesFilter<"position"> | string
+  title_uz?: Prisma.StringWithAggregatesFilter<"position"> | string
+  title_ru?: Prisma.StringWithAggregatesFilter<"position"> | string
+  title_en?: Prisma.StringWithAggregatesFilter<"position"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"position"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"position"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"position"> | Date | string | null
+  company_id?: Prisma.IntWithAggregatesFilter<"position"> | number
 }
 
 export type positionCreateInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutPositionInput
   worker?: Prisma.workerCreateNestedManyWithoutPositionInput
 }
 
 export type positionUncheckedCreateInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company_id: number
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutPositionInput
 }
 
 export type positionUpdateInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutPositionNestedInput
   worker?: Prisma.workerUpdateManyWithoutPositionNestedInput
 }
 
 export type positionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
   worker?: Prisma.workerUncheckedUpdateManyWithoutPositionNestedInput
 }
 
 export type positionCreateManyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company_id: number
 }
 
 export type positionUpdateManyMutationInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -315,47 +375,113 @@ export type positionUpdateManyMutationInput = {
 
 export type positionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type PositionListRelationFilter = {
+  every?: Prisma.positionWhereInput
+  some?: Prisma.positionWhereInput
+  none?: Prisma.positionWhereInput
+}
+
+export type positionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type positionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
 }
 
 export type positionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
 }
 
 export type positionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
 }
 
 export type positionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
 }
 
 export type positionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
 }
 
 export type PositionNullableScalarRelationFilter = {
   is?: Prisma.positionWhereInput | null
   isNot?: Prisma.positionWhereInput | null
+}
+
+export type positionCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput> | Prisma.positionCreateWithoutCompanyInput[] | Prisma.positionUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.positionCreateOrConnectWithoutCompanyInput | Prisma.positionCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.positionCreateManyCompanyInputEnvelope
+  connect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+}
+
+export type positionUncheckedCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput> | Prisma.positionCreateWithoutCompanyInput[] | Prisma.positionUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.positionCreateOrConnectWithoutCompanyInput | Prisma.positionCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.positionCreateManyCompanyInputEnvelope
+  connect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+}
+
+export type positionUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput> | Prisma.positionCreateWithoutCompanyInput[] | Prisma.positionUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.positionCreateOrConnectWithoutCompanyInput | Prisma.positionCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.positionUpsertWithWhereUniqueWithoutCompanyInput | Prisma.positionUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.positionCreateManyCompanyInputEnvelope
+  set?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  disconnect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  delete?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  connect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  update?: Prisma.positionUpdateWithWhereUniqueWithoutCompanyInput | Prisma.positionUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.positionUpdateManyWithWhereWithoutCompanyInput | Prisma.positionUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.positionScalarWhereInput | Prisma.positionScalarWhereInput[]
+}
+
+export type positionUncheckedUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput> | Prisma.positionCreateWithoutCompanyInput[] | Prisma.positionUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.positionCreateOrConnectWithoutCompanyInput | Prisma.positionCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.positionUpsertWithWhereUniqueWithoutCompanyInput | Prisma.positionUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.positionCreateManyCompanyInputEnvelope
+  set?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  disconnect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  delete?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  connect?: Prisma.positionWhereUniqueInput | Prisma.positionWhereUniqueInput[]
+  update?: Prisma.positionUpdateWithWhereUniqueWithoutCompanyInput | Prisma.positionUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.positionUpdateManyWithWhereWithoutCompanyInput | Prisma.positionUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.positionScalarWhereInput | Prisma.positionScalarWhereInput[]
 }
 
 export type positionCreateNestedOneWithoutWorkerInput = {
@@ -374,19 +500,86 @@ export type positionUpdateOneWithoutWorkerNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.positionUpdateToOneWithWhereWithoutWorkerInput, Prisma.positionUpdateWithoutWorkerInput>, Prisma.positionUncheckedUpdateWithoutWorkerInput>
 }
 
-export type positionCreateWithoutWorkerInput = {
-  title: string
+export type positionCreateWithoutCompanyInput = {
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  worker?: Prisma.workerCreateNestedManyWithoutPositionInput
+}
+
+export type positionUncheckedCreateWithoutCompanyInput = {
+  id?: number
+  title_uz: string
+  title_ru: string
+  title_en: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  worker?: Prisma.workerUncheckedCreateNestedManyWithoutPositionInput
+}
+
+export type positionCreateOrConnectWithoutCompanyInput = {
+  where: Prisma.positionWhereUniqueInput
+  create: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput>
+}
+
+export type positionCreateManyCompanyInputEnvelope = {
+  data: Prisma.positionCreateManyCompanyInput | Prisma.positionCreateManyCompanyInput[]
+  skipDuplicates?: boolean
+}
+
+export type positionUpsertWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.positionWhereUniqueInput
+  update: Prisma.XOR<Prisma.positionUpdateWithoutCompanyInput, Prisma.positionUncheckedUpdateWithoutCompanyInput>
+  create: Prisma.XOR<Prisma.positionCreateWithoutCompanyInput, Prisma.positionUncheckedCreateWithoutCompanyInput>
+}
+
+export type positionUpdateWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.positionWhereUniqueInput
+  data: Prisma.XOR<Prisma.positionUpdateWithoutCompanyInput, Prisma.positionUncheckedUpdateWithoutCompanyInput>
+}
+
+export type positionUpdateManyWithWhereWithoutCompanyInput = {
+  where: Prisma.positionScalarWhereInput
+  data: Prisma.XOR<Prisma.positionUpdateManyMutationInput, Prisma.positionUncheckedUpdateManyWithoutCompanyInput>
+}
+
+export type positionScalarWhereInput = {
+  AND?: Prisma.positionScalarWhereInput | Prisma.positionScalarWhereInput[]
+  OR?: Prisma.positionScalarWhereInput[]
+  NOT?: Prisma.positionScalarWhereInput | Prisma.positionScalarWhereInput[]
+  id?: Prisma.IntFilter<"position"> | number
+  title_uz?: Prisma.StringFilter<"position"> | string
+  title_ru?: Prisma.StringFilter<"position"> | string
+  title_en?: Prisma.StringFilter<"position"> | string
+  created_at?: Prisma.DateTimeFilter<"position"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"position"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"position"> | Date | string | null
+  company_id?: Prisma.IntFilter<"position"> | number
+}
+
+export type positionCreateWithoutWorkerInput = {
+  title_uz: string
+  title_ru: string
+  title_en: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutPositionInput
 }
 
 export type positionUncheckedCreateWithoutWorkerInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company_id: number
 }
 
 export type positionCreateOrConnectWithoutWorkerInput = {
@@ -406,15 +599,62 @@ export type positionUpdateToOneWithWhereWithoutWorkerInput = {
 }
 
 export type positionUpdateWithoutWorkerInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutPositionNestedInput
 }
 
 export type positionUncheckedUpdateWithoutWorkerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type positionCreateManyCompanyInput = {
+  id?: number
+  title_uz: string
+  title_ru: string
+  title_en: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type positionUpdateWithoutCompanyInput = {
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  worker?: Prisma.workerUpdateManyWithoutPositionNestedInput
+}
+
+export type positionUncheckedUpdateWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  worker?: Prisma.workerUncheckedUpdateManyWithoutPositionNestedInput
+}
+
+export type positionUncheckedUpdateManyWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -453,57 +693,81 @@ export type PositionCountOutputTypeCountWorkerArgs<ExtArgs extends runtime.Types
 
 export type positionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company_id?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.position$workerArgs<ExtArgs>
   _count?: boolean | Prisma.PositionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["position"]>
 
 export type positionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company_id?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["position"]>
 
 export type positionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company_id?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["position"]>
 
 export type positionSelectScalar = {
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company_id?: boolean
 }
 
-export type positionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["position"]>
+export type positionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title_uz" | "title_ru" | "title_en" | "created_at" | "updated_at" | "deleted_at" | "company_id", ExtArgs["result"]["position"]>
 export type positionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.position$workerArgs<ExtArgs>
   _count?: boolean | Prisma.PositionCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type positionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type positionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type positionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+}
+export type positionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+}
 
 export type $positionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "position"
   objects: {
+    company: Prisma.$companyPayload<ExtArgs>
     worker: Prisma.$workerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    title: string
+    title_uz: string
+    title_ru: string
+    title_en: string
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
+    company_id: number
   }, ExtArgs["result"]["position"]>
   composites: {}
 }
@@ -898,6 +1162,7 @@ readonly fields: positionFieldRefs;
  */
 export interface Prisma__positionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   worker<T extends Prisma.position$workerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.position$workerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$workerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -929,10 +1194,13 @@ export interface Prisma__positionClient<T, Null = never, ExtArgs extends runtime
  */
 export interface positionFieldRefs {
   readonly id: Prisma.FieldRef<"position", 'Int'>
-  readonly title: Prisma.FieldRef<"position", 'String'>
+  readonly title_uz: Prisma.FieldRef<"position", 'String'>
+  readonly title_ru: Prisma.FieldRef<"position", 'String'>
+  readonly title_en: Prisma.FieldRef<"position", 'String'>
   readonly created_at: Prisma.FieldRef<"position", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"position", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"position", 'DateTime'>
+  readonly company_id: Prisma.FieldRef<"position", 'Int'>
 }
     
 
@@ -1182,6 +1450,10 @@ export type positionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    */
   data: Prisma.positionCreateManyInput | Prisma.positionCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.positionIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1252,6 +1524,10 @@ export type positionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many positions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.positionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PositionService } from './position.service';
 import { CreatePositionDto } from './dto/create-position.dto';
@@ -17,6 +18,8 @@ import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
+import { Owner } from 'src/helpers/decorators/owner.decorator';
+import { IPayload, IPositionQuery } from 'src/helpers/types/types';
 
 @Controller('position')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -28,31 +31,55 @@ export class PositionController {
   async create(
     @Body() createPositionDto: CreatePositionDto,
     @WorkerId() workerId: string,
+    @Owner() { role }: IPayload,
   ) {
-    const data = await this.positionService.create(createPositionDto);
+    const data = await this.positionService.create(
+      createPositionDto,
+      +workerId,
+      role,
+    );
     return new ApiResponse(data);
   }
 
   @Get()
-  findAll() {
-    return this.positionService.findAll();
+  async findAll(
+    @Query() query: IPositionQuery,
+    @WorkerId() workerId: string,
+    @Owner() { role }: IPayload,
+  ) {
+    const { position, pagination } = await this.positionService.findAll(
+      query,
+      +workerId,
+      role,
+    );
+    return new ApiResponse(position, 200, pagination);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.positionService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const data = await this.positionService.findOne(+id);
+    return new ApiResponse(data);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
+    @WorkerId() workerId: string,
     @Body() updatePositionDto: UpdatePositionDto,
+    @Owner() { role }: IPayload,
   ) {
-    return this.positionService.update(+id, updatePositionDto);
+    const data = await this.positionService.update(
+      +id,
+      updatePositionDto,
+      +workerId,
+      role,
+    );
+    return new ApiResponse(data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.positionService.remove(+id);
+  async remove(@Param('id') id: string, @WorkerId() workerId: string) {
+    const data = await this.positionService.remove(+id, +workerId);
+    return new ApiResponse(data);
   }
 }

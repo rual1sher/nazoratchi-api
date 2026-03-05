@@ -7,9 +7,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { hashingPassword } from 'src/helpers/hash/password';
-import { IPayload, IUserQuery } from 'src/helpers/types/types';
+import { IUserQuery } from 'src/helpers/types/types';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { Prisma } from 'prisma/generated/prisma/client';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,9 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { phone: createUserDto.phone },
     });
-    if (user) throw new ConflictException('User already exists');
+    if (user) {
+      throw new ConflictException(ErrorMessages.conflict.alreadyExists('User'));
+    }
 
     const data = { ...createUserDto };
 
@@ -36,9 +39,7 @@ export class UserService {
     const where: Prisma.userWhereInput = { deleted_at: null };
 
     if (query?.companyId) {
-      const companyId = Number(query.companyId);
-      if (!companyId) throw new NotFoundException('Invalid company id');
-      where.worker = { some: { company_id: companyId } };
+      where.worker = { some: { company_id: +query?.companyId } };
     }
 
     const count = await this.prisma.user.count({ where });
@@ -62,7 +63,9 @@ export class UserService {
       include: { worker: true },
       omit: { token: true, password: true, role: true },
     });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    }
 
     return user;
   }
@@ -71,7 +74,9 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    }
 
     return this.prisma.user.update({ where: { id }, data: updateUserDto });
   }
@@ -80,7 +85,9 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    }
 
     return await this.prisma.user.update({
       where: { id },

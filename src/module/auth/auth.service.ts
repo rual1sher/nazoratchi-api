@@ -13,6 +13,7 @@ import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { randomInt } from 'crypto';
 import { VerifyDto } from './dto/verify.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
       where: { phone: createAuthDto.phone, deleted_at: null },
     });
     if (!user) {
-      throw new BadRequestException('User Involid');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
     }
 
     const isPasswordValid = checkPassword(
@@ -36,7 +37,7 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new BadRequestException('User Involid');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
     }
 
     const code = randomInt(100000, 999999);
@@ -48,14 +49,14 @@ export class AuthService {
     const cacheCode = await this.cacheManager.get(`${phone}`);
 
     if (cacheCode !== code) {
-      throw new BadRequestException('Invalid code');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidCode);
     }
 
     const user = await this.prisma.user.findUnique({
       where: { phone },
     });
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
     }
 
     const accessToken = this.jwtService.generateAccess({
@@ -77,13 +78,13 @@ export class AuthService {
 
   async refresh(token: string) {
     if (!token) {
-      throw new BadRequestException('Token is required');
+      throw new BadRequestException(ErrorMessages.badRequest.requiredToken);
     }
 
     const data = this.jwtService.verifyRefresh(token);
 
     if (!data) {
-      throw new BadRequestException('Invalid token');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidToken);
     }
 
     const user = await this.prisma.user.findFirst({
@@ -91,7 +92,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
     }
 
     const accessToken = this.jwtService.generateAccess({
@@ -113,13 +114,13 @@ export class AuthService {
 
   async logout(token: string) {
     if (!token) {
-      throw new BadRequestException('Token is required');
+      throw new BadRequestException(ErrorMessages.badRequest.requiredToken);
     }
 
     const data = this.jwtService.verifyRefresh(token);
 
     if (!data) {
-      throw new BadRequestException('Invalid token');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidToken);
     }
 
     await this.prisma.user.update({
@@ -132,11 +133,12 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user)
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('user'));
 
     const isPasswordValid = checkPassword(dto.old_password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequestException('old password involid');
+      throw new BadRequestException(ErrorMessages.badRequest.invalidPassword);
     }
 
     const password = hashingPassword(dto.new_password);
@@ -147,8 +149,11 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!user) throw new NotFoundException('User not found');
-    if (user.phone === newPhone) throw new BadRequestException('Same phone');
+    if (!user)
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    if (user.phone === newPhone) {
+      throw new BadRequestException(ErrorMessages.badRequest.samePhone);
+    }
 
     await this.prisma.user.update({ where: { id }, data: { phone: newPhone } });
   }

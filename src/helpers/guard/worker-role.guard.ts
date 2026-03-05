@@ -3,12 +3,14 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { WorkerService } from 'src/module/worker/worker.service';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { IRequest } from '../types/types';
+import { ErrorMessages } from '../error/error.message';
 
 @Injectable()
 export class WorkerRolesGuard implements CanActivate {
@@ -31,7 +33,9 @@ export class WorkerRolesGuard implements CanActivate {
 
     const user = request.user;
     if (!user) {
-      throw new ForbiddenException('The user is not authenticated');
+      throw new UnauthorizedException(
+        ErrorMessages.unauthorized.noAuthorization,
+      );
     }
 
     if (user.role === 'admin') {
@@ -40,7 +44,7 @@ export class WorkerRolesGuard implements CanActivate {
 
     const workerId: string = request.headers['x-worker-id'];
     if (!workerId) {
-      throw new ForbiddenException('Worker ID is required in headers.');
+      throw new ForbiddenException(ErrorMessages.forbidden.noWorkerId);
     }
 
     const worker = await this.workerService.findOneByUserAndWorker(
@@ -50,7 +54,7 @@ export class WorkerRolesGuard implements CanActivate {
 
     const hasRole = requireRoles.some((role) => worker.role === role);
     if (!hasRole) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException(ErrorMessages.forbidden.accessDenied);
     }
 
     return true;

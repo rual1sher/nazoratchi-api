@@ -8,39 +8,50 @@ import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { IDepartmentQuery } from 'src/helpers/types/types';
 import { Pagination } from 'src/helpers/pagination/pagination';
-import { Prisma } from 'prisma/generated/prisma/client';
+import { Prisma, user_role } from 'prisma/generated/prisma/client';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class DepartmentService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateDepartmentDto, workerId: number) {
-    if (!dto?.company_id) {
+  async create(dto: CreateDepartmentDto, workerId: number, role: user_role) {
+    if (role === 'worker') {
       const worker = await this.prisma.worker.findUnique({
         where: { id: workerId },
         select: { company_id: true },
       });
+      if (!worker?.company_id) {
+        throw new NotFoundException(
+          ErrorMessages.notFound.workerInCompanyNotFound,
+        );
+      }
 
-      if (!worker?.company_id) throw new NotFoundException('Worker not found');
       dto.company_id = worker.company_id;
-    } else if (!workerId) {
+    } else if (role === 'admin' && dto.company_id) {
       const company = await this.prisma.company.findUnique({
         where: { id: dto.company_id },
       });
-      if (!company) throw new NotFoundException('Company not found');
+      if (!company)
+        throw new NotFoundException(
+          ErrorMessages.notFound.modelNotFound('Company'),
+        );
     } else {
       throw new BadRequestException(
-        'If you are not an administrator, you cannot create a job with a company ID (company_id).',
+        ErrorMessages.badRequest.cannotCreateJobWithCompanyId,
       );
     }
 
     return await this.prisma.department.create({ data: dto });
   }
 
-  async findAll(query: IDepartmentQuery, workerId: number) {
+  async findAll(query: IDepartmentQuery, workerId: number, role: user_role) {
     const where: Prisma.departmentWhereInput = { deleted_at: null };
 
     if (workerId) where.company = { worker: { some: { id: workerId } } };
+    if (role === 'admin' && query?.companyId) {
+      where.company_id = +query.companyId;
+    }
 
     const count = await this.prisma.department.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -59,7 +70,11 @@ export class DepartmentService {
     const department = await this.prisma.department.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!department) throw new NotFoundException('Department not found');
+    if (!department) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Department'),
+      );
+    }
 
     return department;
   }
@@ -75,7 +90,11 @@ export class DepartmentService {
       const company = await this.prisma.company.findUnique({
         where: { id: dto.company_id },
       });
-      if (!company) throw new NotFoundException('Company not found');
+      if (!company) {
+        throw new NotFoundException(
+          ErrorMessages.notFound.modelNotFound('Company'),
+        );
+      }
     }
 
     return await this.prisma.department.update({ where: { id }, data: dto });
@@ -86,7 +105,11 @@ export class DepartmentService {
     if (workerId) where.company = { worker: { some: { id: workerId } } };
 
     const department = await this.prisma.department.findFirst({ where });
-    if (!department) throw new NotFoundException('Department not found');
+    if (!department) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Department'),
+      );
+    }
 
     return await this.prisma.department.update({
       where: { id },

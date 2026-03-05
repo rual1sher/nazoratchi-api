@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
+import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class CompanyService {
@@ -28,7 +29,11 @@ export class CompanyService {
       where: { id, deleted_at: null },
       include: { filial: true, worker: true },
     });
-    if (!company) throw new NotFoundException('Company not found');
+    if (!company) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Company'),
+      );
+    }
 
     return company;
   }
@@ -37,7 +42,11 @@ export class CompanyService {
     const company = await this.prisma.company.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!company) throw new NotFoundException('Company not found');
+    if (!company) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Company'),
+      );
+    }
 
     return await this.prisma.company.update({
       where: { id },
@@ -49,7 +58,11 @@ export class CompanyService {
     const company = await this.prisma.company.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!company) throw new NotFoundException('Company not found');
+    if (!company) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Company'),
+      );
+    }
 
     return await this.prisma.company.update({
       where: { id },

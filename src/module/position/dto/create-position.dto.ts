@@ -1,9 +1,16 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreatePositionDto {
   @IsString()
-  title: string;
+  title_uz: string;
 
   @IsString()
-  company_id: string;
+  title_ru: string;
+
+  @IsString()
+  title_en: string;
+
+  @IsNumber()
+  @IsOptional()
+  company_id: number;
 }

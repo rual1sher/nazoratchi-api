@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '../jwt/jwt.service';
 import { IRequest } from 'src/helpers/types/types';
+import { ErrorMessages } from '../error/error.message';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,13 +17,13 @@ export class AuthGuard implements CanActivate {
     const token = request.headers['authorization']?.split(' ')[1];
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(ErrorMessages.unauthorized.invalidToken);
     }
 
     const payload = this.jwtService.verifyAccess(token);
 
     if (!payload) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(ErrorMessages.unauthorized.invalidToken);
     }
 
     request.user = payload;

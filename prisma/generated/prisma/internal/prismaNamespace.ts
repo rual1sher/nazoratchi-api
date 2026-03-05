@@ -1541,7 +1541,9 @@ export type DayScalarFieldEnum = (typeof DayScalarFieldEnum)[keyof typeof DaySca
 
 export const DepartmentScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  title_uz: 'title_uz',
+  title_ru: 'title_ru',
+  title_en: 'title_en',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -1606,10 +1608,13 @@ export type PenaltyScalarFieldEnum = (typeof PenaltyScalarFieldEnum)[keyof typeo
 
 export const PositionScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  title_uz: 'title_uz',
+  title_ru: 'title_ru',
+  title_en: 'title_en',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  company_id: 'company_id'
 } as const
 
 export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
