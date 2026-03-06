@@ -405,11 +405,6 @@ export type DayNullableScalarRelationFilter = {
   isNot?: Prisma.dayWhereInput | null
 }
 
-export type DayScalarRelationFilter = {
-  is?: Prisma.dayWhereInput
-  isNot?: Prisma.dayWhereInput
-}
-
 export type dayCreateNestedManyWithoutCompanyInput = {
   create?: Prisma.XOR<Prisma.dayCreateWithoutCompanyInput, Prisma.dayUncheckedCreateWithoutCompanyInput> | Prisma.dayCreateWithoutCompanyInput[] | Prisma.dayUncheckedCreateWithoutCompanyInput[]
   connectOrCreate?: Prisma.dayCreateOrConnectWithoutCompanyInput | Prisma.dayCreateOrConnectWithoutCompanyInput[]
@@ -474,10 +469,12 @@ export type dayCreateNestedOneWithoutWorker_scheduleInput = {
   connect?: Prisma.dayWhereUniqueInput
 }
 
-export type dayUpdateOneRequiredWithoutWorker_scheduleNestedInput = {
+export type dayUpdateOneWithoutWorker_scheduleNestedInput = {
   create?: Prisma.XOR<Prisma.dayCreateWithoutWorker_scheduleInput, Prisma.dayUncheckedCreateWithoutWorker_scheduleInput>
   connectOrCreate?: Prisma.dayCreateOrConnectWithoutWorker_scheduleInput
   upsert?: Prisma.dayUpsertWithoutWorker_scheduleInput
+  disconnect?: Prisma.dayWhereInput | boolean
+  delete?: Prisma.dayWhereInput | boolean
   connect?: Prisma.dayWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.dayUpdateToOneWithWhereWithoutWorker_scheduleInput, Prisma.dayUpdateWithoutWorker_scheduleInput>, Prisma.dayUncheckedUpdateWithoutWorker_scheduleInput>
 }

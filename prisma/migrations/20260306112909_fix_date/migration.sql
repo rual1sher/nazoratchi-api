@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "worker_schedule" ALTER COLUMN "start_time" SET DATA TYPE TEXT,
+ALTER COLUMN "end_time" SET DATA TYPE TEXT,
+ALTER COLUMN "break_start" SET DATA TYPE TEXT,
+ALTER COLUMN "break_end" SET DATA TYPE TEXT;

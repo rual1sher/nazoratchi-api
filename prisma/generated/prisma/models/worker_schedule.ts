@@ -28,21 +28,23 @@ export type AggregateWorker_schedule = {
 
 export type Worker_scheduleAvgAggregateOutputType = {
   id: number | null
+  day: number | null
   day_id: number | null
 }
 
 export type Worker_scheduleSumAggregateOutputType = {
   id: number | null
+  day: number | null
   day_id: number | null
 }
 
 export type Worker_scheduleMinAggregateOutputType = {
   id: number | null
-  day: Date | null
-  start_time: Date | null
-  end_time: Date | null
-  break_start: Date | null
-  break_end: Date | null
+  day: number | null
+  start_time: string | null
+  end_time: string | null
+  break_start: string | null
+  break_end: string | null
   day_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -51,11 +53,11 @@ export type Worker_scheduleMinAggregateOutputType = {
 
 export type Worker_scheduleMaxAggregateOutputType = {
   id: number | null
-  day: Date | null
-  start_time: Date | null
-  end_time: Date | null
-  break_start: Date | null
-  break_end: Date | null
+  day: number | null
+  start_time: string | null
+  end_time: string | null
+  break_start: string | null
+  break_end: string | null
   day_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -79,11 +81,13 @@ export type Worker_scheduleCountAggregateOutputType = {
 
 export type Worker_scheduleAvgAggregateInputType = {
   id?: true
+  day?: true
   day_id?: true
 }
 
 export type Worker_scheduleSumAggregateInputType = {
   id?: true
+  day?: true
   day_id?: true
 }
 
@@ -215,12 +219,12 @@ export type worker_scheduleGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type Worker_scheduleGroupByOutputType = {
   id: number
-  day: Date
-  start_time: Date
-  end_time: Date
-  break_start: Date
-  break_end: Date
-  day_id: number
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
+  day_id: number | null
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
@@ -251,16 +255,16 @@ export type worker_scheduleWhereInput = {
   OR?: Prisma.worker_scheduleWhereInput[]
   NOT?: Prisma.worker_scheduleWhereInput | Prisma.worker_scheduleWhereInput[]
   id?: Prisma.IntFilter<"worker_schedule"> | number
-  day?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  start_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  end_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_start?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_end?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  day_id?: Prisma.IntFilter<"worker_schedule"> | number
+  day?: Prisma.IntFilter<"worker_schedule"> | number
+  start_time?: Prisma.StringFilter<"worker_schedule"> | string
+  end_time?: Prisma.StringFilter<"worker_schedule"> | string
+  break_start?: Prisma.StringFilter<"worker_schedule"> | string
+  break_end?: Prisma.StringFilter<"worker_schedule"> | string
+  day_id?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
-  days?: Prisma.XOR<Prisma.DayScalarRelationFilter, Prisma.dayWhereInput>
+  days?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
 }
 
 export type worker_scheduleOrderByWithRelationInput = {
@@ -270,7 +274,7 @@ export type worker_scheduleOrderByWithRelationInput = {
   end_time?: Prisma.SortOrder
   break_start?: Prisma.SortOrder
   break_end?: Prisma.SortOrder
-  day_id?: Prisma.SortOrder
+  day_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -282,16 +286,16 @@ export type worker_scheduleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.worker_scheduleWhereInput | Prisma.worker_scheduleWhereInput[]
   OR?: Prisma.worker_scheduleWhereInput[]
   NOT?: Prisma.worker_scheduleWhereInput | Prisma.worker_scheduleWhereInput[]
-  day?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  start_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  end_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_start?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_end?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  day_id?: Prisma.IntFilter<"worker_schedule"> | number
+  day?: Prisma.IntFilter<"worker_schedule"> | number
+  start_time?: Prisma.StringFilter<"worker_schedule"> | string
+  end_time?: Prisma.StringFilter<"worker_schedule"> | string
+  break_start?: Prisma.StringFilter<"worker_schedule"> | string
+  break_end?: Prisma.StringFilter<"worker_schedule"> | string
+  day_id?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
-  days?: Prisma.XOR<Prisma.DayScalarRelationFilter, Prisma.dayWhereInput>
+  days?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
 }, "id">
 
 export type worker_scheduleOrderByWithAggregationInput = {
@@ -301,7 +305,7 @@ export type worker_scheduleOrderByWithAggregationInput = {
   end_time?: Prisma.SortOrder
   break_start?: Prisma.SortOrder
   break_end?: Prisma.SortOrder
-  day_id?: Prisma.SortOrder
+  day_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -317,62 +321,62 @@ export type worker_scheduleScalarWhereWithAggregatesInput = {
   OR?: Prisma.worker_scheduleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.worker_scheduleScalarWhereWithAggregatesInput | Prisma.worker_scheduleScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"worker_schedule"> | number
-  day?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  start_time?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  end_time?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  break_start?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  break_end?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  day_id?: Prisma.IntWithAggregatesFilter<"worker_schedule"> | number
+  day?: Prisma.IntWithAggregatesFilter<"worker_schedule"> | number
+  start_time?: Prisma.StringWithAggregatesFilter<"worker_schedule"> | string
+  end_time?: Prisma.StringWithAggregatesFilter<"worker_schedule"> | string
+  break_start?: Prisma.StringWithAggregatesFilter<"worker_schedule"> | string
+  break_end?: Prisma.StringWithAggregatesFilter<"worker_schedule"> | string
+  day_id?: Prisma.IntNullableWithAggregatesFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"worker_schedule"> | Date | string | null
 }
 
 export type worker_scheduleCreateInput = {
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
-  days: Prisma.dayCreateNestedOneWithoutWorker_scheduleInput
+  days?: Prisma.dayCreateNestedOneWithoutWorker_scheduleInput
 }
 
 export type worker_scheduleUncheckedCreateInput = {
   id?: number
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
-  day_id: number
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
+  day_id?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type worker_scheduleUpdateInput = {
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  days?: Prisma.dayUpdateOneRequiredWithoutWorker_scheduleNestedInput
+  days?: Prisma.dayUpdateOneWithoutWorker_scheduleNestedInput
 }
 
 export type worker_scheduleUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  day_id?: Prisma.IntFieldUpdateOperationsInput | number
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -380,23 +384,23 @@ export type worker_scheduleUncheckedUpdateInput = {
 
 export type worker_scheduleCreateManyInput = {
   id?: number
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
-  day_id: number
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
+  day_id?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type worker_scheduleUpdateManyMutationInput = {
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -404,12 +408,12 @@ export type worker_scheduleUpdateManyMutationInput = {
 
 export type worker_scheduleUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  day_id?: Prisma.IntFieldUpdateOperationsInput | number
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -440,6 +444,7 @@ export type worker_scheduleCountOrderByAggregateInput = {
 
 export type worker_scheduleAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  day?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
 }
 
@@ -471,6 +476,7 @@ export type worker_scheduleMinOrderByAggregateInput = {
 
 export type worker_scheduleSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  day?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
 }
 
@@ -517,11 +523,11 @@ export type worker_scheduleUncheckedUpdateManyWithoutDaysNestedInput = {
 }
 
 export type worker_scheduleCreateWithoutDaysInput = {
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -529,11 +535,11 @@ export type worker_scheduleCreateWithoutDaysInput = {
 
 export type worker_scheduleUncheckedCreateWithoutDaysInput = {
   id?: number
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -570,12 +576,12 @@ export type worker_scheduleScalarWhereInput = {
   OR?: Prisma.worker_scheduleScalarWhereInput[]
   NOT?: Prisma.worker_scheduleScalarWhereInput | Prisma.worker_scheduleScalarWhereInput[]
   id?: Prisma.IntFilter<"worker_schedule"> | number
-  day?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  start_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  end_time?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_start?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  break_end?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  day_id?: Prisma.IntFilter<"worker_schedule"> | number
+  day?: Prisma.IntFilter<"worker_schedule"> | number
+  start_time?: Prisma.StringFilter<"worker_schedule"> | string
+  end_time?: Prisma.StringFilter<"worker_schedule"> | string
+  break_start?: Prisma.StringFilter<"worker_schedule"> | string
+  break_end?: Prisma.StringFilter<"worker_schedule"> | string
+  day_id?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
@@ -583,22 +589,22 @@ export type worker_scheduleScalarWhereInput = {
 
 export type worker_scheduleCreateManyDaysInput = {
   id?: number
-  day: Date | string
-  start_time: Date | string
-  end_time: Date | string
-  break_start: Date | string
-  break_end: Date | string
+  day: number
+  start_time: string
+  end_time: string
+  break_start: string
+  break_end: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type worker_scheduleUpdateWithoutDaysInput = {
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -606,11 +612,11 @@ export type worker_scheduleUpdateWithoutDaysInput = {
 
 export type worker_scheduleUncheckedUpdateWithoutDaysInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -618,11 +624,11 @@ export type worker_scheduleUncheckedUpdateWithoutDaysInput = {
 
 export type worker_scheduleUncheckedUpdateManyWithoutDaysInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  break_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.StringFieldUpdateOperationsInput | string
+  end_time?: Prisma.StringFieldUpdateOperationsInput | string
+  break_start?: Prisma.StringFieldUpdateOperationsInput | string
+  break_end?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -641,7 +647,7 @@ export type worker_scheduleSelect<ExtArgs extends runtime.Types.Extensions.Inter
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }, ExtArgs["result"]["worker_schedule"]>
 
 export type worker_scheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -655,7 +661,7 @@ export type worker_scheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }, ExtArgs["result"]["worker_schedule"]>
 
 export type worker_scheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -669,7 +675,7 @@ export type worker_scheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }, ExtArgs["result"]["worker_schedule"]>
 
 export type worker_scheduleSelectScalar = {
@@ -687,28 +693,28 @@ export type worker_scheduleSelectScalar = {
 
 export type worker_scheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "day" | "start_time" | "end_time" | "break_start" | "break_end" | "day_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["worker_schedule"]>
 export type worker_scheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }
 export type worker_scheduleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }
 export type worker_scheduleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  days?: boolean | Prisma.dayDefaultArgs<ExtArgs>
+  days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
 }
 
 export type $worker_schedulePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "worker_schedule"
   objects: {
-    days: Prisma.$dayPayload<ExtArgs>
+    days: Prisma.$dayPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    day: Date
-    start_time: Date
-    end_time: Date
-    break_start: Date
-    break_end: Date
-    day_id: number
+    day: number
+    start_time: string
+    end_time: string
+    break_start: string
+    break_end: string
+    day_id: number | null
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
@@ -1106,7 +1112,7 @@ readonly fields: worker_scheduleFieldRefs;
  */
 export interface Prisma__worker_scheduleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  days<T extends Prisma.dayDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.dayDefaultArgs<ExtArgs>>): Prisma.Prisma__dayClient<runtime.Types.Result.GetResult<Prisma.$dayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  days<T extends Prisma.worker_schedule$daysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker_schedule$daysArgs<ExtArgs>>): Prisma.Prisma__dayClient<runtime.Types.Result.GetResult<Prisma.$dayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1137,11 +1143,11 @@ export interface Prisma__worker_scheduleClient<T, Null = never, ExtArgs extends 
  */
 export interface worker_scheduleFieldRefs {
   readonly id: Prisma.FieldRef<"worker_schedule", 'Int'>
-  readonly day: Prisma.FieldRef<"worker_schedule", 'DateTime'>
-  readonly start_time: Prisma.FieldRef<"worker_schedule", 'DateTime'>
-  readonly end_time: Prisma.FieldRef<"worker_schedule", 'DateTime'>
-  readonly break_start: Prisma.FieldRef<"worker_schedule", 'DateTime'>
-  readonly break_end: Prisma.FieldRef<"worker_schedule", 'DateTime'>
+  readonly day: Prisma.FieldRef<"worker_schedule", 'Int'>
+  readonly start_time: Prisma.FieldRef<"worker_schedule", 'String'>
+  readonly end_time: Prisma.FieldRef<"worker_schedule", 'String'>
+  readonly break_start: Prisma.FieldRef<"worker_schedule", 'String'>
+  readonly break_end: Prisma.FieldRef<"worker_schedule", 'String'>
   readonly day_id: Prisma.FieldRef<"worker_schedule", 'Int'>
   readonly created_at: Prisma.FieldRef<"worker_schedule", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"worker_schedule", 'DateTime'>
@@ -1539,6 +1545,25 @@ export type worker_scheduleDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many worker_schedules to delete.
    */
   limit?: number
+}
+
+/**
+ * worker_schedule.days
+ */
+export type worker_schedule$daysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the day
+   */
+  select?: Prisma.daySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the day
+   */
+  omit?: Prisma.dayOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.dayInclude<ExtArgs> | null
+  where?: Prisma.dayWhereInput
 }
 
 /**

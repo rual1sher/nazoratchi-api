@@ -8,9 +8,10 @@ import { FilialModule } from './filial/filial.module';
 import { DepartmentModule } from './department/department.module';
 import { PositionModule } from './position/position.module';
 import { DayModule } from './day/day.module';
+import { WorkerScheduleModule } from './worker-schedule/worker-schedule.module';
 
 @Module({
-  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule],
+  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule, WorkerScheduleModule],
   providers: [PrismaService],
 })
 export class AppModule {}
