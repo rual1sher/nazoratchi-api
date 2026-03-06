@@ -39,3 +39,8 @@ export interface IDepartmentQuery extends IQuery {
 export interface IPositionQuery extends IQuery {
   companyId: string;
 }
+
+// query day
+export interface IDayQuery extends IQuery {
+  companyId: string;
+}

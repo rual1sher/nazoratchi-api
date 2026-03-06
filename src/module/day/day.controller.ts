@@ -9,67 +9,57 @@ import {
   UseGuards,
   Query,
 } from '@nestjs/common';
-import { PositionService } from './position.service';
-import { CreatePositionDto } from './dto/create-position.dto';
-import { UpdatePositionDto } from './dto/update-position.dto';
+import { DayService } from './day.service';
+import { CreateDayDto } from './dto/create-day.dto';
+import { UpdateDayDto } from './dto/update-day.dto';
 import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
-import { IPositionQuery } from 'src/helpers/types/types';
+import { IDayQuery } from 'src/helpers/types/types';
 
-@Controller('position')
+@Controller('day')
 @UseGuards(AuthGuard, WorkerRolesGuard)
 @WorkerRoles(worker_role.maneger)
-export class PositionController {
-  constructor(private readonly positionService: PositionService) {}
+export class DayController {
+  constructor(private readonly dayService: DayService) {}
 
   @Post()
   async create(
-    @Body() createPositionDto: CreatePositionDto,
+    @Body() createDayDto: CreateDayDto,
     @WorkerId() workerId: string,
   ) {
-    const data = await this.positionService.create(
-      createPositionDto,
-      +workerId,
-    );
+    const data = await this.dayService.create(createDayDto, +workerId);
     return new ApiResponse(data);
   }
 
   @Get()
-  async findAll(@Query() query: IPositionQuery, @WorkerId() workerId: string) {
-    const { position, pagination } = await this.positionService.findAll(
-      query,
-      +workerId,
-    );
-    return new ApiResponse(position, 200, pagination);
+  async findAll(@Query() query: IDayQuery, @WorkerId() workerId: string) {
+    const { day, pagination } = await this.dayService.findAll(query, +workerId);
+    return new ApiResponse(day, 200, pagination);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const data = await this.positionService.findOne(+id);
+    const data = await this.dayService.findOne(+id);
     return new ApiResponse(data);
   }
 
   @Patch(':id')
   async update(
     @Param('id') id: string,
+    @Body() updateDayDto: UpdateDayDto,
     @WorkerId() workerId: string,
-    @Body() updatePositionDto: UpdatePositionDto,
   ) {
-    const data = await this.positionService.update(
-      +id,
-      updatePositionDto,
-      +workerId,
-    );
+    const data = await this.dayService.update(+id, updateDayDto, +workerId);
     return new ApiResponse(data);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string, @WorkerId() workerId: string) {
-    const data = await this.positionService.remove(+id, +workerId);
+    const data = await this.dayService.remove(+id, +workerId);
     return new ApiResponse(data);
   }
 }

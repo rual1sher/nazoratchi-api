@@ -13,13 +13,12 @@ import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
-import { IDepartmentQuery, IPayload } from 'src/helpers/types/types';
+import { IDepartmentQuery } from 'src/helpers/types/types';
 import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
-import { Owner } from 'src/helpers/decorators/owner.decorator';
 
 @Controller('department')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -31,12 +30,10 @@ export class DepartmentController {
   async create(
     @Body() createDepartmentDto: CreateDepartmentDto,
     @WorkerId() workerId: string,
-    @Owner() { role }: IPayload,
   ) {
     const data = await this.departmentService.create(
       createDepartmentDto,
       +workerId,
-      role,
     );
     return new ApiResponse(data);
   }
@@ -45,12 +42,10 @@ export class DepartmentController {
   async findAll(
     @Query() query: IDepartmentQuery,
     @WorkerId() workerId: string,
-    @Owner() { role }: IPayload,
   ) {
     const { department, pagination } = await this.departmentService.findAll(
       query,
       +workerId,
-      role,
     );
     return new ApiResponse(department, 200, pagination);
   }

@@ -4,19 +4,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateDepartmentDto } from './dto/create-department.dto';
-import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { CreateDayDto } from './dto/create-day.dto';
+import { UpdateDayDto } from './dto/update-day.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
-import { IDepartmentQuery } from 'src/helpers/types/types';
-import { Pagination } from 'src/helpers/pagination/pagination';
-import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { ErrorMessages } from 'src/helpers/error/error.message';
+import { IDayQuery } from 'src/helpers/types/types';
+import { Prisma } from 'prisma/generated/prisma/client';
+import { Pagination } from 'src/helpers/pagination/pagination';
 
 @Injectable()
-export class DepartmentService {
+export class DayService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateDepartmentDto, workerId: number) {
+  async create(dto: CreateDayDto, workerId: number) {
     if (workerId) {
       const worker = await this.prisma.worker.findUnique({
         where: { id: workerId },
@@ -44,49 +44,47 @@ export class DepartmentService {
       );
     }
 
-    return await this.prisma.department.create({ data: dto });
+    return await this.prisma.day.create({ data: dto });
   }
 
-  async findAll(query: IDepartmentQuery, workerId: number) {
-    const where: Prisma.departmentWhereInput = { deleted_at: null };
+  async findAll(query: IDayQuery, workerId: number) {
+    const where: Prisma.dayWhereInput = { deleted_at: null };
 
     if (workerId) where.company = { worker: { some: { id: workerId } } };
-    if (!workerId && query?.companyId) {
-      where.company_id = +query.companyId;
-    }
+    if (!workerId && query?.companyId) where.company_id = +query.companyId;
 
-    const count = await this.prisma.department.count({ where });
+    const count = await this.prisma.day.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
 
-    const department = await this.prisma.department.findMany({
+    const day = await this.prisma.day.findMany({
       where,
       orderBy: { created_at: 'desc' },
       take: pagination.limit,
       skip: pagination.offset,
     });
 
-    return { department, pagination };
+    return { day, pagination };
   }
 
   async findOne(id: number) {
-    const department = await this.prisma.department.findUnique({
+    const day = await this.prisma.day.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!department) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Department'),
-      );
+    if (!day) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('Day'));
     }
 
-    return department;
+    return day;
   }
 
-  async update(id: number, dto: UpdateDepartmentDto, workerId: number) {
-    const where: Prisma.departmentWhereInput = { id, deleted_at: null };
+  async update(id: number, dto: UpdateDayDto, workerId: number) {
+    const where: Prisma.dayWhereUniqueInput = { id, deleted_at: null };
     if (workerId) where.company = { worker: { some: { id: workerId } } };
 
-    const department = await this.prisma.department.findFirst({ where });
-    if (!department) throw new NotFoundException('Department not found');
+    const day = await this.prisma.day.findUnique({ where });
+    if (!day) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('Day'));
+    }
 
     if (dto?.company_id && workerId) {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
@@ -102,21 +100,19 @@ export class DepartmentService {
       }
     }
 
-    return await this.prisma.department.update({ where: { id }, data: dto });
+    return await this.prisma.day.update({ where: { id }, data: dto });
   }
 
   async remove(id: number, workerId: number) {
-    const where: Prisma.departmentWhereInput = { id, deleted_at: null };
+    const where: Prisma.dayWhereInput = { id, deleted_at: null };
     if (workerId) where.company = { worker: { some: { id: workerId } } };
 
-    const department = await this.prisma.department.findFirst({ where });
-    if (!department) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Department'),
-      );
+    const day = await this.prisma.day.findFirst({ where });
+    if (!day) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('Day'));
     }
 
-    return await this.prisma.department.update({
+    return await this.prisma.day.update({
       where: { id },
       data: { deleted_at: new Date() },
     });

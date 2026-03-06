@@ -17,8 +17,8 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 export class PositionService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreatePositionDto, workerId: number, role: user_role) {
-    if (role === 'worker') {
+  async create(dto: CreatePositionDto, workerId: number) {
+    if (workerId) {
       const worker = await this.prisma.worker.findUnique({
         where: { id: workerId },
         select: { company_id: true },
@@ -30,7 +30,7 @@ export class PositionService {
       }
 
       dto.company_id = worker.company_id;
-    } else if (role === 'admin' && dto.company_id) {
+    } else if (!workerId && dto.company_id) {
       const company = await this.prisma.company.findUnique({
         where: { id: dto.company_id },
       });
@@ -44,11 +44,11 @@ export class PositionService {
     return await this.prisma.position.create({ data: dto });
   }
 
-  async findAll(query: IPositionQuery, workerId: number, role: user_role) {
+  async findAll(query: IPositionQuery, workerId: number) {
     const where: Prisma.positionWhereInput = { deleted_at: null };
 
     if (workerId) where.company = { worker: { some: { id: workerId } } };
-    if (role === 'admin' && query?.companyId) {
+    if (!workerId && query?.companyId) {
       where.company_id = +query.companyId;
     }
 
@@ -78,24 +78,21 @@ export class PositionService {
     return position;
   }
 
-  async update(
-    id: number,
-    dto: UpdatePositionDto,
-    workerId: number,
-    role: user_role,
-  ) {
+  async update(id: number, dto: UpdatePositionDto, workerId: number) {
     const where: Prisma.positionWhereInput = { id, deleted_at: null };
     if (workerId) where.company = { worker: { some: { id: workerId } } };
 
     const position = await this.prisma.position.findFirst({ where });
-    if (!position)
+    if (!position) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Position'),
       );
+    }
 
-    if (dto?.company_id && role !== 'admin') {
+    if (dto?.company_id && workerId) {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
-    } else if (dto?.company_id) {
+    }
+    if (dto?.company_id) {
       const company = await this.prisma.company.findUnique({
         where: { id: dto.company_id },
       });
