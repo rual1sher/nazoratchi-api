@@ -11,6 +11,5 @@ export class CreatePositionDto {
   title_en: string;
 
   @IsNumber()
-  @IsOptional()
-  company_id: number;
+  department_id: number;
 }

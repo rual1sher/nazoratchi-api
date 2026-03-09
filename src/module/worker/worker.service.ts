@@ -13,6 +13,7 @@ import { IWorkerQuery } from 'src/helpers/types/types';
 import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
+import { validateRelations } from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class WorkerService {
@@ -132,17 +133,12 @@ export class WorkerService {
       );
     }
 
-    try {
-      return await this.prisma.worker.update({
-        where: { id },
-        data: dto,
-      });
-    } catch (e) {
-      if (e.code === 'P2003') {
-        throw new BadRequestException(ErrorMessages.badRequest.invalidRelation);
-      }
-      throw new Error(e);
-    }
+    await validateRelations(this.prisma, dto);
+
+    // return await this.prisma.worker.update({
+    //   where: { id },
+    //   data: {},
+    // });
   }
 
   async remove(id: number) {

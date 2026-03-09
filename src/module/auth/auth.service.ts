@@ -14,6 +14,7 @@ import { randomInt } from 'crypto';
 import { VerifyDto } from './dto/verify.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ErrorMessages } from 'src/helpers/error/error.message';
+import { UpdateAuthDto } from './dto/update.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,12 +42,12 @@ export class AuthService {
     }
 
     const code = randomInt(100000, 999999);
-    await this.cacheManager.set(`${user.phone}`, code);
+    await this.cacheManager.set(`login-${user.phone}`, code);
     return code;
   }
 
   async verify({ code, phone }: VerifyDto) {
-    const cacheCode = await this.cacheManager.get(`${phone}`);
+    const cacheCode = await this.cacheManager.get(`login-${phone}`);
 
     if (cacheCode !== code) {
       throw new BadRequestException(ErrorMessages.badRequest.invalidCode);
@@ -145,17 +146,40 @@ export class AuthService {
     await this.prisma.user.update({ where: { id }, data: { password } });
   }
 
-  async changePhone(newPhone: string, { id }: IPayload) {
+  async changePhone({ id }: IPayload) {
     const user = await this.prisma.user.findUnique({
       where: { id, deleted_at: null },
     });
-    if (!user)
+    if (!user) {
       throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
-    if (user.phone === newPhone) {
+    }
+
+    const code = randomInt(100000, 999999);
+    await this.cacheManager.set(`change-phone-${user.phone}`, code);
+    return code;
+  }
+
+  async changePhoneVerify(dto: VerifyDto, { id }: IPayload) {
+    const user = await this.prisma.user.findUnique({
+      where: { id, deleted_at: null },
+    });
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    }
+
+    const code = await this.cacheManager.get(`change-phone-${user.phone}`);
+    if (code !== dto.code) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalidCode);
+    }
+
+    if (user.phone === dto.phone) {
       throw new BadRequestException(ErrorMessages.badRequest.samePhone);
     }
 
-    await this.prisma.user.update({ where: { id }, data: { phone: newPhone } });
+    await this.prisma.user.update({
+      where: { id },
+      data: { phone: dto.phone },
+    });
   }
 
   async me(user: IPayload) {
@@ -166,5 +190,16 @@ export class AuthService {
     });
 
     return data;
+  }
+
+  async updateMe(dto: UpdateAuthDto, { id }: IPayload) {
+    const user = await this.prisma.user.findUnique({
+      where: { id, deleted_at: null },
+    });
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.notFound.modelNotFound('User'));
+    }
+
+    return await this.prisma.user.update({ where: { id }, data: dto });
   }
 }

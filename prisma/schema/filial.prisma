@@ -8,5 +8,6 @@ model filial {
   deleted_at DateTime?
 
   company    company      @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "filial_company_id_foreign")
+  worker     worker[]
   coordinate coordinate[]
 }

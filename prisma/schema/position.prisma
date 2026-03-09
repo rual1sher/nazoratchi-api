@@ -1,15 +1,15 @@
 model position {
   id Int @id @default(autoincrement())
 
-  title_uz   String    @db.VarChar(255)
-  title_ru   String    @db.VarChar(255)
-  title_en   String    @db.VarChar(255)
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-  company_id Int
+  title_uz      String    @db.VarChar(255)
+  title_ru      String    @db.VarChar(255)
+  title_en      String    @db.VarChar(255)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now()) @updatedAt
+  deleted_at    DateTime?
+  department_id Int
 
-  company company @relation(fields: [company_id], references: [id], onDelete: NoAction)
+  department department @relation(fields: [department_id], references: [id], onDelete: NoAction)
 
   worker worker[]
 }

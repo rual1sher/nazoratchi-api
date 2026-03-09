@@ -10,6 +10,5 @@ model company {
   day            day[]
   filial         filial[]
   department     department[]
-  position       position[]
   worker         worker[]
 }

@@ -32,6 +32,7 @@ export type WorkerAvgAggregateOutputType = {
   department_id: number | null
   day_id: number | null
   position_id: number | null
+  filial_id: number | null
   user_id: number | null
 }
 
@@ -41,6 +42,7 @@ export type WorkerSumAggregateOutputType = {
   department_id: number | null
   day_id: number | null
   position_id: number | null
+  filial_id: number | null
   user_id: number | null
 }
 
@@ -50,6 +52,7 @@ export type WorkerMinAggregateOutputType = {
   department_id: number | null
   day_id: number | null
   position_id: number | null
+  filial_id: number | null
   user_id: number | null
   role: $Enums.worker_role | null
   created_at: Date | null
@@ -63,6 +66,7 @@ export type WorkerMaxAggregateOutputType = {
   department_id: number | null
   day_id: number | null
   position_id: number | null
+  filial_id: number | null
   user_id: number | null
   role: $Enums.worker_role | null
   created_at: Date | null
@@ -76,6 +80,7 @@ export type WorkerCountAggregateOutputType = {
   department_id: number
   day_id: number
   position_id: number
+  filial_id: number
   user_id: number
   role: number
   created_at: number
@@ -91,6 +96,7 @@ export type WorkerAvgAggregateInputType = {
   department_id?: true
   day_id?: true
   position_id?: true
+  filial_id?: true
   user_id?: true
 }
 
@@ -100,6 +106,7 @@ export type WorkerSumAggregateInputType = {
   department_id?: true
   day_id?: true
   position_id?: true
+  filial_id?: true
   user_id?: true
 }
 
@@ -109,6 +116,7 @@ export type WorkerMinAggregateInputType = {
   department_id?: true
   day_id?: true
   position_id?: true
+  filial_id?: true
   user_id?: true
   role?: true
   created_at?: true
@@ -122,6 +130,7 @@ export type WorkerMaxAggregateInputType = {
   department_id?: true
   day_id?: true
   position_id?: true
+  filial_id?: true
   user_id?: true
   role?: true
   created_at?: true
@@ -135,6 +144,7 @@ export type WorkerCountAggregateInputType = {
   department_id?: true
   day_id?: true
   position_id?: true
+  filial_id?: true
   user_id?: true
   role?: true
   created_at?: true
@@ -235,6 +245,7 @@ export type WorkerGroupByOutputType = {
   department_id: number | null
   day_id: number | null
   position_id: number | null
+  filial_id: number | null
   user_id: number
   role: $Enums.worker_role
   created_at: Date
@@ -271,12 +282,14 @@ export type workerWhereInput = {
   department_id?: Prisma.IntNullableFilter<"worker"> | number | null
   day_id?: Prisma.IntNullableFilter<"worker"> | number | null
   position_id?: Prisma.IntNullableFilter<"worker"> | number | null
+  filial_id?: Prisma.IntNullableFilter<"worker"> | number | null
   user_id?: Prisma.IntFilter<"worker"> | number
   role?: Prisma.Enumworker_roleFilter<"worker"> | $Enums.worker_role
   created_at?: Prisma.DateTimeFilter<"worker"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
+  filial?: Prisma.XOR<Prisma.FilialNullableScalarRelationFilter, Prisma.filialWhereInput> | null
   day?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.departmentWhereInput> | null
   position?: Prisma.XOR<Prisma.PositionNullableScalarRelationFilter, Prisma.positionWhereInput> | null
@@ -292,12 +305,14 @@ export type workerOrderByWithRelationInput = {
   department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   day_id?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  filial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   user_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.companyOrderByWithRelationInput
+  filial?: Prisma.filialOrderByWithRelationInput
   day?: Prisma.dayOrderByWithRelationInput
   department?: Prisma.departmentOrderByWithRelationInput
   position?: Prisma.positionOrderByWithRelationInput
@@ -316,12 +331,14 @@ export type workerWhereUniqueInput = Prisma.AtLeast<{
   department_id?: Prisma.IntNullableFilter<"worker"> | number | null
   day_id?: Prisma.IntNullableFilter<"worker"> | number | null
   position_id?: Prisma.IntNullableFilter<"worker"> | number | null
+  filial_id?: Prisma.IntNullableFilter<"worker"> | number | null
   user_id?: Prisma.IntFilter<"worker"> | number
   role?: Prisma.Enumworker_roleFilter<"worker"> | $Enums.worker_role
   created_at?: Prisma.DateTimeFilter<"worker"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
+  filial?: Prisma.XOR<Prisma.FilialNullableScalarRelationFilter, Prisma.filialWhereInput> | null
   day?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
   department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.departmentWhereInput> | null
   position?: Prisma.XOR<Prisma.PositionNullableScalarRelationFilter, Prisma.positionWhereInput> | null
@@ -337,6 +354,7 @@ export type workerOrderByWithAggregationInput = {
   department_id?: Prisma.SortOrderInput | Prisma.SortOrder
   day_id?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  filial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   user_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -358,6 +376,7 @@ export type workerScalarWhereWithAggregatesInput = {
   department_id?: Prisma.IntNullableWithAggregatesFilter<"worker"> | number | null
   day_id?: Prisma.IntNullableWithAggregatesFilter<"worker"> | number | null
   position_id?: Prisma.IntNullableWithAggregatesFilter<"worker"> | number | null
+  filial_id?: Prisma.IntNullableWithAggregatesFilter<"worker"> | number | null
   user_id?: Prisma.IntWithAggregatesFilter<"worker"> | number
   role?: Prisma.Enumworker_roleWithAggregatesFilter<"worker"> | $Enums.worker_role
   created_at?: Prisma.DateTimeWithAggregatesFilter<"worker"> | Date | string
@@ -371,6 +390,7 @@ export type workerCreateInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -386,6 +406,7 @@ export type workerUncheckedCreateInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -402,6 +423,7 @@ export type workerUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -417,6 +439,7 @@ export type workerUncheckedUpdateInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -433,6 +456,7 @@ export type workerCreateManyInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -453,6 +477,7 @@ export type workerUncheckedUpdateManyInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -481,6 +506,7 @@ export type workerCountOrderByAggregateInput = {
   department_id?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  filial_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -494,6 +520,7 @@ export type workerAvgOrderByAggregateInput = {
   department_id?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  filial_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
 }
 
@@ -503,6 +530,7 @@ export type workerMaxOrderByAggregateInput = {
   department_id?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  filial_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -516,6 +544,7 @@ export type workerMinOrderByAggregateInput = {
   department_id?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  filial_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -529,6 +558,7 @@ export type workerSumOrderByAggregateInput = {
   department_id?: Prisma.SortOrder
   day_id?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  filial_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
 }
 
@@ -672,6 +702,48 @@ export type workerUncheckedUpdateManyWithoutDepartmentNestedInput = {
   deleteMany?: Prisma.workerScalarWhereInput | Prisma.workerScalarWhereInput[]
 }
 
+export type workerCreateNestedManyWithoutFilialInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput> | Prisma.workerCreateWithoutFilialInput[] | Prisma.workerUncheckedCreateWithoutFilialInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutFilialInput | Prisma.workerCreateOrConnectWithoutFilialInput[]
+  createMany?: Prisma.workerCreateManyFilialInputEnvelope
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+}
+
+export type workerUncheckedCreateNestedManyWithoutFilialInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput> | Prisma.workerCreateWithoutFilialInput[] | Prisma.workerUncheckedCreateWithoutFilialInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutFilialInput | Prisma.workerCreateOrConnectWithoutFilialInput[]
+  createMany?: Prisma.workerCreateManyFilialInputEnvelope
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+}
+
+export type workerUpdateManyWithoutFilialNestedInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput> | Prisma.workerCreateWithoutFilialInput[] | Prisma.workerUncheckedCreateWithoutFilialInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutFilialInput | Prisma.workerCreateOrConnectWithoutFilialInput[]
+  upsert?: Prisma.workerUpsertWithWhereUniqueWithoutFilialInput | Prisma.workerUpsertWithWhereUniqueWithoutFilialInput[]
+  createMany?: Prisma.workerCreateManyFilialInputEnvelope
+  set?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  disconnect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  delete?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  update?: Prisma.workerUpdateWithWhereUniqueWithoutFilialInput | Prisma.workerUpdateWithWhereUniqueWithoutFilialInput[]
+  updateMany?: Prisma.workerUpdateManyWithWhereWithoutFilialInput | Prisma.workerUpdateManyWithWhereWithoutFilialInput[]
+  deleteMany?: Prisma.workerScalarWhereInput | Prisma.workerScalarWhereInput[]
+}
+
+export type workerUncheckedUpdateManyWithoutFilialNestedInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput> | Prisma.workerCreateWithoutFilialInput[] | Prisma.workerUncheckedCreateWithoutFilialInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutFilialInput | Prisma.workerCreateOrConnectWithoutFilialInput[]
+  upsert?: Prisma.workerUpsertWithWhereUniqueWithoutFilialInput | Prisma.workerUpsertWithWhereUniqueWithoutFilialInput[]
+  createMany?: Prisma.workerCreateManyFilialInputEnvelope
+  set?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  disconnect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  delete?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  update?: Prisma.workerUpdateWithWhereUniqueWithoutFilialInput | Prisma.workerUpdateWithWhereUniqueWithoutFilialInput[]
+  updateMany?: Prisma.workerUpdateManyWithWhereWithoutFilialInput | Prisma.workerUpdateManyWithWhereWithoutFilialInput[]
+  deleteMany?: Prisma.workerScalarWhereInput | Prisma.workerScalarWhereInput[]
+}
+
 export type workerCreateNestedOneWithoutPaymentInput = {
   create?: Prisma.XOR<Prisma.workerCreateWithoutPaymentInput, Prisma.workerUncheckedCreateWithoutPaymentInput>
   connectOrCreate?: Prisma.workerCreateOrConnectWithoutPaymentInput
@@ -802,6 +874,7 @@ export type workerCreateWithoutAttendanceInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -816,6 +889,7 @@ export type workerUncheckedCreateWithoutAttendanceInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -847,6 +921,7 @@ export type workerUpdateWithoutAttendanceInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -861,6 +936,7 @@ export type workerUncheckedUpdateWithoutAttendanceInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -875,6 +951,7 @@ export type workerCreateWithoutCompanyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -889,6 +966,7 @@ export type workerUncheckedCreateWithoutCompanyInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -934,6 +1012,7 @@ export type workerScalarWhereInput = {
   department_id?: Prisma.IntNullableFilter<"worker"> | number | null
   day_id?: Prisma.IntNullableFilter<"worker"> | number | null
   position_id?: Prisma.IntNullableFilter<"worker"> | number | null
+  filial_id?: Prisma.IntNullableFilter<"worker"> | number | null
   user_id?: Prisma.IntFilter<"worker"> | number
   role?: Prisma.Enumworker_roleFilter<"worker"> | $Enums.worker_role
   created_at?: Prisma.DateTimeFilter<"worker"> | Date | string
@@ -947,6 +1026,7 @@ export type workerCreateWithoutDayInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
   user: Prisma.userCreateNestedOneWithoutWorkerInput
@@ -960,6 +1040,7 @@ export type workerUncheckedCreateWithoutDayInput = {
   company_id: number
   department_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1002,6 +1083,7 @@ export type workerCreateWithoutDepartmentInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
   user: Prisma.userCreateNestedOneWithoutWorkerInput
@@ -1015,6 +1097,7 @@ export type workerUncheckedCreateWithoutDepartmentInput = {
   company_id: number
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1051,12 +1134,70 @@ export type workerUpdateManyWithWhereWithoutDepartmentInput = {
   data: Prisma.XOR<Prisma.workerUpdateManyMutationInput, Prisma.workerUncheckedUpdateManyWithoutDepartmentInput>
 }
 
+export type workerCreateWithoutFilialInput = {
+  role?: $Enums.worker_role
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  day?: Prisma.dayCreateNestedOneWithoutWorkerInput
+  department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
+  position?: Prisma.positionCreateNestedOneWithoutWorkerInput
+  user: Prisma.userCreateNestedOneWithoutWorkerInput
+  attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
+  payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
+  salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+}
+
+export type workerUncheckedCreateWithoutFilialInput = {
+  id?: number
+  company_id: number
+  department_id?: number | null
+  day_id?: number | null
+  position_id?: number | null
+  user_id: number
+  role?: $Enums.worker_role
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
+  payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
+  salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+}
+
+export type workerCreateOrConnectWithoutFilialInput = {
+  where: Prisma.workerWhereUniqueInput
+  create: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput>
+}
+
+export type workerCreateManyFilialInputEnvelope = {
+  data: Prisma.workerCreateManyFilialInput | Prisma.workerCreateManyFilialInput[]
+  skipDuplicates?: boolean
+}
+
+export type workerUpsertWithWhereUniqueWithoutFilialInput = {
+  where: Prisma.workerWhereUniqueInput
+  update: Prisma.XOR<Prisma.workerUpdateWithoutFilialInput, Prisma.workerUncheckedUpdateWithoutFilialInput>
+  create: Prisma.XOR<Prisma.workerCreateWithoutFilialInput, Prisma.workerUncheckedCreateWithoutFilialInput>
+}
+
+export type workerUpdateWithWhereUniqueWithoutFilialInput = {
+  where: Prisma.workerWhereUniqueInput
+  data: Prisma.XOR<Prisma.workerUpdateWithoutFilialInput, Prisma.workerUncheckedUpdateWithoutFilialInput>
+}
+
+export type workerUpdateManyWithWhereWithoutFilialInput = {
+  where: Prisma.workerScalarWhereInput
+  data: Prisma.XOR<Prisma.workerUpdateManyMutationInput, Prisma.workerUncheckedUpdateManyWithoutFilialInput>
+}
+
 export type workerCreateWithoutPaymentInput = {
   role?: $Enums.worker_role
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -1071,6 +1212,7 @@ export type workerUncheckedCreateWithoutPaymentInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1102,6 +1244,7 @@ export type workerUpdateWithoutPaymentInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -1116,6 +1259,7 @@ export type workerUncheckedUpdateWithoutPaymentInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1131,6 +1275,7 @@ export type workerCreateWithoutPositionInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   user: Prisma.userCreateNestedOneWithoutWorkerInput
@@ -1144,6 +1289,7 @@ export type workerUncheckedCreateWithoutPositionInput = {
   company_id: number
   department_id?: number | null
   day_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1186,6 +1332,7 @@ export type workerCreateWithoutSalaryInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -1200,6 +1347,7 @@ export type workerUncheckedCreateWithoutSalaryInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1231,6 +1379,7 @@ export type workerUpdateWithoutSalaryInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -1245,6 +1394,7 @@ export type workerUncheckedUpdateWithoutSalaryInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1260,6 +1410,7 @@ export type workerCreateWithoutUserInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
   day?: Prisma.dayCreateNestedOneWithoutWorkerInput
   department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
   position?: Prisma.positionCreateNestedOneWithoutWorkerInput
@@ -1274,6 +1425,7 @@ export type workerUncheckedCreateWithoutUserInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   role?: $Enums.worker_role
   created_at?: Date | string
   updated_at?: Date | string
@@ -1314,6 +1466,7 @@ export type workerCreateManyCompanyInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1326,6 +1479,7 @@ export type workerUpdateWithoutCompanyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -1340,6 +1494,7 @@ export type workerUncheckedUpdateWithoutCompanyInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1355,6 +1510,7 @@ export type workerUncheckedUpdateManyWithoutCompanyInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1367,6 +1523,7 @@ export type workerCreateManyDayInput = {
   company_id: number
   department_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1380,6 +1537,7 @@ export type workerUpdateWithoutDayInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
@@ -1393,6 +1551,7 @@ export type workerUncheckedUpdateWithoutDayInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1408,6 +1567,7 @@ export type workerUncheckedUpdateManyWithoutDayInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1420,6 +1580,7 @@ export type workerCreateManyDepartmentInput = {
   company_id: number
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1433,6 +1594,7 @@ export type workerUpdateWithoutDepartmentInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
@@ -1446,6 +1608,7 @@ export type workerUncheckedUpdateWithoutDepartmentInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1461,6 +1624,64 @@ export type workerUncheckedUpdateManyWithoutDepartmentInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type workerCreateManyFilialInput = {
+  id?: number
+  company_id: number
+  department_id?: number | null
+  day_id?: number | null
+  position_id?: number | null
+  user_id: number
+  role?: $Enums.worker_role
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type workerUpdateWithoutFilialInput = {
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
+  department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
+  position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
+  user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
+  attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
+  payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
+  salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+}
+
+export type workerUncheckedUpdateWithoutFilialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+  department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
+  payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
+  salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+}
+
+export type workerUncheckedUpdateManyWithoutFilialInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+  department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1473,6 +1694,7 @@ export type workerCreateManyPositionInput = {
   company_id: number
   department_id?: number | null
   day_id?: number | null
+  filial_id?: number | null
   user_id: number
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -1486,6 +1708,7 @@ export type workerUpdateWithoutPositionInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
@@ -1499,6 +1722,7 @@ export type workerUncheckedUpdateWithoutPositionInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1514,6 +1738,7 @@ export type workerUncheckedUpdateManyWithoutPositionInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1527,6 +1752,7 @@ export type workerCreateManyUserInput = {
   department_id?: number | null
   day_id?: number | null
   position_id?: number | null
+  filial_id?: number | null
   role?: $Enums.worker_role
   created_at?: Date | string
   updated_at?: Date | string
@@ -1539,6 +1765,7 @@ export type workerUpdateWithoutUserInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
   day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
   department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
   position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
@@ -1553,6 +1780,7 @@ export type workerUncheckedUpdateWithoutUserInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1568,6 +1796,7 @@ export type workerUncheckedUpdateManyWithoutUserInput = {
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1629,12 +1858,14 @@ export type workerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   department_id?: boolean
   day_id?: boolean
   position_id?: boolean
+  filial_id?: boolean
   user_id?: boolean
   role?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1651,12 +1882,14 @@ export type workerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   department_id?: boolean
   day_id?: boolean
   position_id?: boolean
+  filial_id?: boolean
   user_id?: boolean
   role?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1669,12 +1902,14 @@ export type workerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   department_id?: boolean
   day_id?: boolean
   position_id?: boolean
+  filial_id?: boolean
   user_id?: boolean
   role?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1687,6 +1922,7 @@ export type workerSelectScalar = {
   department_id?: boolean
   day_id?: boolean
   position_id?: boolean
+  filial_id?: boolean
   user_id?: boolean
   role?: boolean
   created_at?: boolean
@@ -1694,9 +1930,10 @@ export type workerSelectScalar = {
   deleted_at?: boolean
 }
 
-export type workerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "department_id" | "day_id" | "position_id" | "user_id" | "role" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["worker"]>
+export type workerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "department_id" | "day_id" | "position_id" | "filial_id" | "user_id" | "role" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["worker"]>
 export type workerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1708,6 +1945,7 @@ export type workerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 export type workerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1715,6 +1953,7 @@ export type workerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 }
 export type workerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
+  filial?: boolean | Prisma.worker$filialArgs<ExtArgs>
   day?: boolean | Prisma.worker$dayArgs<ExtArgs>
   department?: boolean | Prisma.worker$departmentArgs<ExtArgs>
   position?: boolean | Prisma.worker$positionArgs<ExtArgs>
@@ -1725,6 +1964,7 @@ export type $workerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "worker"
   objects: {
     company: Prisma.$companyPayload<ExtArgs>
+    filial: Prisma.$filialPayload<ExtArgs> | null
     day: Prisma.$dayPayload<ExtArgs> | null
     department: Prisma.$departmentPayload<ExtArgs> | null
     position: Prisma.$positionPayload<ExtArgs> | null
@@ -1739,6 +1979,7 @@ export type $workerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     department_id: number | null
     day_id: number | null
     position_id: number | null
+    filial_id: number | null
     user_id: number
     role: $Enums.worker_role
     created_at: Date
@@ -2139,6 +2380,7 @@ readonly fields: workerFieldRefs;
 export interface Prisma__workerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  filial<T extends Prisma.worker$filialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$filialArgs<ExtArgs>>): Prisma.Prisma__filialClient<runtime.Types.Result.GetResult<Prisma.$filialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   day<T extends Prisma.worker$dayArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$dayArgs<ExtArgs>>): Prisma.Prisma__dayClient<runtime.Types.Result.GetResult<Prisma.$dayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   department<T extends Prisma.worker$departmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$departmentArgs<ExtArgs>>): Prisma.Prisma__departmentClient<runtime.Types.Result.GetResult<Prisma.$departmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   position<T extends Prisma.worker$positionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$positionArgs<ExtArgs>>): Prisma.Prisma__positionClient<runtime.Types.Result.GetResult<Prisma.$positionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2180,6 +2422,7 @@ export interface workerFieldRefs {
   readonly department_id: Prisma.FieldRef<"worker", 'Int'>
   readonly day_id: Prisma.FieldRef<"worker", 'Int'>
   readonly position_id: Prisma.FieldRef<"worker", 'Int'>
+  readonly filial_id: Prisma.FieldRef<"worker", 'Int'>
   readonly user_id: Prisma.FieldRef<"worker", 'Int'>
   readonly role: Prisma.FieldRef<"worker", 'worker_role'>
   readonly created_at: Prisma.FieldRef<"worker", 'DateTime'>
@@ -2578,6 +2821,25 @@ export type workerDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many workers to delete.
    */
   limit?: number
+}
+
+/**
+ * worker.filial
+ */
+export type worker$filialArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the filial
+   */
+  select?: Prisma.filialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the filial
+   */
+  omit?: Prisma.filialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.filialInclude<ExtArgs> | null
+  where?: Prisma.filialWhereInput
 }
 
 /**

@@ -21,31 +21,31 @@ export interface IUserQuery extends IQuery {
 
 // query worker
 export interface IWorkerQuery extends IQuery {
-  userId: string;
-  companyId: string;
+  userId?: string;
+  companyId?: string;
 }
 
 // query filial
 export interface IFilialQuery extends IQuery {
-  companyId: string;
+  companyId?: string;
 }
 
 // query department
 export interface IDepartmentQuery extends IQuery {
-  companyId: string;
+  companyId?: string;
 }
 
 // query position
 export interface IPositionQuery extends IQuery {
-  companyId: string;
+  departmentId?: string;
 }
 
 // query day
 export interface IDayQuery extends IQuery {
-  companyId: string;
+  companyId?: string;
 }
 
 // query schedule
 export interface IScheduleQuery extends IQuery {
-  dayId: string;
+  dayId?: string;
 }

@@ -11,5 +11,6 @@ model department {
 
   company company @relation(fields: [company_id], references: [id], onDelete: NoAction)
 
-  worker worker[]
+  position position[]
+  worker   worker[]
 }

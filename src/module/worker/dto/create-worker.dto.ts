@@ -24,6 +24,22 @@ export class CreateWorkerDto {
   company_id: number;
 
   @IsOptional()
+  @IsNumber()
+  position_id?: number;
+
+  @IsOptional()
+  @IsNumber()
+  department_id?: number;
+
+  @IsOptional()
+  @IsNumber()
+  day_id?: number;
+
+  @IsOptional()
+  @IsNumber()
+  filial_id?: number;
+
+  @IsOptional()
   @IsEnum(worker_role)
   role: worker_role;
 }

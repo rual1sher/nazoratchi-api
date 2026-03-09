@@ -27,23 +27,14 @@ export class PositionController {
   constructor(private readonly positionService: PositionService) {}
 
   @Post()
-  async create(
-    @Body() createPositionDto: CreatePositionDto,
-    @WorkerId() workerId: string,
-  ) {
-    const data = await this.positionService.create(
-      createPositionDto,
-      +workerId,
-    );
+  async create(@Body() createPositionDto: CreatePositionDto) {
+    const data = await this.positionService.create(createPositionDto);
     return new ApiResponse(data);
   }
 
   @Get()
-  async findAll(@Query() query: IPositionQuery, @WorkerId() workerId: string) {
-    const { position, pagination } = await this.positionService.findAll(
-      query,
-      +workerId,
-    );
+  async findAll(@Query() query: IPositionQuery) {
+    const { position, pagination } = await this.positionService.findAll(query);
     return new ApiResponse(position, 200, pagination);
   }
 
@@ -56,20 +47,15 @@ export class PositionController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @WorkerId() workerId: string,
     @Body() updatePositionDto: UpdatePositionDto,
   ) {
-    const data = await this.positionService.update(
-      +id,
-      updatePositionDto,
-      +workerId,
-    );
+    const data = await this.positionService.update(+id, updatePositionDto);
     return new ApiResponse(data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @WorkerId() workerId: string) {
-    const data = await this.positionService.remove(+id, +workerId);
+  async remove(@Param('id') id: string) {
+    const data = await this.positionService.remove(+id);
     return new ApiResponse(data);
   }
 }

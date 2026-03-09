@@ -17,6 +17,7 @@ import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { IRequest } from 'src/helpers/types/types';
 import { VerifyDto } from './dto/verify.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { UpdateAuthDto } from './dto/update.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -69,14 +70,21 @@ export class AuthController {
   @Patch('change/password')
   @UseGuards(AuthGuard)
   async changePassword(@Body() dto: ChangePasswordDto, @Req() req: IRequest) {
-    const data = await this.authService.changePassword(dto, req.user);
+    await this.authService.changePassword(dto, req.user);
     return new ApiResponse({ message: 'Password changed successfully' });
   }
 
-  @Patch('change/phone')
+  @Post('change/phone')
   @UseGuards(AuthGuard)
-  async changePhone(@Body('new_phone') newPhone: string, @Req() req: IRequest) {
-    const data = await this.authService.changePhone(newPhone, req.user);
+  async changePhone(@Req() req: IRequest) {
+    const data = await this.authService.changePhone(req.user);
+    return new ApiResponse({ message: `send code = ${data}` });
+  }
+
+  @Patch('change/phone/verify')
+  @UseGuards(AuthGuard)
+  async changePhoneVerify(@Body() dto: VerifyDto, @Req() req: IRequest) {
+    await this.authService.changePhoneVerify(dto, req.user);
     return new ApiResponse({ message: 'Phone changed successfully' });
   }
 
@@ -84,6 +92,13 @@ export class AuthController {
   @UseGuards(AuthGuard)
   async me(@Req() req: IRequest) {
     const data = await this.authService.me(req.user);
+    return new ApiResponse(data);
+  }
+
+  @Patch('update/me')
+  @UseGuards(AuthGuard)
+  async updateMe(@Body() dto: UpdateAuthDto, @Req() req: IRequest) {
+    const data = await this.authService.updateMe(dto, req.user);
     return new ApiResponse(data);
   }
 }

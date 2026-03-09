@@ -7,7 +7,6 @@ import {
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
-import { user_role } from 'prisma/generated/prisma/enums';
 import { IPositionQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
@@ -17,40 +16,23 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 export class PositionService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreatePositionDto, workerId: number) {
-    if (workerId) {
-      const worker = await this.prisma.worker.findUnique({
-        where: { id: workerId },
-        select: { company_id: true },
-      });
-      if (!worker?.company_id) {
-        throw new NotFoundException(
-          ErrorMessages.notFound.workerInCompanyNotFound,
-        );
-      }
-
-      dto.company_id = worker.company_id;
-    } else if (!workerId && dto.company_id) {
-      const company = await this.prisma.company.findUnique({
-        where: { id: dto.company_id },
-      });
-      if (!company) throw new NotFoundException('Company not found');
-    } else {
-      throw new BadRequestException(
-        ErrorMessages.badRequest.cannotCreateJobWithCompanyId,
+  async create(dto: CreatePositionDto) {
+    const department = await this.prisma.department.findUnique({
+      where: { id: dto.department_id, deleted_at: null },
+    });
+    if (!department) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Department'),
       );
     }
 
     return await this.prisma.position.create({ data: dto });
   }
 
-  async findAll(query: IPositionQuery, workerId: number) {
+  async findAll(query: IPositionQuery) {
     const where: Prisma.positionWhereInput = { deleted_at: null };
 
-    if (workerId) where.company = { worker: { some: { id: workerId } } };
-    if (!workerId && query?.companyId) {
-      where.company_id = +query.companyId;
-    }
+    if (query?.departmentId) where.department_id = +query.departmentId;
 
     const count = await this.prisma.position.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -68,6 +50,13 @@ export class PositionService {
   async findOne(id: number) {
     const position = await this.prisma.position.findUnique({
       where: { id, deleted_at: null },
+      include: {
+        worker: {
+          include: {
+            user: { omit: { token: true, password: true, role: true } },
+          },
+        },
+      },
     });
     if (!position) {
       throw new NotFoundException(
@@ -78,9 +67,8 @@ export class PositionService {
     return position;
   }
 
-  async update(id: number, dto: UpdatePositionDto, workerId: number) {
+  async update(id: number, dto: UpdatePositionDto) {
     const where: Prisma.positionWhereInput = { id, deleted_at: null };
-    if (workerId) where.company = { worker: { some: { id: workerId } } };
 
     const position = await this.prisma.position.findFirst({ where });
     if (!position) {
@@ -89,16 +77,14 @@ export class PositionService {
       );
     }
 
-    if (dto?.company_id && workerId) {
-      throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
-    }
-    if (dto?.company_id) {
-      const company = await this.prisma.company.findUnique({
-        where: { id: dto.company_id },
+    if (dto?.department_id) {
+      const department = await this.prisma.department.findUnique({
+        where: { id: dto.department_id, deleted_at: null },
       });
-      if (!company) {
+
+      if (!department) {
         throw new NotFoundException(
-          ErrorMessages.notFound.modelNotFound('Company'),
+          ErrorMessages.notFound.modelNotFound('Department'),
         );
       }
     }
@@ -106,9 +92,8 @@ export class PositionService {
     return await this.prisma.position.update({ where: { id }, data: dto });
   }
 
-  async remove(id: number, workerId: number) {
+  async remove(id: number) {
     const where: Prisma.positionWhereInput = { id, deleted_at: null };
-    if (workerId) where.company = { worker: { some: { id: workerId } } };
 
     const position = await this.prisma.position.findFirst({ where });
     if (!position) {

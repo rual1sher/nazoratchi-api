@@ -207,7 +207,7 @@ export const PositionScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
-  company_id: 'company_id'
+  department_id: 'department_id'
 } as const
 
 export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
@@ -251,6 +251,7 @@ export const WorkerScalarFieldEnum = {
   department_id: 'department_id',
   day_id: 'day_id',
   position_id: 'position_id',
+  filial_id: 'filial_id',
   user_id: 'user_id',
   role: 'role',
   created_at: 'created_at',
