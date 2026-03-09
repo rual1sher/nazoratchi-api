@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { WorkerScheduleService } from './worker-schedule.service';
 import { CreateWorkerScheduleDto } from './dto/create-worker-schedule.dto';
@@ -16,6 +17,7 @@ import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
+import { IScheduleQuery } from 'src/helpers/types/types';
 
 @Controller('schedule')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -30,20 +32,29 @@ export class WorkerScheduleController {
   }
 
   @Get()
-  findAll() {
-    return this.workerScheduleService.findAll();
+  async findAll(@Query() query: IScheduleQuery) {
+    const { schedule, pagination } =
+      await this.workerScheduleService.findAll(query);
+    return new ApiResponse(schedule, 200, pagination);
   }
 
   @Patch(':id')
-  update(
+  @WorkerRoles(worker_role.maneger)
+  async update(
     @Param('id') id: string,
     @Body() updateWorkerScheduleDto: UpdateWorkerScheduleDto,
   ) {
-    return this.workerScheduleService.update(+id, updateWorkerScheduleDto);
+    const data = await this.workerScheduleService.update(
+      +id,
+      updateWorkerScheduleDto,
+    );
+    return new ApiResponse(data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.workerScheduleService.remove(+id);
+  @WorkerRoles(worker_role.maneger)
+  async remove(@Param('id') id: string) {
+    const data = await this.workerScheduleService.remove(+id);
+    return new ApiResponse(data);
   }
 }

@@ -5,6 +5,9 @@ model penalties_name {
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
+  company_id Int
+
+  company company @relation(fields: [company_id], references: [id], onDelete: NoAction)
 
   penalty penalty[]
 }

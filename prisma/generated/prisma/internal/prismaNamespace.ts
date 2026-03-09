@@ -1586,7 +1586,8 @@ export const Penalties_nameScalarFieldEnum = {
   title: 'title',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  company_id: 'company_id'
 } as const
 
 export type Penalties_nameScalarFieldEnum = (typeof Penalties_nameScalarFieldEnum)[keyof typeof Penalties_nameScalarFieldEnum]
@@ -1595,7 +1596,7 @@ export type Penalties_nameScalarFieldEnum = (typeof Penalties_nameScalarFieldEnu
 export const PenaltyScalarFieldEnum = {
   id: 'id',
   type: 'type',
-  time: 'time',
+  date: 'date',
   amount: 'amount',
   comment: 'comment',
   penalties_name_id: 'penalties_name_id',

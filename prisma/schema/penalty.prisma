@@ -2,7 +2,7 @@ model penalty {
   id Int @id @default(autoincrement())
 
   type              penalty_type
-  time              DateTime     @db.Time(0)
+  date              DateTime     @db.Timestamptz()
   amount            String       @db.VarChar(255)
   comment           String
   penalties_name_id Int
@@ -14,8 +14,8 @@ model penalty {
 }
 
 enum penalty_type {
-  late_arrival
-  early_leave
-  no_exit
-  not_arrive
+  late_arrival // позднее прибытие
+  early_leave // ранний отпуск
+  no_exit // нет выхода
+  not_arrive // не прибыть
 }

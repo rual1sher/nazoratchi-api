@@ -216,6 +216,7 @@ export type companyWhereInput = {
   created_at?: Prisma.DateTimeFilter<"company"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"company"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"company"> | Date | string | null
+  penalties_name?: Prisma.Penalties_nameListRelationFilter
   day?: Prisma.DayListRelationFilter
   filial?: Prisma.FilialListRelationFilter
   department?: Prisma.DepartmentListRelationFilter
@@ -229,6 +230,7 @@ export type companyOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  penalties_name?: Prisma.penalties_nameOrderByRelationAggregateInput
   day?: Prisma.dayOrderByRelationAggregateInput
   filial?: Prisma.filialOrderByRelationAggregateInput
   department?: Prisma.departmentOrderByRelationAggregateInput
@@ -245,6 +247,7 @@ export type companyWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"company"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"company"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"company"> | Date | string | null
+  penalties_name?: Prisma.Penalties_nameListRelationFilter
   day?: Prisma.DayListRelationFilter
   filial?: Prisma.FilialListRelationFilter
   department?: Prisma.DepartmentListRelationFilter
@@ -281,6 +284,7 @@ export type companyCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
@@ -294,6 +298,7 @@ export type companyUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -306,6 +311,7 @@ export type companyUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
@@ -319,6 +325,7 @@ export type companyUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -432,6 +439,20 @@ export type companyUpdateOneRequiredWithoutFilialNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.companyUpdateToOneWithWhereWithoutFilialInput, Prisma.companyUpdateWithoutFilialInput>, Prisma.companyUncheckedUpdateWithoutFilialInput>
 }
 
+export type companyCreateNestedOneWithoutPenalties_nameInput = {
+  create?: Prisma.XOR<Prisma.companyCreateWithoutPenalties_nameInput, Prisma.companyUncheckedCreateWithoutPenalties_nameInput>
+  connectOrCreate?: Prisma.companyCreateOrConnectWithoutPenalties_nameInput
+  connect?: Prisma.companyWhereUniqueInput
+}
+
+export type companyUpdateOneRequiredWithoutPenalties_nameNestedInput = {
+  create?: Prisma.XOR<Prisma.companyCreateWithoutPenalties_nameInput, Prisma.companyUncheckedCreateWithoutPenalties_nameInput>
+  connectOrCreate?: Prisma.companyCreateOrConnectWithoutPenalties_nameInput
+  upsert?: Prisma.companyUpsertWithoutPenalties_nameInput
+  connect?: Prisma.companyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.companyUpdateToOneWithWhereWithoutPenalties_nameInput, Prisma.companyUpdateWithoutPenalties_nameInput>, Prisma.companyUncheckedUpdateWithoutPenalties_nameInput>
+}
+
 export type companyCreateNestedOneWithoutPositionInput = {
   create?: Prisma.XOR<Prisma.companyCreateWithoutPositionInput, Prisma.companyUncheckedCreateWithoutPositionInput>
   connectOrCreate?: Prisma.companyCreateOrConnectWithoutPositionInput
@@ -465,6 +486,7 @@ export type companyCreateWithoutDayInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionCreateNestedManyWithoutCompanyInput
@@ -477,6 +499,7 @@ export type companyUncheckedCreateWithoutDayInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionUncheckedCreateNestedManyWithoutCompanyInput
@@ -504,6 +527,7 @@ export type companyUpdateWithoutDayInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUpdateManyWithoutCompanyNestedInput
@@ -516,6 +540,7 @@ export type companyUncheckedUpdateWithoutDayInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -527,6 +552,7 @@ export type companyCreateWithoutDepartmentInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionCreateNestedManyWithoutCompanyInput
@@ -539,6 +565,7 @@ export type companyUncheckedCreateWithoutDepartmentInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionUncheckedCreateNestedManyWithoutCompanyInput
@@ -566,6 +593,7 @@ export type companyUpdateWithoutDepartmentInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUpdateManyWithoutCompanyNestedInput
@@ -578,6 +606,7 @@ export type companyUncheckedUpdateWithoutDepartmentInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -589,6 +618,7 @@ export type companyCreateWithoutFilialInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionCreateNestedManyWithoutCompanyInput
@@ -601,6 +631,7 @@ export type companyUncheckedCreateWithoutFilialInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
   position?: Prisma.positionUncheckedCreateNestedManyWithoutCompanyInput
@@ -628,6 +659,7 @@ export type companyUpdateWithoutFilialInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUpdateManyWithoutCompanyNestedInput
@@ -640,7 +672,74 @@ export type companyUncheckedUpdateWithoutFilialInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
+  department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
+  position?: Prisma.positionUncheckedUpdateManyWithoutCompanyNestedInput
+  worker?: Prisma.workerUncheckedUpdateManyWithoutCompanyNestedInput
+}
+
+export type companyCreateWithoutPenalties_nameInput = {
+  name: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  day?: Prisma.dayCreateNestedManyWithoutCompanyInput
+  filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
+  department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
+  position?: Prisma.positionCreateNestedManyWithoutCompanyInput
+  worker?: Prisma.workerCreateNestedManyWithoutCompanyInput
+}
+
+export type companyUncheckedCreateWithoutPenalties_nameInput = {
+  id?: number
+  name: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
+  filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
+  department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
+  position?: Prisma.positionUncheckedCreateNestedManyWithoutCompanyInput
+  worker?: Prisma.workerUncheckedCreateNestedManyWithoutCompanyInput
+}
+
+export type companyCreateOrConnectWithoutPenalties_nameInput = {
+  where: Prisma.companyWhereUniqueInput
+  create: Prisma.XOR<Prisma.companyCreateWithoutPenalties_nameInput, Prisma.companyUncheckedCreateWithoutPenalties_nameInput>
+}
+
+export type companyUpsertWithoutPenalties_nameInput = {
+  update: Prisma.XOR<Prisma.companyUpdateWithoutPenalties_nameInput, Prisma.companyUncheckedUpdateWithoutPenalties_nameInput>
+  create: Prisma.XOR<Prisma.companyCreateWithoutPenalties_nameInput, Prisma.companyUncheckedCreateWithoutPenalties_nameInput>
+  where?: Prisma.companyWhereInput
+}
+
+export type companyUpdateToOneWithWhereWithoutPenalties_nameInput = {
+  where?: Prisma.companyWhereInput
+  data: Prisma.XOR<Prisma.companyUpdateWithoutPenalties_nameInput, Prisma.companyUncheckedUpdateWithoutPenalties_nameInput>
+}
+
+export type companyUpdateWithoutPenalties_nameInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
+  filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
+  department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
+  position?: Prisma.positionUpdateManyWithoutCompanyNestedInput
+  worker?: Prisma.workerUpdateManyWithoutCompanyNestedInput
+}
+
+export type companyUncheckedUpdateWithoutPenalties_nameInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
+  filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
   position?: Prisma.positionUncheckedUpdateManyWithoutCompanyNestedInput
   worker?: Prisma.workerUncheckedUpdateManyWithoutCompanyNestedInput
@@ -651,6 +750,7 @@ export type companyCreateWithoutPositionInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
@@ -663,6 +763,7 @@ export type companyUncheckedCreateWithoutPositionInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -690,6 +791,7 @@ export type companyUpdateWithoutPositionInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
@@ -702,6 +804,7 @@ export type companyUncheckedUpdateWithoutPositionInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -713,6 +816,7 @@ export type companyCreateWithoutWorkerInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentCreateNestedManyWithoutCompanyInput
@@ -725,6 +829,7 @@ export type companyUncheckedCreateWithoutWorkerInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedCreateNestedManyWithoutCompanyInput
   day?: Prisma.dayUncheckedCreateNestedManyWithoutCompanyInput
   filial?: Prisma.filialUncheckedCreateNestedManyWithoutCompanyInput
   department?: Prisma.departmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -752,6 +857,7 @@ export type companyUpdateWithoutWorkerInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUpdateManyWithoutCompanyNestedInput
@@ -764,6 +870,7 @@ export type companyUncheckedUpdateWithoutWorkerInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUncheckedUpdateManyWithoutCompanyNestedInput
   day?: Prisma.dayUncheckedUpdateManyWithoutCompanyNestedInput
   filial?: Prisma.filialUncheckedUpdateManyWithoutCompanyNestedInput
   department?: Prisma.departmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -776,6 +883,7 @@ export type companyUncheckedUpdateWithoutWorkerInput = {
  */
 
 export type CompanyCountOutputType = {
+  penalties_name: number
   day: number
   filial: number
   department: number
@@ -784,6 +892,7 @@ export type CompanyCountOutputType = {
 }
 
 export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  penalties_name?: boolean | CompanyCountOutputTypeCountPenalties_nameArgs
   day?: boolean | CompanyCountOutputTypeCountDayArgs
   filial?: boolean | CompanyCountOutputTypeCountFilialArgs
   department?: boolean | CompanyCountOutputTypeCountDepartmentArgs
@@ -799,6 +908,13 @@ export type CompanyCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the CompanyCountOutputType
    */
   select?: Prisma.CompanyCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CompanyCountOutputType without action
+ */
+export type CompanyCountOutputTypeCountPenalties_nameArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.penalties_nameWhereInput
 }
 
 /**
@@ -843,6 +959,7 @@ export type companySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  penalties_name?: boolean | Prisma.company$penalties_nameArgs<ExtArgs>
   day?: boolean | Prisma.company$dayArgs<ExtArgs>
   filial?: boolean | Prisma.company$filialArgs<ExtArgs>
   department?: boolean | Prisma.company$departmentArgs<ExtArgs>
@@ -877,6 +994,7 @@ export type companySelectScalar = {
 
 export type companyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["company"]>
 export type companyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  penalties_name?: boolean | Prisma.company$penalties_nameArgs<ExtArgs>
   day?: boolean | Prisma.company$dayArgs<ExtArgs>
   filial?: boolean | Prisma.company$filialArgs<ExtArgs>
   department?: boolean | Prisma.company$departmentArgs<ExtArgs>
@@ -890,6 +1008,7 @@ export type companyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $companyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "company"
   objects: {
+    penalties_name: Prisma.$penalties_namePayload<ExtArgs>[]
     day: Prisma.$dayPayload<ExtArgs>[]
     filial: Prisma.$filialPayload<ExtArgs>[]
     department: Prisma.$departmentPayload<ExtArgs>[]
@@ -1296,6 +1415,7 @@ readonly fields: companyFieldRefs;
  */
 export interface Prisma__companyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  penalties_name<T extends Prisma.company$penalties_nameArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.company$penalties_nameArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$penalties_namePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   day<T extends Prisma.company$dayArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.company$dayArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$dayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   filial<T extends Prisma.company$filialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.company$filialArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$filialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   department<T extends Prisma.company$departmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.company$departmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$departmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1720,6 +1840,30 @@ export type companyDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many companies to delete.
    */
   limit?: number
+}
+
+/**
+ * company.penalties_name
+ */
+export type company$penalties_nameArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the penalties_name
+   */
+  select?: Prisma.penalties_nameSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the penalties_name
+   */
+  omit?: Prisma.penalties_nameOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.penalties_nameInclude<ExtArgs> | null
+  where?: Prisma.penalties_nameWhereInput
+  orderBy?: Prisma.penalties_nameOrderByWithRelationInput | Prisma.penalties_nameOrderByWithRelationInput[]
+  cursor?: Prisma.penalties_nameWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Penalties_nameScalarFieldEnum | Prisma.Penalties_nameScalarFieldEnum[]
 }
 
 /**

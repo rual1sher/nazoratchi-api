@@ -44,3 +44,8 @@ export interface IPositionQuery extends IQuery {
 export interface IDayQuery extends IQuery {
   companyId: string;
 }
+
+// query schedule
+export interface IScheduleQuery extends IQuery {
+  dayId: string;
+}

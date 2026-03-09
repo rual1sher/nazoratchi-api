@@ -6,9 +6,10 @@ model company {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  day        day[]
-  filial     filial[]
-  department department[]
-  position   position[]
-  worker     worker[]
+  penalties_name penalties_name[]
+  day            day[]
+  filial         filial[]
+  department     department[]
+  position       position[]
+  worker         worker[]
 }
