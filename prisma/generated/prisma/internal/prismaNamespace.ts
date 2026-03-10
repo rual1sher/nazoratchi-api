@@ -1530,7 +1530,9 @@ export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof
 
 export const DayScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  title_uz: 'title_uz',
+  title_ru: 'title_ru',
+  title_en: 'title_en',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -1556,7 +1558,9 @@ export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof
 
 export const FilialScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  title_uz: 'title_uz',
+  title_ru: 'title_ru',
+  title_en: 'title_en',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -1583,7 +1587,9 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 
 export const Penalties_nameScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  title_uz: 'title_uz',
+  title_ru: 'title_ru',
+  title_en: 'title_en',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',

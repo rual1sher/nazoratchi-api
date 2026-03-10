@@ -11,6 +11,7 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 import { IDayQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
+import { validateRelations } from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class DayService {
@@ -89,16 +90,7 @@ export class DayService {
     if (dto?.company_id && workerId) {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
     }
-    if (dto?.company_id) {
-      const company = await this.prisma.company.findUnique({
-        where: { id: dto.company_id },
-      });
-      if (!company) {
-        throw new NotFoundException(
-          ErrorMessages.notFound.modelNotFound('Company'),
-        );
-      }
-    }
+    if (dto?.company_id) await validateRelations(this.prisma, dto);
 
     return await this.prisma.day.update({ where: { id }, data: dto });
   }

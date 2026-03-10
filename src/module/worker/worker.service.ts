@@ -20,11 +20,11 @@ export class WorkerService {
   constructor(private prisma: PrismaService) {}
 
   async create(createWorkerDto: CreateWorkerDto, role: user_role) {
-    let user_id: number | null = null;
+    let { user, user_id, ...data } = createWorkerDto;
 
-    if (createWorkerDto?.user) {
+    if (user) {
       const chechUser = await this.prisma.user.findUnique({
-        where: { phone: createWorkerDto.user.phone },
+        where: { phone: user.phone },
       });
       if (chechUser) {
         throw new ConflictException(
@@ -32,42 +32,30 @@ export class WorkerService {
         );
       }
 
-      const hashedPassword = hashingPassword(createWorkerDto.user.password);
-      createWorkerDto.user.password = hashedPassword;
+      const hashedPassword = hashingPassword(user.password);
+      user.password = hashedPassword;
 
       user_id = (
         await this.prisma.user.create({
-          data: createWorkerDto.user,
+          data: user,
         })
       ).id;
-    } else if (createWorkerDto?.user_id) {
-      const user = await this.prisma.user.findUnique({
-        where: { id: createWorkerDto.user_id, deleted_at: null },
-      });
-
-      if (!user) {
-        throw new NotFoundException(
-          ErrorMessages.notFound.modelNotFound('User'),
-        );
-      }
-
-      user_id = user.id;
+    } else if (user_id) {
+      user_id = +user_id;
     } else {
       throw new BadRequestException(
         ErrorMessages.badRequest.userOrUserIdNotFound,
       );
     }
 
-    if (createWorkerDto?.role && role !== 'admin') {
+    await validateRelations(this.prisma, data);
+
+    if (data?.role && role !== 'admin') {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
     }
 
     return await this.prisma.worker.create({
-      data: {
-        user_id,
-        company_id: createWorkerDto.company_id,
-        role: createWorkerDto.role || 'worker',
-      },
+      data: { ...data, user_id },
     });
   }
 
@@ -135,10 +123,10 @@ export class WorkerService {
 
     await validateRelations(this.prisma, dto);
 
-    // return await this.prisma.worker.update({
-    //   where: { id },
-    //   data: {},
-    // });
+    return await this.prisma.worker.update({
+      where: { id },
+      data: dto,
+    });
   }
 
   async remove(id: number) {

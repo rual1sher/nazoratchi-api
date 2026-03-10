@@ -1,6 +1,6 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateDayDto {
+export class CreatePenaltysNameDto {
   @IsString()
   title_uz: string;
 
@@ -10,7 +10,7 @@ export class CreateDayDto {
   @IsString()
   title_en: string;
 
-  @IsOptional()
   @IsNumber()
+  @IsOptional()
   company_id: number;
 }

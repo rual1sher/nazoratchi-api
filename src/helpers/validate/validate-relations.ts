@@ -13,6 +13,7 @@ const relationMap: Record<string, { model: keyof PrismaClient; name: string }> =
     worker_id: { model: 'worker', name: 'Worker' },
     penalty_id: { model: 'penalty', name: 'Penalty' },
     schedule_id: { model: 'worker_schedule', name: 'Schedule' },
+    penaltys_name_id: { model: 'penalties_name', name: 'PenaltysName' },
   };
 
 export const validateRelations = async (prisma: PrismaClient, dto: any) => {
@@ -22,6 +23,7 @@ export const validateRelations = async (prisma: PrismaClient, dto: any) => {
 
     const exists = await (prisma[rel.model] as any).findUnique({
       where: { id: value, deleted_at: null },
+      select: { id: true },
     });
 
     if (!exists) {

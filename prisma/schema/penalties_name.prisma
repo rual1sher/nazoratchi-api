@@ -1,7 +1,9 @@
 model penalties_name {
   id Int @id @default(autoincrement())
 
-  title      String    @db.VarChar(255)
+  title_uz   String    @db.VarChar(255)
+  title_ru   String    @db.VarChar(255)
+  title_en   String    @db.VarChar(255)
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?

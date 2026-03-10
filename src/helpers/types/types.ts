@@ -49,3 +49,8 @@ export interface IDayQuery extends IQuery {
 export interface IScheduleQuery extends IQuery {
   dayId?: string;
 }
+
+// query penaltys-name
+export interface IPenaltysNameQuery extends IQuery {
+  companyId?: string;
+}
