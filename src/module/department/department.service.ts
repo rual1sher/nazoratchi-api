@@ -55,12 +55,24 @@ export class DepartmentService {
       where.company_id = +query.companyId;
     }
 
+    if (query.search) {
+      where.OR = [
+        { title_uz: { contains: query.search, mode: 'insensitive' } },
+        { title_ru: { contains: query.search, mode: 'insensitive' } },
+        { title_en: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
+
     const count = await this.prisma.department.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
 
     const department = await this.prisma.department.findMany({
       where,
       orderBy: { created_at: 'desc' },
+      include: {
+        _count: { select: { position: true, worker: true } },
+        position: { take: 5 },
+      },
       take: pagination.limit,
       skip: pagination.offset,
     });
@@ -71,6 +83,7 @@ export class DepartmentService {
   async findOne(id: number) {
     const department = await this.prisma.department.findUnique({
       where: { id, deleted_at: null },
+      include: { position: true, worker: true },
     });
     if (!department) {
       throw new NotFoundException(

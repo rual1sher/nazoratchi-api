@@ -10,6 +10,7 @@ export interface IRequest extends Request {
 }
 
 export interface IQuery {
+  search: string;
   page: string;
   limit: string;
 }
@@ -23,6 +24,9 @@ export interface IUserQuery extends IQuery {
 export interface IWorkerQuery extends IQuery {
   userId?: string;
   companyId?: string;
+  positionId?: string;
+  departmant?: string;
+  dayId?: string;
 }
 
 // query filial

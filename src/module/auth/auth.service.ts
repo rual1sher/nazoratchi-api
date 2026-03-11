@@ -43,6 +43,10 @@ export class AuthService {
 
     const code = randomInt(100000, 999999);
     await this.cacheManager.set(`login-${user.phone}`, code);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { isVerified: false },
+    });
     return code;
   }
 
@@ -71,10 +75,23 @@ export class AuthService {
 
     await this.prisma.user.update({
       where: { id: user.id },
-      data: { token: refreshToken },
+      data: { token: refreshToken, isVerified: true },
     });
 
     return { accessToken, refreshToken };
+  }
+
+  async resend(phone: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { phone, deleted_at: null, isVerified: false },
+    });
+    if (!user) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
+    }
+
+    const code = randomInt(100000, 999999);
+    await this.cacheManager.set(`login-${user.phone}`, code);
+    return code;
   }
 
   async refresh(token: string) {

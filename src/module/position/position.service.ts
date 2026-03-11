@@ -33,6 +33,13 @@ export class PositionService {
     const where: Prisma.positionWhereInput = { deleted_at: null };
 
     if (query?.departmentId) where.department_id = +query.departmentId;
+    if (query.search) {
+      where.OR = [
+        { title_uz: { contains: query.search, mode: 'insensitive' } },
+        { title_ru: { contains: query.search, mode: 'insensitive' } },
+        { title_en: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
 
     const count = await this.prisma.position.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -40,6 +47,7 @@ export class PositionService {
     const position = await this.prisma.position.findMany({
       where,
       orderBy: { created_at: 'desc' },
+      include: { _count: { select: { worker: true } }, worker: { take: 5 } },
       take: pagination.limit,
       skip: pagination.offset,
     });

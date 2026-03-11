@@ -44,6 +44,12 @@ export class AuthController {
     return res.json(new ApiResponse({ accessToken }));
   }
 
+  @Post('resend')
+  async resend(@Body('phone') phone: string) {
+    const data = await this.authService.resend(phone);
+    return new ApiResponse({ message: `send code = ${data}` });
+  }
+
   @Post('refresh')
   async refresh(@Req() req: Request, @Res() res: Response) {
     const token = req.cookies['refreshToken'];

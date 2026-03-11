@@ -54,6 +54,14 @@ export class DayService {
     if (workerId) where.company = { worker: { some: { id: workerId } } };
     if (!workerId && query?.companyId) where.company_id = +query.companyId;
 
+    if (query.search) {
+      where.OR = [
+        { title_uz: { contains: query.search, mode: 'insensitive' } },
+        { title_ru: { contains: query.search, mode: 'insensitive' } },
+        { title_en: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
+
     const count = await this.prisma.day.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
 

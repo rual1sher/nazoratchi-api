@@ -32,6 +32,14 @@ export class FilialService {
 
     if (query?.companyId) where.company_id = +query.companyId;
 
+    if (query.search) {
+      where.OR = [
+        { title_uz: { contains: query.search, mode: 'insensitive' } },
+        { title_ru: { contains: query.search, mode: 'insensitive' } },
+        { title_en: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
+
     const filials = await this.prisma.filial.findMany({
       where,
       orderBy: { created_at: 'desc' },

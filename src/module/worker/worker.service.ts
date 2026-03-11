@@ -60,10 +60,26 @@ export class WorkerService {
   }
 
   async findAll(query: IWorkerQuery) {
-    const where: Prisma.workerWhereInput = { deleted_at: null };
+    const { search, ...wheresOptional } = query;
+    const where: Prisma.workerWhereInput = {
+      deleted_at: null,
+    };
 
-    if (query?.companyId) where.company_id = +query.companyId;
-    if (query?.userId) where.user_id = +query.userId;
+    for (let [key, value] of Object.entries(wheresOptional)) {
+      if (key.endsWith('Id')) {
+        where[key] = +value;
+      }
+    }
+
+    if (search) {
+      where.user = {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { phone: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
 
     const count = await this.prisma.worker.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -71,6 +87,11 @@ export class WorkerService {
     const worker = await this.prisma.worker.findMany({
       where,
       orderBy: { created_at: 'desc' },
+      include: {
+        user: { omit: { token: true, password: true, role: true } },
+        position: true,
+        day: true,
+      },
       take: pagination.limit,
       skip: pagination.offset,
     });

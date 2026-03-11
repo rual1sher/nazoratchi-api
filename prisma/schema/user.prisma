@@ -11,6 +11,7 @@ model user {
     created_at DateTime  @default(now())
     updated_at DateTime  @default(now()) @updatedAt
     deleted_at DateTime?
+    isVerified Boolean   @default(false)
 
     worker worker[]
 }
