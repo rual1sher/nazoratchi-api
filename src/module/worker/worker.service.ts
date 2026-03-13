@@ -13,7 +13,10 @@ import { IWorkerQuery } from 'src/helpers/types/types';
 import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
-import { validateRelations } from 'src/helpers/validate/validate-relations';
+import {
+  validateRelations,
+  validateRelationsQuery,
+} from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class WorkerService {
@@ -48,6 +51,17 @@ export class WorkerService {
       );
     }
 
+    const checkWorker = await this.prisma.worker.findFirst({
+      where: { user_id, company_id: data.company_id, deleted_at: null },
+    });
+    if (checkWorker) {
+      throw new ConflictException(
+        ErrorMessages.conflict.alreadyExists(
+          'Worker with this User and Company',
+        ),
+      );
+    }
+
     await validateRelations(this.prisma, data);
 
     if (data?.role && role !== 'admin') {
@@ -65,11 +79,7 @@ export class WorkerService {
       deleted_at: null,
     };
 
-    for (let [key, value] of Object.entries(wheresOptional)) {
-      if (key.endsWith('Id')) {
-        where[key] = +value;
-      }
-    }
+    await validateRelationsQuery(this.prisma, wheresOptional, where);
 
     if (search) {
       where.user = {
@@ -119,13 +129,13 @@ export class WorkerService {
     return worker;
   }
 
-  async findOneByUserAndWorker(userId: number, workerId: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id: workerId, user_id: userId, deleted_at: null },
+  async findOneByUserAndCompany(userId: number, companyId: number) {
+    const worker = await this.prisma.worker.findFirst({
+      where: { company_id: companyId, user_id: userId, deleted_at: null },
     });
     if (!worker) {
       throw new BadRequestException(
-        ErrorMessages.notFound.modelNotFound('User or Worker'),
+        ErrorMessages.notFound.modelNotFound('User or Company'),
       );
     }
 
@@ -143,6 +153,17 @@ export class WorkerService {
     }
 
     await validateRelations(this.prisma, dto);
+
+    if (dto.company_id) {
+      const checkWorker = await this.prisma.worker.findFirst({
+        where: { id, company_id: dto.company_id, deleted_at: null },
+      });
+      if (checkWorker) {
+        throw new BadRequestException(
+          ErrorMessages.badRequest.invalid('Company'),
+        );
+      }
+    }
 
     return await this.prisma.worker.update({
       where: { id },

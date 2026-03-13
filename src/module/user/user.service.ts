@@ -41,6 +41,13 @@ export class UserService {
     if (query?.companyId) {
       where.worker = { some: { company_id: +query?.companyId } };
     }
+    if (query.search) {
+      where.OR = [
+        { first_name: { contains: query.search, mode: 'insensitive' } },
+        { last_name: { contains: query.search, mode: 'insensitive' } },
+        { phone: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
 
     const count = await this.prisma.user.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
