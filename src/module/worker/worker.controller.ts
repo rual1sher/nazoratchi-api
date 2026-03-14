@@ -19,6 +19,7 @@ import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { IPayload, IWorkerQuery } from 'src/helpers/types/types';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { Owner } from 'src/helpers/decorators/owner.decorator';
+import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @Controller('worker')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -36,8 +37,11 @@ export class WorkerController {
   }
 
   @Get()
-  async findAll(@Query() query: IWorkerQuery) {
-    const { worker, pagination } = await this.workerService.findAll(query);
+  async findAll(@Query() query: IWorkerQuery, @CompanyId() companyId: number) {
+    const { worker, pagination } = await this.workerService.findAll(
+      query,
+      companyId,
+    );
     return new ApiResponse(worker, 200, pagination);
   }
 

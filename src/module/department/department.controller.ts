@@ -13,12 +13,12 @@ import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
-import { IDepartmentQuery } from 'src/helpers/types/types';
+import { IQuery } from 'src/helpers/types/types';
 import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
-import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
+import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @Controller('department')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -29,23 +29,20 @@ export class DepartmentController {
   @Post()
   async create(
     @Body() createDepartmentDto: CreateDepartmentDto,
-    @WorkerId() workerId: string,
+    @CompanyId() companyId: number,
   ) {
     const data = await this.departmentService.create(
       createDepartmentDto,
-      +workerId,
+      companyId,
     );
     return new ApiResponse(data);
   }
 
   @Get()
-  async findAll(
-    @Query() query: IDepartmentQuery,
-    @WorkerId() workerId: string,
-  ) {
+  async findAll(@Query() query: IQuery, @CompanyId() companyId: number) {
     const { department, pagination } = await this.departmentService.findAll(
       query,
-      +workerId,
+      companyId,
     );
     return new ApiResponse(department, 200, pagination);
   }
@@ -60,19 +57,19 @@ export class DepartmentController {
   async update(
     @Param('id') id: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto,
-    @WorkerId() workerId: string,
+    @CompanyId() companyId: number,
   ) {
     const data = await this.departmentService.update(
       +id,
       updateDepartmentDto,
-      +workerId,
+      companyId,
     );
     return new ApiResponse(data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @WorkerId() workerId: string) {
-    const data = await this.departmentService.remove(+id, +workerId);
+  async remove(@Param('id') id: string) {
+    const data = await this.departmentService.remove(+id);
     return new ApiResponse(data);
   }
 }

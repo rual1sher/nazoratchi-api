@@ -10,7 +10,7 @@ export class CreateDepartmentDto {
   @IsString()
   title_en: string;
 
-  @IsNumber()
   @IsOptional()
-  company_id: number;
+  @IsNumber()
+  company_id?: number;
 }

@@ -34,11 +34,6 @@ export interface IFilialQuery extends IQuery {
   companyId?: string;
 }
 
-// query department
-export interface IDepartmentQuery extends IQuery {
-  companyId?: string;
-}
-
 // query position
 export interface IPositionQuery extends IQuery {
   departmentId?: string;

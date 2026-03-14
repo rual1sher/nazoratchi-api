@@ -73,10 +73,11 @@ export class WorkerService {
     });
   }
 
-  async findAll(query: IWorkerQuery) {
+  async findAll(query: IWorkerQuery, companyId: number) {
     const { search, ...wheresOptional } = query;
     const where: Prisma.workerWhereInput = {
       deleted_at: null,
+      company_id: companyId,
     };
 
     await validateRelationsQuery(this.prisma, wheresOptional, where);
@@ -135,7 +136,7 @@ export class WorkerService {
     });
     if (!worker) {
       throw new BadRequestException(
-        ErrorMessages.notFound.modelNotFound('User or Company'),
+        ErrorMessages.badRequest.invalid('User or Company'),
       );
     }
 
