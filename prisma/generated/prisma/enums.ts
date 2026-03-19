@@ -9,15 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const attendance_type = {
-  at_work: 'at_work',
-  left_work: 'left_work',
-  penalty: 'penalty'
-} as const
-
-export type attendance_type = (typeof attendance_type)[keyof typeof attendance_type]
-
-
 export const payment_type = {
   income: 'income',
   bonus: 'bonus',

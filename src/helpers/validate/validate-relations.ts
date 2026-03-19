@@ -13,7 +13,7 @@ const relationMap: Record<string, { model: keyof PrismaClient; name: string }> =
     worker_id: { model: 'worker', name: 'Worker' },
     penalty_id: { model: 'penalty', name: 'Penalty' },
     schedule_id: { model: 'worker_schedule', name: 'Schedule' },
-    penaltys_name_id: { model: 'penalties_name', name: 'PenaltysName' },
+    penalties_name_id: { model: 'penalties_name', name: 'PenaltysName' },
 
     //query
     userId: { model: 'user', name: 'User' },

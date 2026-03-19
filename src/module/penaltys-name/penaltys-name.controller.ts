@@ -19,6 +19,7 @@ import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
 import { IPenaltysNameQuery } from 'src/helpers/types/types';
+import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @Controller('penaltys-name')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -29,11 +30,11 @@ export class PenaltysNameController {
   @Post()
   async create(
     @Body() createPenaltysNameDto: CreatePenaltysNameDto,
-    @WorkerId() workerId: string,
+    @CompanyId() CompanyId: string,
   ) {
     const data = await this.penaltysNameService.create(
       createPenaltysNameDto,
-      +workerId,
+      +CompanyId,
     );
     return new ApiResponse(data);
   }
@@ -41,11 +42,11 @@ export class PenaltysNameController {
   @Get()
   async findAll(
     @Query() query: IPenaltysNameQuery,
-    @WorkerId() workerId: string,
+    @CompanyId() companyId: number,
   ) {
     const { penaltysName, pagination } = await this.penaltysNameService.findAll(
       query,
-      +workerId,
+      companyId,
     );
     return new ApiResponse(penaltysName, 200, pagination);
   }

@@ -47,13 +47,6 @@ export type DateTimeNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
 }
 
-export type Enumattendance_typeFilter<$PrismaModel = never> = {
-  equals?: $Enums.attendance_type | Prisma.Enumattendance_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel> | $Enums.attendance_type
-}
-
 export type SortOrderInput = {
   sort: Prisma.SortOrder
   nulls?: Prisma.NullsOrder
@@ -101,16 +94,6 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
-}
-
-export type Enumattendance_typeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.attendance_type | Prisma.Enumattendance_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumattendance_typeWithAggregatesFilter<$PrismaModel> | $Enums.attendance_type
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel>
 }
 
 export type StringFilter<$PrismaModel = never> = {
@@ -337,13 +320,6 @@ export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
 }
 
-export type NestedEnumattendance_typeFilter<$PrismaModel = never> = {
-  equals?: $Enums.attendance_type | Prisma.Enumattendance_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel> | $Enums.attendance_type
-}
-
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -408,16 +384,6 @@ export type NestedIntNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
-}
-
-export type NestedEnumattendance_typeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.attendance_type | Prisma.Enumattendance_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.attendance_type[] | Prisma.ListEnumattendance_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumattendance_typeWithAggregatesFilter<$PrismaModel> | $Enums.attendance_type
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumattendance_typeFilter<$PrismaModel>
 }
 
 export type NestedStringFilter<$PrismaModel = never> = {

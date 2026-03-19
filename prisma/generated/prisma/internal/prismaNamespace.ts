@@ -1495,8 +1495,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const AttendanceScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  time: 'time',
-  type: 'type',
+  arrival_at: 'arrival_at',
+  departure_at: 'departure_at',
   worker_id: 'worker_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -1602,7 +1602,7 @@ export type Penalties_nameScalarFieldEnum = (typeof Penalties_nameScalarFieldEnu
 export const PenaltyScalarFieldEnum = {
   id: 'id',
   type: 'type',
-  date: 'date',
+  min_minutes: 'min_minutes',
   amount: 'amount',
   comment: 'comment',
   penalties_name_id: 'penalties_name_id',
@@ -1749,20 +1749,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'attendance_type'
- */
-export type Enumattendance_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'attendance_type'>
-    
-
-
-/**
- * Reference to a field of type 'attendance_type[]'
- */
-export type ListEnumattendance_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'attendance_type[]'>
     
 
 

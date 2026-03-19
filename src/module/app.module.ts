@@ -10,9 +10,10 @@ import { PositionModule } from './position/position.module';
 import { DayModule } from './day/day.module';
 import { WorkerScheduleModule } from './worker-schedule/worker-schedule.module';
 import { PenaltysNameModule } from './penaltys-name/penaltys-name.module';
+import { PenaltyModule } from './penalty/penalty.module';
 
 @Module({
-  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule, WorkerScheduleModule, PenaltysNameModule],
+  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule, WorkerScheduleModule, PenaltysNameModule, PenaltyModule],
   providers: [PrismaService],
 })
 export class AppModule {}

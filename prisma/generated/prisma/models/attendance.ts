@@ -39,8 +39,8 @@ export type AttendanceSumAggregateOutputType = {
 export type AttendanceMinAggregateOutputType = {
   id: number | null
   date: Date | null
-  time: Date | null
-  type: $Enums.attendance_type | null
+  arrival_at: Date | null
+  departure_at: Date | null
   worker_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -50,8 +50,8 @@ export type AttendanceMinAggregateOutputType = {
 export type AttendanceMaxAggregateOutputType = {
   id: number | null
   date: Date | null
-  time: Date | null
-  type: $Enums.attendance_type | null
+  arrival_at: Date | null
+  departure_at: Date | null
   worker_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -61,8 +61,8 @@ export type AttendanceMaxAggregateOutputType = {
 export type AttendanceCountAggregateOutputType = {
   id: number
   date: number
-  time: number
-  type: number
+  arrival_at: number
+  departure_at: number
   worker_id: number
   created_at: number
   updated_at: number
@@ -84,8 +84,8 @@ export type AttendanceSumAggregateInputType = {
 export type AttendanceMinAggregateInputType = {
   id?: true
   date?: true
-  time?: true
-  type?: true
+  arrival_at?: true
+  departure_at?: true
   worker_id?: true
   created_at?: true
   updated_at?: true
@@ -95,8 +95,8 @@ export type AttendanceMinAggregateInputType = {
 export type AttendanceMaxAggregateInputType = {
   id?: true
   date?: true
-  time?: true
-  type?: true
+  arrival_at?: true
+  departure_at?: true
   worker_id?: true
   created_at?: true
   updated_at?: true
@@ -106,8 +106,8 @@ export type AttendanceMaxAggregateInputType = {
 export type AttendanceCountAggregateInputType = {
   id?: true
   date?: true
-  time?: true
-  type?: true
+  arrival_at?: true
+  departure_at?: true
   worker_id?: true
   created_at?: true
   updated_at?: true
@@ -204,8 +204,8 @@ export type attendanceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type AttendanceGroupByOutputType = {
   id: number
   date: Date
-  time: Date | null
-  type: $Enums.attendance_type
+  arrival_at: Date | null
+  departure_at: Date | null
   worker_id: number
   created_at: Date
   updated_at: Date
@@ -238,8 +238,8 @@ export type attendanceWhereInput = {
   NOT?: Prisma.attendanceWhereInput | Prisma.attendanceWhereInput[]
   id?: Prisma.IntFilter<"attendance"> | number
   date?: Prisma.DateTimeFilter<"attendance"> | Date | string
-  time?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
-  type?: Prisma.Enumattendance_typeFilter<"attendance"> | $Enums.attendance_type
+  arrival_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
+  departure_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
   worker_id?: Prisma.IntFilter<"attendance"> | number
   created_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
@@ -250,8 +250,8 @@ export type attendanceWhereInput = {
 export type attendanceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  time?: Prisma.SortOrderInput | Prisma.SortOrder
-  type?: Prisma.SortOrder
+  arrival_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  departure_at?: Prisma.SortOrderInput | Prisma.SortOrder
   worker_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -261,24 +261,25 @@ export type attendanceOrderByWithRelationInput = {
 
 export type attendanceWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  worker_id_date?: Prisma.attendanceWorker_idDateCompoundUniqueInput
   AND?: Prisma.attendanceWhereInput | Prisma.attendanceWhereInput[]
   OR?: Prisma.attendanceWhereInput[]
   NOT?: Prisma.attendanceWhereInput | Prisma.attendanceWhereInput[]
   date?: Prisma.DateTimeFilter<"attendance"> | Date | string
-  time?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
-  type?: Prisma.Enumattendance_typeFilter<"attendance"> | $Enums.attendance_type
+  arrival_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
+  departure_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
   worker_id?: Prisma.IntFilter<"attendance"> | number
   created_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
   worker?: Prisma.XOR<Prisma.WorkerScalarRelationFilter, Prisma.workerWhereInput>
-}, "id">
+}, "id" | "worker_id_date">
 
 export type attendanceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  time?: Prisma.SortOrderInput | Prisma.SortOrder
-  type?: Prisma.SortOrder
+  arrival_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  departure_at?: Prisma.SortOrderInput | Prisma.SortOrder
   worker_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -296,8 +297,8 @@ export type attendanceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.attendanceScalarWhereWithAggregatesInput | Prisma.attendanceScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"attendance"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"attendance"> | Date | string
-  time?: Prisma.DateTimeNullableWithAggregatesFilter<"attendance"> | Date | string | null
-  type?: Prisma.Enumattendance_typeWithAggregatesFilter<"attendance"> | $Enums.attendance_type
+  arrival_at?: Prisma.DateTimeNullableWithAggregatesFilter<"attendance"> | Date | string | null
+  departure_at?: Prisma.DateTimeNullableWithAggregatesFilter<"attendance"> | Date | string | null
   worker_id?: Prisma.IntWithAggregatesFilter<"attendance"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"attendance"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"attendance"> | Date | string
@@ -306,8 +307,8 @@ export type attendanceScalarWhereWithAggregatesInput = {
 
 export type attendanceCreateInput = {
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -317,8 +318,8 @@ export type attendanceCreateInput = {
 export type attendanceUncheckedCreateInput = {
   id?: number
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   worker_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -327,8 +328,8 @@ export type attendanceUncheckedCreateInput = {
 
 export type attendanceUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -338,8 +339,8 @@ export type attendanceUpdateInput = {
 export type attendanceUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -349,8 +350,8 @@ export type attendanceUncheckedUpdateInput = {
 export type attendanceCreateManyInput = {
   id?: number
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   worker_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -359,8 +360,8 @@ export type attendanceCreateManyInput = {
 
 export type attendanceUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -369,19 +370,24 @@ export type attendanceUpdateManyMutationInput = {
 export type attendanceUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type attendanceWorker_idDateCompoundUniqueInput = {
+  worker_id: number
+  date: Date | string
+}
+
 export type attendanceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  arrival_at?: Prisma.SortOrder
+  departure_at?: Prisma.SortOrder
   worker_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -396,8 +402,8 @@ export type attendanceAvgOrderByAggregateInput = {
 export type attendanceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  arrival_at?: Prisma.SortOrder
+  departure_at?: Prisma.SortOrder
   worker_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -407,8 +413,8 @@ export type attendanceMaxOrderByAggregateInput = {
 export type attendanceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  arrival_at?: Prisma.SortOrder
+  departure_at?: Prisma.SortOrder
   worker_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -436,10 +442,6 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type Enumattendance_typeFieldUpdateOperationsInput = {
-  set?: $Enums.attendance_type
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -494,8 +496,8 @@ export type attendanceUncheckedUpdateManyWithoutWorkerNestedInput = {
 
 export type attendanceCreateWithoutWorkerInput = {
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -504,8 +506,8 @@ export type attendanceCreateWithoutWorkerInput = {
 export type attendanceUncheckedCreateWithoutWorkerInput = {
   id?: number
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -543,8 +545,8 @@ export type attendanceScalarWhereInput = {
   NOT?: Prisma.attendanceScalarWhereInput | Prisma.attendanceScalarWhereInput[]
   id?: Prisma.IntFilter<"attendance"> | number
   date?: Prisma.DateTimeFilter<"attendance"> | Date | string
-  time?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
-  type?: Prisma.Enumattendance_typeFilter<"attendance"> | $Enums.attendance_type
+  arrival_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
+  departure_at?: Prisma.DateTimeNullableFilter<"attendance"> | Date | string | null
   worker_id?: Prisma.IntFilter<"attendance"> | number
   created_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"attendance"> | Date | string
@@ -554,8 +556,8 @@ export type attendanceScalarWhereInput = {
 export type attendanceCreateManyWorkerInput = {
   id?: number
   date: Date | string
-  time?: Date | string | null
-  type: $Enums.attendance_type
+  arrival_at?: Date | string | null
+  departure_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -563,8 +565,8 @@ export type attendanceCreateManyWorkerInput = {
 
 export type attendanceUpdateWithoutWorkerInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -573,8 +575,8 @@ export type attendanceUpdateWithoutWorkerInput = {
 export type attendanceUncheckedUpdateWithoutWorkerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -583,8 +585,8 @@ export type attendanceUncheckedUpdateWithoutWorkerInput = {
 export type attendanceUncheckedUpdateManyWithoutWorkerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  time?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  type?: Prisma.Enumattendance_typeFieldUpdateOperationsInput | $Enums.attendance_type
+  arrival_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  departure_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -595,8 +597,8 @@ export type attendanceUncheckedUpdateManyWithoutWorkerInput = {
 export type attendanceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
-  time?: boolean
-  type?: boolean
+  arrival_at?: boolean
+  departure_at?: boolean
   worker_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -607,8 +609,8 @@ export type attendanceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type attendanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
-  time?: boolean
-  type?: boolean
+  arrival_at?: boolean
+  departure_at?: boolean
   worker_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -619,8 +621,8 @@ export type attendanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type attendanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   date?: boolean
-  time?: boolean
-  type?: boolean
+  arrival_at?: boolean
+  departure_at?: boolean
   worker_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -631,15 +633,15 @@ export type attendanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type attendanceSelectScalar = {
   id?: boolean
   date?: boolean
-  time?: boolean
-  type?: boolean
+  arrival_at?: boolean
+  departure_at?: boolean
   worker_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
 }
 
-export type attendanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "time" | "type" | "worker_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["attendance"]>
+export type attendanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "arrival_at" | "departure_at" | "worker_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["attendance"]>
 export type attendanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
 }
@@ -658,8 +660,8 @@ export type $attendancePayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     date: Date
-    time: Date | null
-    type: $Enums.attendance_type
+    arrival_at: Date | null
+    departure_at: Date | null
     worker_id: number
     created_at: Date
     updated_at: Date
@@ -1090,8 +1092,8 @@ export interface Prisma__attendanceClient<T, Null = never, ExtArgs extends runti
 export interface attendanceFieldRefs {
   readonly id: Prisma.FieldRef<"attendance", 'Int'>
   readonly date: Prisma.FieldRef<"attendance", 'DateTime'>
-  readonly time: Prisma.FieldRef<"attendance", 'DateTime'>
-  readonly type: Prisma.FieldRef<"attendance", 'attendance_type'>
+  readonly arrival_at: Prisma.FieldRef<"attendance", 'DateTime'>
+  readonly departure_at: Prisma.FieldRef<"attendance", 'DateTime'>
   readonly worker_id: Prisma.FieldRef<"attendance", 'Int'>
   readonly created_at: Prisma.FieldRef<"attendance", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"attendance", 'DateTime'>

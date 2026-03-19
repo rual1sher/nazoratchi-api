@@ -11,21 +11,14 @@ import { IPositionQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
+import { validateRelations } from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class PositionService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreatePositionDto) {
-    const department = await this.prisma.department.findUnique({
-      where: { id: dto.department_id, deleted_at: null },
-    });
-    if (!department) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Department'),
-      );
-    }
-
+    await validateRelations(this.prisma, {department_id: dto.department_id})
     return await this.prisma.position.create({ data: dto });
   }
 

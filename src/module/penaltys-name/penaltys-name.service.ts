@@ -13,42 +13,26 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 import { IPenaltysNameQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
-import { unescape } from 'querystring';
 
 @Injectable()
 export class PenaltysNameService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreatePenaltysNameDto, workerId: number) {
-    if (workerId) {
-      const worker = await this.prisma.worker.findUnique({
-        where: { id: workerId },
-        select: { company_id: true },
-      });
-      if (!worker) {
-        throw new NotFoundException(
-          ErrorMessages.notFound.modelNotFound('Worker'),
-        );
-      }
-
-      dto.company_id = worker.company_id;
-    } else if (!workerId && dto.company_id) {
+  async create(dto: CreatePenaltysNameDto, companyId: number) {
+    if (!companyId && dto.company_id) {
       await validateRelations(this.prisma, dto);
       dto.company_id = dto.company_id;
     } else {
-      throw new BadRequestException(
-        ErrorMessages.badRequest.cannotCreateJobWithCompanyId,
-      );
+      dto.company_id = companyId
     }
 
     return await this.prisma.penalties_name.create({ data: dto });
   }
 
-  async findAll(query: IPenaltysNameQuery, workerId: number) {
-    const where: Prisma.penalties_nameWhereInput = { deleted_at: null };
+  async findAll(query: IPenaltysNameQuery, companyId: number) {
+    const where: Prisma.penalties_nameWhereInput = { deleted_at: null, company_id: companyId ?? undefined };
 
-    if (workerId) where.company = { worker: { some: { id: workerId } } };
-    if (!workerId && query.companyId) where.company_id = +query.companyId;
+    if (!companyId && query.companyId) where.company_id = +query.companyId;
 
     if (query.search) {
       where.OR = [
@@ -85,7 +69,7 @@ export class PenaltysNameService {
   }
 
   async update(id: number, dto: UpdatePenaltysNameDto, workerId: number) {
-    await validateRelations(this.prisma, { ...dto, penaltys_name_id: id });
+    await validateRelations(this.prisma, { ...dto, penalties_name_id: id });
 
     if (dto.company_id && workerId) {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
@@ -98,7 +82,7 @@ export class PenaltysNameService {
   }
 
   async remove(id: number) {
-    await validateRelations(this.prisma, { penaltys_name_id: id });
+    await validateRelations(this.prisma, { penalties_name_id: id });
 
     return await this.prisma.penalties_name.update({
       where: { id },
