@@ -6,7 +6,7 @@ import { JwtService } from 'src/helpers/jwt/jwt.service';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [CacheModule.register({ ttl: 1000 * 60 * 1 })],
+  imports: [CacheModule.register({ ttl: 1000 * 60 * 2 })],
   controllers: [AuthController],
   providers: [AuthService, PrismaService, JwtService],
 })

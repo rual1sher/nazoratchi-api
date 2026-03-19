@@ -11,21 +11,14 @@ import { IPositionQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
+import { validateRelations } from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class PositionService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreatePositionDto) {
-    const department = await this.prisma.department.findUnique({
-      where: { id: dto.department_id, deleted_at: null },
-    });
-    if (!department) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Department'),
-      );
-    }
-
+    await validateRelations(this.prisma, {department_id: dto.department_id})
     return await this.prisma.position.create({ data: dto });
   }
 
@@ -33,6 +26,13 @@ export class PositionService {
     const where: Prisma.positionWhereInput = { deleted_at: null };
 
     if (query?.departmentId) where.department_id = +query.departmentId;
+    if (query.search) {
+      where.OR = [
+        { title_uz: { contains: query.search, mode: 'insensitive' } },
+        { title_ru: { contains: query.search, mode: 'insensitive' } },
+        { title_en: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
 
     const count = await this.prisma.position.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -40,6 +40,7 @@ export class PositionService {
     const position = await this.prisma.position.findMany({
       where,
       orderBy: { created_at: 'desc' },
+      include: { _count: { select: { worker: true } }, worker: { take: 5 } },
       take: pagination.limit,
       skip: pagination.offset,
     });

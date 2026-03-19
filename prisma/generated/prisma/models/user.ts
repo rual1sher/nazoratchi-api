@@ -46,6 +46,7 @@ export type UserMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
+  isVerified: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type UserMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
+  isVerified: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -74,6 +76,7 @@ export type UserCountAggregateOutputType = {
   created_at: number
   updated_at: number
   deleted_at: number
+  isVerified: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type UserMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  isVerified?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -112,6 +116,7 @@ export type UserMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  isVerified?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -126,6 +131,7 @@ export type UserCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   deleted_at?: true
+  isVerified?: true
   _all?: true
 }
 
@@ -227,6 +233,7 @@ export type UserGroupByOutputType = {
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
+  isVerified: boolean
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -264,6 +271,7 @@ export type userWhereInput = {
   created_at?: Prisma.DateTimeFilter<"user"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"user"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"user"> | Date | string | null
+  isVerified?: Prisma.BoolFilter<"user"> | boolean
   worker?: Prisma.WorkerListRelationFilter
 }
 
@@ -279,6 +287,7 @@ export type userOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   worker?: Prisma.workerOrderByRelationAggregateInput
 }
 
@@ -297,6 +306,7 @@ export type userWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"user"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"user"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"user"> | Date | string | null
+  isVerified?: Prisma.BoolFilter<"user"> | boolean
   worker?: Prisma.WorkerListRelationFilter
 }, "id" | "phone">
 
@@ -312,6 +322,7 @@ export type userOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   _count?: Prisma.userCountOrderByAggregateInput
   _avg?: Prisma.userAvgOrderByAggregateInput
   _max?: Prisma.userMaxOrderByAggregateInput
@@ -334,6 +345,7 @@ export type userScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"user"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"user"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user"> | Date | string | null
+  isVerified?: Prisma.BoolWithAggregatesFilter<"user"> | boolean
 }
 
 export type userCreateInput = {
@@ -347,6 +359,7 @@ export type userCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  isVerified?: boolean
   worker?: Prisma.workerCreateNestedManyWithoutUserInput
 }
 
@@ -362,6 +375,7 @@ export type userUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  isVerified?: boolean
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -376,6 +390,7 @@ export type userUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   worker?: Prisma.workerUpdateManyWithoutUserNestedInput
 }
 
@@ -391,6 +406,7 @@ export type userUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   worker?: Prisma.workerUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -406,6 +422,7 @@ export type userCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  isVerified?: boolean
 }
 
 export type userUpdateManyMutationInput = {
@@ -419,6 +436,7 @@ export type userUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type userUncheckedUpdateManyInput = {
@@ -433,6 +451,7 @@ export type userUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type userCountOrderByAggregateInput = {
@@ -447,6 +466,7 @@ export type userCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type userAvgOrderByAggregateInput = {
@@ -465,6 +485,7 @@ export type userMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type userMinOrderByAggregateInput = {
@@ -479,6 +500,7 @@ export type userMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type userSumOrderByAggregateInput = {
@@ -519,6 +541,7 @@ export type userCreateWithoutWorkerInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  isVerified?: boolean
 }
 
 export type userUncheckedCreateWithoutWorkerInput = {
@@ -533,6 +556,7 @@ export type userUncheckedCreateWithoutWorkerInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  isVerified?: boolean
 }
 
 export type userCreateOrConnectWithoutWorkerInput = {
@@ -562,6 +586,7 @@ export type userUpdateWithoutWorkerInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type userUncheckedUpdateWithoutWorkerInput = {
@@ -576,6 +601,7 @@ export type userUncheckedUpdateWithoutWorkerInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -621,6 +647,7 @@ export type userSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  isVerified?: boolean
   worker?: boolean | Prisma.user$workerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -637,6 +664,7 @@ export type userSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type userSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -651,6 +679,7 @@ export type userSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type userSelectScalar = {
@@ -665,9 +694,10 @@ export type userSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  isVerified?: boolean
 }
 
-export type userOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "first_name" | "last_name" | "phone" | "password" | "token" | "role" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["user"]>
+export type userOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "first_name" | "last_name" | "phone" | "password" | "token" | "role" | "created_at" | "updated_at" | "deleted_at" | "isVerified", ExtArgs["result"]["user"]>
 export type userInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | Prisma.user$workerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -692,6 +722,7 @@ export type $userPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
+    isVerified: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1127,6 +1158,7 @@ export interface userFieldRefs {
   readonly created_at: Prisma.FieldRef<"user", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"user", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"user", 'DateTime'>
+  readonly isVerified: Prisma.FieldRef<"user", 'Boolean'>
 }
     
 

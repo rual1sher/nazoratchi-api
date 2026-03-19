@@ -1,13 +1,14 @@
 model penalty {
   id Int @id @default(autoincrement())
 
-  type              penalty_type
-  date              DateTime     @db.Timestamptz()
-  amount            String       @db.VarChar(255)
-  comment           String
+  type        penalty_type
+  min_minutes Int
+  amount      Int
+  comment     String?
+
   penalties_name_id Int
-  created_at        DateTime     @default(now())
-  updated_at        DateTime     @default(now()) @updatedAt
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now()) @updatedAt
   deleted_at        DateTime?
 
   penalties_name penalties_name @relation(fields: [penalties_name_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "penalty_penalties_name_id_foreign")

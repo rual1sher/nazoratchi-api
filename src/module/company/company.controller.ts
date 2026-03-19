@@ -13,7 +13,7 @@ import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { AuthGuard } from 'src/helpers/guard/auth.guard';
-import { AdminGuard } from 'src/helpers/guard/role.guard';
+import { AdminGuard } from 'src/helpers/guard/admin.guard';
 
 @Controller('company')
 @UseGuards(AuthGuard, AdminGuard)

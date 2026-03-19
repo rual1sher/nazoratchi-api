@@ -11,16 +11,12 @@ export const ErrorMessages = {
     managerOrAdmin: 'Manager or admin rights required',
     accessDenied: 'Access denied',
     accessSufficient: 'Access is insufficient',
-    noWorkerId: 'Worker ID is required in headers',
+    noCompanyId: 'Company ID is required in headers',
   },
 
   // ==================== BAD REQUEST ====================
   badRequest: {
-    invalidUser: 'Invalid user',
-    invalidCode: 'Invalid code',
-    invalidToken: 'Invalid token',
-    invalidPassword: 'Invalid password',
-    invalidRelation: 'Invalid relation',
+    invalid: (t: string) => `${t} is invalid`,
 
     requiredToken: 'Token is required',
 

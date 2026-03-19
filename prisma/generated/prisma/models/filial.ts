@@ -38,7 +38,9 @@ export type FilialSumAggregateOutputType = {
 
 export type FilialMinAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   company_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -47,7 +49,9 @@ export type FilialMinAggregateOutputType = {
 
 export type FilialMaxAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   company_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -56,7 +60,9 @@ export type FilialMaxAggregateOutputType = {
 
 export type FilialCountAggregateOutputType = {
   id: number
-  title: number
+  title_uz: number
+  title_ru: number
+  title_en: number
   company_id: number
   created_at: number
   updated_at: number
@@ -77,7 +83,9 @@ export type FilialSumAggregateInputType = {
 
 export type FilialMinAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -86,7 +94,9 @@ export type FilialMinAggregateInputType = {
 
 export type FilialMaxAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -95,7 +105,9 @@ export type FilialMaxAggregateInputType = {
 
 export type FilialCountAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -191,7 +203,9 @@ export type filialGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type FilialGroupByOutputType = {
   id: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   company_id: number
   created_at: Date
   updated_at: Date
@@ -223,7 +237,9 @@ export type filialWhereInput = {
   OR?: Prisma.filialWhereInput[]
   NOT?: Prisma.filialWhereInput | Prisma.filialWhereInput[]
   id?: Prisma.IntFilter<"filial"> | number
-  title?: Prisma.StringFilter<"filial"> | string
+  title_uz?: Prisma.StringFilter<"filial"> | string
+  title_ru?: Prisma.StringFilter<"filial"> | string
+  title_en?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
@@ -235,7 +251,9 @@ export type filialWhereInput = {
 
 export type filialOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -250,7 +268,9 @@ export type filialWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.filialWhereInput | Prisma.filialWhereInput[]
   OR?: Prisma.filialWhereInput[]
   NOT?: Prisma.filialWhereInput | Prisma.filialWhereInput[]
-  title?: Prisma.StringFilter<"filial"> | string
+  title_uz?: Prisma.StringFilter<"filial"> | string
+  title_ru?: Prisma.StringFilter<"filial"> | string
+  title_en?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
@@ -262,7 +282,9 @@ export type filialWhereUniqueInput = Prisma.AtLeast<{
 
 export type filialOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -279,7 +301,9 @@ export type filialScalarWhereWithAggregatesInput = {
   OR?: Prisma.filialScalarWhereWithAggregatesInput[]
   NOT?: Prisma.filialScalarWhereWithAggregatesInput | Prisma.filialScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"filial"> | number
-  title?: Prisma.StringWithAggregatesFilter<"filial"> | string
+  title_uz?: Prisma.StringWithAggregatesFilter<"filial"> | string
+  title_ru?: Prisma.StringWithAggregatesFilter<"filial"> | string
+  title_en?: Prisma.StringWithAggregatesFilter<"filial"> | string
   company_id?: Prisma.IntWithAggregatesFilter<"filial"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"filial"> | Date | string
@@ -287,7 +311,9 @@ export type filialScalarWhereWithAggregatesInput = {
 }
 
 export type filialCreateInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -298,7 +324,9 @@ export type filialCreateInput = {
 
 export type filialUncheckedCreateInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -308,7 +336,9 @@ export type filialUncheckedCreateInput = {
 }
 
 export type filialUpdateInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -319,7 +349,9 @@ export type filialUpdateInput = {
 
 export type filialUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -330,7 +362,9 @@ export type filialUncheckedUpdateInput = {
 
 export type filialCreateManyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -338,7 +372,9 @@ export type filialCreateManyInput = {
 }
 
 export type filialUpdateManyMutationInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -346,7 +382,9 @@ export type filialUpdateManyMutationInput = {
 
 export type filialUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -370,7 +408,9 @@ export type FilialScalarRelationFilter = {
 
 export type filialCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -384,7 +424,9 @@ export type filialAvgOrderByAggregateInput = {
 
 export type filialMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -393,7 +435,9 @@ export type filialMaxOrderByAggregateInput = {
 
 export type filialMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -483,7 +527,9 @@ export type filialUpdateOneWithoutWorkerNestedInput = {
 }
 
 export type filialCreateWithoutCompanyInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -493,7 +539,9 @@ export type filialCreateWithoutCompanyInput = {
 
 export type filialUncheckedCreateWithoutCompanyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -532,7 +580,9 @@ export type filialScalarWhereInput = {
   OR?: Prisma.filialScalarWhereInput[]
   NOT?: Prisma.filialScalarWhereInput | Prisma.filialScalarWhereInput[]
   id?: Prisma.IntFilter<"filial"> | number
-  title?: Prisma.StringFilter<"filial"> | string
+  title_uz?: Prisma.StringFilter<"filial"> | string
+  title_ru?: Prisma.StringFilter<"filial"> | string
+  title_en?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
@@ -540,7 +590,9 @@ export type filialScalarWhereInput = {
 }
 
 export type filialCreateWithoutCoordinateInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -550,7 +602,9 @@ export type filialCreateWithoutCoordinateInput = {
 
 export type filialUncheckedCreateWithoutCoordinateInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -575,7 +629,9 @@ export type filialUpdateToOneWithWhereWithoutCoordinateInput = {
 }
 
 export type filialUpdateWithoutCoordinateInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -585,7 +641,9 @@ export type filialUpdateWithoutCoordinateInput = {
 
 export type filialUncheckedUpdateWithoutCoordinateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -594,7 +652,9 @@ export type filialUncheckedUpdateWithoutCoordinateInput = {
 }
 
 export type filialCreateWithoutWorkerInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -604,7 +664,9 @@ export type filialCreateWithoutWorkerInput = {
 
 export type filialUncheckedCreateWithoutWorkerInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -629,7 +691,9 @@ export type filialUpdateToOneWithWhereWithoutWorkerInput = {
 }
 
 export type filialUpdateWithoutWorkerInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -639,7 +703,9 @@ export type filialUpdateWithoutWorkerInput = {
 
 export type filialUncheckedUpdateWithoutWorkerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -649,14 +715,18 @@ export type filialUncheckedUpdateWithoutWorkerInput = {
 
 export type filialCreateManyCompanyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type filialUpdateWithoutCompanyInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -666,7 +736,9 @@ export type filialUpdateWithoutCompanyInput = {
 
 export type filialUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -676,7 +748,9 @@ export type filialUncheckedUpdateWithoutCompanyInput = {
 
 export type filialUncheckedUpdateManyWithoutCompanyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -724,7 +798,9 @@ export type FilialCountOutputTypeCountCoordinateArgs<ExtArgs extends runtime.Typ
 
 export type filialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -737,7 +813,9 @@ export type filialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type filialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -747,7 +825,9 @@ export type filialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type filialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -757,14 +837,16 @@ export type filialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type filialSelectScalar = {
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
 }
 
-export type filialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["filial"]>
+export type filialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title_uz" | "title_ru" | "title_en" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["filial"]>
 export type filialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.filial$workerArgs<ExtArgs>
@@ -787,7 +869,9 @@ export type $filialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    title: string
+    title_uz: string
+    title_ru: string
+    title_en: string
     company_id: number
     created_at: Date
     updated_at: Date
@@ -1219,7 +1303,9 @@ export interface Prisma__filialClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface filialFieldRefs {
   readonly id: Prisma.FieldRef<"filial", 'Int'>
-  readonly title: Prisma.FieldRef<"filial", 'String'>
+  readonly title_uz: Prisma.FieldRef<"filial", 'String'>
+  readonly title_ru: Prisma.FieldRef<"filial", 'String'>
+  readonly title_en: Prisma.FieldRef<"filial", 'String'>
   readonly company_id: Prisma.FieldRef<"filial", 'Int'>
   readonly created_at: Prisma.FieldRef<"filial", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"filial", 'DateTime'>

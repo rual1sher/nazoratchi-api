@@ -29,7 +29,7 @@ export class AuthService {
       where: { phone: createAuthDto.phone, deleted_at: null },
     });
     if (!user) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
     }
 
     const isPasswordValid = checkPassword(
@@ -38,11 +38,15 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
     }
 
     const code = randomInt(100000, 999999);
     await this.cacheManager.set(`login-${user.phone}`, code);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { isVerified: false },
+    });
     return code;
   }
 
@@ -50,14 +54,14 @@ export class AuthService {
     const cacheCode = await this.cacheManager.get(`login-${phone}`);
 
     if (cacheCode !== code) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidCode);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('Code'));
     }
 
     const user = await this.prisma.user.findUnique({
       where: { phone },
     });
     if (!user) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
     }
 
     const accessToken = this.jwtService.generateAccess({
@@ -71,10 +75,23 @@ export class AuthService {
 
     await this.prisma.user.update({
       where: { id: user.id },
-      data: { token: refreshToken },
+      data: { token: refreshToken, isVerified: true },
     });
 
     return { accessToken, refreshToken };
+  }
+
+  async resend(phone: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { phone, deleted_at: null, isVerified: false },
+    });
+    if (!user) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
+    }
+
+    const code = randomInt(100000, 999999);
+    await this.cacheManager.set(`login-${user.phone}`, code);
+    return code;
   }
 
   async refresh(token: string) {
@@ -85,7 +102,7 @@ export class AuthService {
     const data = this.jwtService.verifyRefresh(token);
 
     if (!data) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidToken);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('Token'));
     }
 
     const user = await this.prisma.user.findFirst({
@@ -93,7 +110,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidUser);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
     }
 
     const accessToken = this.jwtService.generateAccess({
@@ -121,7 +138,7 @@ export class AuthService {
     const data = this.jwtService.verifyRefresh(token);
 
     if (!data) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidToken);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('Token'));
     }
 
     await this.prisma.user.update({
@@ -139,7 +156,9 @@ export class AuthService {
 
     const isPasswordValid = checkPassword(dto.old_password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidPassword);
+      throw new BadRequestException(
+        ErrorMessages.badRequest.invalid('Password'),
+      );
     }
 
     const password = hashingPassword(dto.new_password);
@@ -169,7 +188,7 @@ export class AuthService {
 
     const code = await this.cacheManager.get(`change-phone-${user.phone}`);
     if (code !== dto.code) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalidCode);
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('Code'));
     }
 
     if (user.phone === dto.phone) {

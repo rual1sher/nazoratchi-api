@@ -42,14 +42,14 @@ export class WorkerRolesGuard implements CanActivate {
       return true;
     }
 
-    const workerId: string = request.headers['x-worker-id'];
-    if (!workerId) {
-      throw new ForbiddenException(ErrorMessages.forbidden.noWorkerId);
+    const companyId: string = request.headers['x-company-id'];
+    if (!companyId) {
+      throw new ForbiddenException(ErrorMessages.forbidden.noCompanyId);
     }
 
-    const worker = await this.workerService.findOneByUserAndWorker(
+    const worker = await this.workerService.findOneByUserAndCompany(
       +user.id,
-      +workerId,
+      +companyId,
     );
 
     const hasRole = requireRoles.some((role) => worker.role === role);

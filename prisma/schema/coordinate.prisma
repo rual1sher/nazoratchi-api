@@ -6,5 +6,5 @@ model coordinate {
   updated_at DateTime @default(now()) @updatedAt
   filial_id  Int
 
-  filial filial @relation(fields: [filial_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "coordinate_filial_id_foreign")
+  filial filial @relation(fields: [filial_id], references: [id], onDelete: Cascade, map: "coordinate_filial_id_foreign")
 }

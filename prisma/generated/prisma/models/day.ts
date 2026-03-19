@@ -38,7 +38,9 @@ export type DaySumAggregateOutputType = {
 
 export type DayMinAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
@@ -47,7 +49,9 @@ export type DayMinAggregateOutputType = {
 
 export type DayMaxAggregateOutputType = {
   id: number | null
-  title: string | null
+  title_uz: string | null
+  title_ru: string | null
+  title_en: string | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
@@ -56,7 +60,9 @@ export type DayMaxAggregateOutputType = {
 
 export type DayCountAggregateOutputType = {
   id: number
-  title: number
+  title_uz: number
+  title_ru: number
+  title_en: number
   created_at: number
   updated_at: number
   deleted_at: number
@@ -77,7 +83,9 @@ export type DaySumAggregateInputType = {
 
 export type DayMinAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -86,7 +94,9 @@ export type DayMinAggregateInputType = {
 
 export type DayMaxAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -95,7 +105,9 @@ export type DayMaxAggregateInputType = {
 
 export type DayCountAggregateInputType = {
   id?: true
-  title?: true
+  title_uz?: true
+  title_ru?: true
+  title_en?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -191,7 +203,9 @@ export type dayGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type DayGroupByOutputType = {
   id: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
@@ -223,7 +237,9 @@ export type dayWhereInput = {
   OR?: Prisma.dayWhereInput[]
   NOT?: Prisma.dayWhereInput | Prisma.dayWhereInput[]
   id?: Prisma.IntFilter<"day"> | number
-  title?: Prisma.StringFilter<"day"> | string
+  title_uz?: Prisma.StringFilter<"day"> | string
+  title_ru?: Prisma.StringFilter<"day"> | string
+  title_en?: Prisma.StringFilter<"day"> | string
   created_at?: Prisma.DateTimeFilter<"day"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"day"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"day"> | Date | string | null
@@ -235,7 +251,9 @@ export type dayWhereInput = {
 
 export type dayOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -250,7 +268,9 @@ export type dayWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.dayWhereInput | Prisma.dayWhereInput[]
   OR?: Prisma.dayWhereInput[]
   NOT?: Prisma.dayWhereInput | Prisma.dayWhereInput[]
-  title?: Prisma.StringFilter<"day"> | string
+  title_uz?: Prisma.StringFilter<"day"> | string
+  title_ru?: Prisma.StringFilter<"day"> | string
+  title_en?: Prisma.StringFilter<"day"> | string
   created_at?: Prisma.DateTimeFilter<"day"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"day"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"day"> | Date | string | null
@@ -262,7 +282,9 @@ export type dayWhereUniqueInput = Prisma.AtLeast<{
 
 export type dayOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -279,7 +301,9 @@ export type dayScalarWhereWithAggregatesInput = {
   OR?: Prisma.dayScalarWhereWithAggregatesInput[]
   NOT?: Prisma.dayScalarWhereWithAggregatesInput | Prisma.dayScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"day"> | number
-  title?: Prisma.StringWithAggregatesFilter<"day"> | string
+  title_uz?: Prisma.StringWithAggregatesFilter<"day"> | string
+  title_ru?: Prisma.StringWithAggregatesFilter<"day"> | string
+  title_en?: Prisma.StringWithAggregatesFilter<"day"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"day"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"day"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"day"> | Date | string | null
@@ -287,7 +311,9 @@ export type dayScalarWhereWithAggregatesInput = {
 }
 
 export type dayCreateInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -298,7 +324,9 @@ export type dayCreateInput = {
 
 export type dayUncheckedCreateInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -308,7 +336,9 @@ export type dayUncheckedCreateInput = {
 }
 
 export type dayUpdateInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -319,7 +349,9 @@ export type dayUpdateInput = {
 
 export type dayUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -330,7 +362,9 @@ export type dayUncheckedUpdateInput = {
 
 export type dayCreateManyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -338,7 +372,9 @@ export type dayCreateManyInput = {
 }
 
 export type dayUpdateManyMutationInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -346,7 +382,9 @@ export type dayUpdateManyMutationInput = {
 
 export type dayUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -365,7 +403,9 @@ export type dayOrderByRelationAggregateInput = {
 
 export type dayCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -379,7 +419,9 @@ export type dayAvgOrderByAggregateInput = {
 
 export type dayMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -388,7 +430,9 @@ export type dayMaxOrderByAggregateInput = {
 
 export type dayMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title_uz?: Prisma.SortOrder
+  title_ru?: Prisma.SortOrder
+  title_en?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -480,7 +524,9 @@ export type dayUpdateOneWithoutWorker_scheduleNestedInput = {
 }
 
 export type dayCreateWithoutCompanyInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -490,7 +536,9 @@ export type dayCreateWithoutCompanyInput = {
 
 export type dayUncheckedCreateWithoutCompanyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -529,7 +577,9 @@ export type dayScalarWhereInput = {
   OR?: Prisma.dayScalarWhereInput[]
   NOT?: Prisma.dayScalarWhereInput | Prisma.dayScalarWhereInput[]
   id?: Prisma.IntFilter<"day"> | number
-  title?: Prisma.StringFilter<"day"> | string
+  title_uz?: Prisma.StringFilter<"day"> | string
+  title_ru?: Prisma.StringFilter<"day"> | string
+  title_en?: Prisma.StringFilter<"day"> | string
   created_at?: Prisma.DateTimeFilter<"day"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"day"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"day"> | Date | string | null
@@ -537,7 +587,9 @@ export type dayScalarWhereInput = {
 }
 
 export type dayCreateWithoutWorkerInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -547,7 +599,9 @@ export type dayCreateWithoutWorkerInput = {
 
 export type dayUncheckedCreateWithoutWorkerInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -572,7 +626,9 @@ export type dayUpdateToOneWithWhereWithoutWorkerInput = {
 }
 
 export type dayUpdateWithoutWorkerInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -582,7 +638,9 @@ export type dayUpdateWithoutWorkerInput = {
 
 export type dayUncheckedUpdateWithoutWorkerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -591,7 +649,9 @@ export type dayUncheckedUpdateWithoutWorkerInput = {
 }
 
 export type dayCreateWithoutWorker_scheduleInput = {
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -601,7 +661,9 @@ export type dayCreateWithoutWorker_scheduleInput = {
 
 export type dayUncheckedCreateWithoutWorker_scheduleInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -626,7 +688,9 @@ export type dayUpdateToOneWithWhereWithoutWorker_scheduleInput = {
 }
 
 export type dayUpdateWithoutWorker_scheduleInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -636,7 +700,9 @@ export type dayUpdateWithoutWorker_scheduleInput = {
 
 export type dayUncheckedUpdateWithoutWorker_scheduleInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -646,14 +712,18 @@ export type dayUncheckedUpdateWithoutWorker_scheduleInput = {
 
 export type dayCreateManyCompanyInput = {
   id?: number
-  title: string
+  title_uz: string
+  title_ru: string
+  title_en: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type dayUpdateWithoutCompanyInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -663,7 +733,9 @@ export type dayUpdateWithoutCompanyInput = {
 
 export type dayUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -673,7 +745,9 @@ export type dayUncheckedUpdateWithoutCompanyInput = {
 
 export type dayUncheckedUpdateManyWithoutCompanyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
+  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
+  title_en?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -721,7 +795,9 @@ export type DayCountOutputTypeCountWorker_scheduleArgs<ExtArgs extends runtime.T
 
 export type daySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
@@ -734,7 +810,9 @@ export type daySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 
 export type daySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
@@ -744,7 +822,9 @@ export type daySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
 
 export type daySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
@@ -754,14 +834,16 @@ export type daySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
 
 export type daySelectScalar = {
   id?: boolean
-  title?: boolean
+  title_uz?: boolean
+  title_ru?: boolean
+  title_en?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company_id?: boolean
 }
 
-export type dayOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "created_at" | "updated_at" | "deleted_at" | "company_id", ExtArgs["result"]["day"]>
+export type dayOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title_uz" | "title_ru" | "title_en" | "created_at" | "updated_at" | "deleted_at" | "company_id", ExtArgs["result"]["day"]>
 export type dayInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.day$workerArgs<ExtArgs>
@@ -784,7 +866,9 @@ export type $dayPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    title: string
+    title_uz: string
+    title_ru: string
+    title_en: string
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
@@ -1216,7 +1300,9 @@ export interface Prisma__dayClient<T, Null = never, ExtArgs extends runtime.Type
  */
 export interface dayFieldRefs {
   readonly id: Prisma.FieldRef<"day", 'Int'>
-  readonly title: Prisma.FieldRef<"day", 'String'>
+  readonly title_uz: Prisma.FieldRef<"day", 'String'>
+  readonly title_ru: Prisma.FieldRef<"day", 'String'>
+  readonly title_en: Prisma.FieldRef<"day", 'String'>
   readonly created_at: Prisma.FieldRef<"day", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"day", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"day", 'DateTime'>

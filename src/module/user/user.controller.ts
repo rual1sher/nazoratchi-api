@@ -15,7 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { IUserQuery } from 'src/helpers/types/types';
-import { AdminGuard } from 'src/helpers/guard/role.guard';
+import { AdminGuard } from 'src/helpers/guard/admin.guard';
 
 @Controller('user')
 @UseGuards(AuthGuard, AdminGuard)

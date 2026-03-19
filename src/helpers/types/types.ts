@@ -1,4 +1,4 @@
-import { user_role } from 'prisma/generated/prisma/enums';
+import { penalty_type, user_role } from 'prisma/generated/prisma/enums';
 
 export interface IPayload {
   id: number;
@@ -10,6 +10,7 @@ export interface IRequest extends Request {
 }
 
 export interface IQuery {
+  search: string;
   page: string;
   limit: string;
 }
@@ -23,15 +24,13 @@ export interface IUserQuery extends IQuery {
 export interface IWorkerQuery extends IQuery {
   userId?: string;
   companyId?: string;
+  positionId?: string;
+  departmant?: string;
+  dayId?: string;
 }
 
 // query filial
 export interface IFilialQuery extends IQuery {
-  companyId?: string;
-}
-
-// query department
-export interface IDepartmentQuery extends IQuery {
   companyId?: string;
 }
 
@@ -48,4 +47,15 @@ export interface IDayQuery extends IQuery {
 // query schedule
 export interface IScheduleQuery extends IQuery {
   dayId?: string;
+}
+
+// query penaltys-name
+export interface IPenaltysNameQuery extends IQuery {
+  companyId?: string;
+}
+
+// query penalty
+export interface IPenaltyQuery extends IQuery {
+  penaltysNameId?: string;
+  type?: penalty_type
 }

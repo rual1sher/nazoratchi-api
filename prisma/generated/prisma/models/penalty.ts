@@ -28,19 +28,23 @@ export type AggregatePenalty = {
 
 export type PenaltyAvgAggregateOutputType = {
   id: number | null
+  min_minutes: number | null
+  amount: number | null
   penalties_name_id: number | null
 }
 
 export type PenaltySumAggregateOutputType = {
   id: number | null
+  min_minutes: number | null
+  amount: number | null
   penalties_name_id: number | null
 }
 
 export type PenaltyMinAggregateOutputType = {
   id: number | null
   type: $Enums.penalty_type | null
-  date: Date | null
-  amount: string | null
+  min_minutes: number | null
+  amount: number | null
   comment: string | null
   penalties_name_id: number | null
   created_at: Date | null
@@ -51,8 +55,8 @@ export type PenaltyMinAggregateOutputType = {
 export type PenaltyMaxAggregateOutputType = {
   id: number | null
   type: $Enums.penalty_type | null
-  date: Date | null
-  amount: string | null
+  min_minutes: number | null
+  amount: number | null
   comment: string | null
   penalties_name_id: number | null
   created_at: Date | null
@@ -63,7 +67,7 @@ export type PenaltyMaxAggregateOutputType = {
 export type PenaltyCountAggregateOutputType = {
   id: number
   type: number
-  date: number
+  min_minutes: number
   amount: number
   comment: number
   penalties_name_id: number
@@ -76,18 +80,22 @@ export type PenaltyCountAggregateOutputType = {
 
 export type PenaltyAvgAggregateInputType = {
   id?: true
+  min_minutes?: true
+  amount?: true
   penalties_name_id?: true
 }
 
 export type PenaltySumAggregateInputType = {
   id?: true
+  min_minutes?: true
+  amount?: true
   penalties_name_id?: true
 }
 
 export type PenaltyMinAggregateInputType = {
   id?: true
   type?: true
-  date?: true
+  min_minutes?: true
   amount?: true
   comment?: true
   penalties_name_id?: true
@@ -99,7 +107,7 @@ export type PenaltyMinAggregateInputType = {
 export type PenaltyMaxAggregateInputType = {
   id?: true
   type?: true
-  date?: true
+  min_minutes?: true
   amount?: true
   comment?: true
   penalties_name_id?: true
@@ -111,7 +119,7 @@ export type PenaltyMaxAggregateInputType = {
 export type PenaltyCountAggregateInputType = {
   id?: true
   type?: true
-  date?: true
+  min_minutes?: true
   amount?: true
   comment?: true
   penalties_name_id?: true
@@ -210,9 +218,9 @@ export type penaltyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type PenaltyGroupByOutputType = {
   id: number
   type: $Enums.penalty_type
-  date: Date
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment: string | null
   penalties_name_id: number
   created_at: Date
   updated_at: Date
@@ -245,9 +253,9 @@ export type penaltyWhereInput = {
   NOT?: Prisma.penaltyWhereInput | Prisma.penaltyWhereInput[]
   id?: Prisma.IntFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
-  date?: Prisma.DateTimeFilter<"penalty"> | Date | string
-  amount?: Prisma.StringFilter<"penalty"> | string
-  comment?: Prisma.StringFilter<"penalty"> | string
+  min_minutes?: Prisma.IntFilter<"penalty"> | number
+  amount?: Prisma.IntFilter<"penalty"> | number
+  comment?: Prisma.StringNullableFilter<"penalty"> | string | null
   penalties_name_id?: Prisma.IntFilter<"penalty"> | number
   created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
@@ -258,9 +266,9 @@ export type penaltyWhereInput = {
 export type penaltyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  comment?: Prisma.SortOrder
+  comment?: Prisma.SortOrderInput | Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -274,9 +282,9 @@ export type penaltyWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.penaltyWhereInput[]
   NOT?: Prisma.penaltyWhereInput | Prisma.penaltyWhereInput[]
   type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
-  date?: Prisma.DateTimeFilter<"penalty"> | Date | string
-  amount?: Prisma.StringFilter<"penalty"> | string
-  comment?: Prisma.StringFilter<"penalty"> | string
+  min_minutes?: Prisma.IntFilter<"penalty"> | number
+  amount?: Prisma.IntFilter<"penalty"> | number
+  comment?: Prisma.StringNullableFilter<"penalty"> | string | null
   penalties_name_id?: Prisma.IntFilter<"penalty"> | number
   created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
@@ -287,9 +295,9 @@ export type penaltyWhereUniqueInput = Prisma.AtLeast<{
 export type penaltyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  comment?: Prisma.SortOrder
+  comment?: Prisma.SortOrderInput | Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -307,9 +315,9 @@ export type penaltyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.penaltyScalarWhereWithAggregatesInput | Prisma.penaltyScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeWithAggregatesFilter<"penalty"> | $Enums.penalty_type
-  date?: Prisma.DateTimeWithAggregatesFilter<"penalty"> | Date | string
-  amount?: Prisma.StringWithAggregatesFilter<"penalty"> | string
-  comment?: Prisma.StringWithAggregatesFilter<"penalty"> | string
+  min_minutes?: Prisma.IntWithAggregatesFilter<"penalty"> | number
+  amount?: Prisma.IntWithAggregatesFilter<"penalty"> | number
+  comment?: Prisma.StringNullableWithAggregatesFilter<"penalty"> | string | null
   penalties_name_id?: Prisma.IntWithAggregatesFilter<"penalty"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"penalty"> | Date | string
@@ -318,9 +326,9 @@ export type penaltyScalarWhereWithAggregatesInput = {
 
 export type penaltyCreateInput = {
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -330,9 +338,9 @@ export type penaltyCreateInput = {
 export type penaltyUncheckedCreateInput = {
   id?: number
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   penalties_name_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -341,9 +349,9 @@ export type penaltyUncheckedCreateInput = {
 
 export type penaltyUpdateInput = {
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -353,9 +361,9 @@ export type penaltyUpdateInput = {
 export type penaltyUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   penalties_name_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,9 +373,9 @@ export type penaltyUncheckedUpdateInput = {
 export type penaltyCreateManyInput = {
   id?: number
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   penalties_name_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -376,9 +384,9 @@ export type penaltyCreateManyInput = {
 
 export type penaltyUpdateManyMutationInput = {
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -387,9 +395,9 @@ export type penaltyUpdateManyMutationInput = {
 export type penaltyUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   penalties_name_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -409,7 +417,7 @@ export type penaltyOrderByRelationAggregateInput = {
 export type penaltyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
@@ -420,13 +428,15 @@ export type penaltyCountOrderByAggregateInput = {
 
 export type penaltyAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
+  amount?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
 }
 
 export type penaltyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
@@ -438,7 +448,7 @@ export type penaltyMaxOrderByAggregateInput = {
 export type penaltyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
@@ -449,6 +459,8 @@ export type penaltyMinOrderByAggregateInput = {
 
 export type penaltySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  min_minutes?: Prisma.SortOrder
+  amount?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
 }
 
@@ -500,9 +512,9 @@ export type Enumpenalty_typeFieldUpdateOperationsInput = {
 
 export type penaltyCreateWithoutPenalties_nameInput = {
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -511,9 +523,9 @@ export type penaltyCreateWithoutPenalties_nameInput = {
 export type penaltyUncheckedCreateWithoutPenalties_nameInput = {
   id?: number
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -551,9 +563,9 @@ export type penaltyScalarWhereInput = {
   NOT?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
   id?: Prisma.IntFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
-  date?: Prisma.DateTimeFilter<"penalty"> | Date | string
-  amount?: Prisma.StringFilter<"penalty"> | string
-  comment?: Prisma.StringFilter<"penalty"> | string
+  min_minutes?: Prisma.IntFilter<"penalty"> | number
+  amount?: Prisma.IntFilter<"penalty"> | number
+  comment?: Prisma.StringNullableFilter<"penalty"> | string | null
   penalties_name_id?: Prisma.IntFilter<"penalty"> | number
   created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
@@ -563,9 +575,9 @@ export type penaltyScalarWhereInput = {
 export type penaltyCreateManyPenalties_nameInput = {
   id?: number
   type: $Enums.penalty_type
-  date: Date | string
-  amount: string
-  comment: string
+  min_minutes: number
+  amount: number
+  comment?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -573,9 +585,9 @@ export type penaltyCreateManyPenalties_nameInput = {
 
 export type penaltyUpdateWithoutPenalties_nameInput = {
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -584,9 +596,9 @@ export type penaltyUpdateWithoutPenalties_nameInput = {
 export type penaltyUncheckedUpdateWithoutPenalties_nameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -595,9 +607,9 @@ export type penaltyUncheckedUpdateWithoutPenalties_nameInput = {
 export type penaltyUncheckedUpdateManyWithoutPenalties_nameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  comment?: Prisma.StringFieldUpdateOperationsInput | string
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -608,7 +620,7 @@ export type penaltyUncheckedUpdateManyWithoutPenalties_nameInput = {
 export type penaltySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  date?: boolean
+  min_minutes?: boolean
   amount?: boolean
   comment?: boolean
   penalties_name_id?: boolean
@@ -621,7 +633,7 @@ export type penaltySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type penaltySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  date?: boolean
+  min_minutes?: boolean
   amount?: boolean
   comment?: boolean
   penalties_name_id?: boolean
@@ -634,7 +646,7 @@ export type penaltySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type penaltySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  date?: boolean
+  min_minutes?: boolean
   amount?: boolean
   comment?: boolean
   penalties_name_id?: boolean
@@ -647,7 +659,7 @@ export type penaltySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type penaltySelectScalar = {
   id?: boolean
   type?: boolean
-  date?: boolean
+  min_minutes?: boolean
   amount?: boolean
   comment?: boolean
   penalties_name_id?: boolean
@@ -656,7 +668,7 @@ export type penaltySelectScalar = {
   deleted_at?: boolean
 }
 
-export type penaltyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "date" | "amount" | "comment" | "penalties_name_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["penalty"]>
+export type penaltyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "min_minutes" | "amount" | "comment" | "penalties_name_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["penalty"]>
 export type penaltyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }
@@ -675,9 +687,9 @@ export type $penaltyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     type: $Enums.penalty_type
-    date: Date
-    amount: string
-    comment: string
+    min_minutes: number
+    amount: number
+    comment: string | null
     penalties_name_id: number
     created_at: Date
     updated_at: Date
@@ -1108,8 +1120,8 @@ export interface Prisma__penaltyClient<T, Null = never, ExtArgs extends runtime.
 export interface penaltyFieldRefs {
   readonly id: Prisma.FieldRef<"penalty", 'Int'>
   readonly type: Prisma.FieldRef<"penalty", 'penalty_type'>
-  readonly date: Prisma.FieldRef<"penalty", 'DateTime'>
-  readonly amount: Prisma.FieldRef<"penalty", 'String'>
+  readonly min_minutes: Prisma.FieldRef<"penalty", 'Int'>
+  readonly amount: Prisma.FieldRef<"penalty", 'Int'>
   readonly comment: Prisma.FieldRef<"penalty", 'String'>
   readonly penalties_name_id: Prisma.FieldRef<"penalty", 'Int'>
   readonly created_at: Prisma.FieldRef<"penalty", 'DateTime'>

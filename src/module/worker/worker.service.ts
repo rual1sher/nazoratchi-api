@@ -13,18 +13,21 @@ import { IWorkerQuery } from 'src/helpers/types/types';
 import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
-import { validateRelations } from 'src/helpers/validate/validate-relations';
+import {
+  validateRelations,
+  validateRelationsQuery,
+} from 'src/helpers/validate/validate-relations';
 
 @Injectable()
 export class WorkerService {
   constructor(private prisma: PrismaService) {}
 
   async create(createWorkerDto: CreateWorkerDto, role: user_role) {
-    let user_id: number | null = null;
+    let { user, user_id, ...data } = createWorkerDto;
 
-    if (createWorkerDto?.user) {
+    if (user) {
       const chechUser = await this.prisma.user.findUnique({
-        where: { phone: createWorkerDto.user.phone },
+        where: { phone: user.phone },
       });
       if (chechUser) {
         throw new ConflictException(
@@ -32,50 +35,62 @@ export class WorkerService {
         );
       }
 
-      const hashedPassword = hashingPassword(createWorkerDto.user.password);
-      createWorkerDto.user.password = hashedPassword;
+      const hashedPassword = hashingPassword(user.password);
+      user.password = hashedPassword;
 
       user_id = (
         await this.prisma.user.create({
-          data: createWorkerDto.user,
+          data: user,
         })
       ).id;
-    } else if (createWorkerDto?.user_id) {
-      const user = await this.prisma.user.findUnique({
-        where: { id: createWorkerDto.user_id, deleted_at: null },
-      });
-
-      if (!user) {
-        throw new NotFoundException(
-          ErrorMessages.notFound.modelNotFound('User'),
-        );
-      }
-
-      user_id = user.id;
+    } else if (user_id) {
+      user_id = +user_id;
     } else {
       throw new BadRequestException(
         ErrorMessages.badRequest.userOrUserIdNotFound,
       );
     }
 
-    if (createWorkerDto?.role && role !== 'admin') {
+    const checkWorker = await this.prisma.worker.findFirst({
+      where: { user_id, company_id: data.company_id, deleted_at: null },
+    });
+    if (checkWorker) {
+      throw new ConflictException(
+        ErrorMessages.conflict.alreadyExists(
+          'Worker with this User and Company',
+        ),
+      );
+    }
+
+    await validateRelations(this.prisma, data);
+
+    if (data?.role && role !== 'admin') {
       throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
     }
 
     return await this.prisma.worker.create({
-      data: {
-        user_id,
-        company_id: createWorkerDto.company_id,
-        role: createWorkerDto.role || 'worker',
-      },
+      data: { ...data, user_id },
     });
   }
 
-  async findAll(query: IWorkerQuery) {
-    const where: Prisma.workerWhereInput = { deleted_at: null };
+  async findAll(query: IWorkerQuery, companyId: number) {
+    const { search, ...wheresOptional } = query;
+    const where: Prisma.workerWhereInput = {
+      deleted_at: null,
+      company_id: companyId,
+    };
 
-    if (query?.companyId) where.company_id = +query.companyId;
-    if (query?.userId) where.user_id = +query.userId;
+    await validateRelationsQuery(this.prisma, wheresOptional, where);
+
+    if (search) {
+      where.user = {
+        OR: [
+          { first_name: { contains: search, mode: 'insensitive' } },
+          { last_name: { contains: search, mode: 'insensitive' } },
+          { phone: { contains: search, mode: 'insensitive' } },
+        ],
+      };
+    }
 
     const count = await this.prisma.worker.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -83,6 +98,11 @@ export class WorkerService {
     const worker = await this.prisma.worker.findMany({
       where,
       orderBy: { created_at: 'desc' },
+      include: {
+        user: { omit: { token: true, password: true, role: true } },
+        position: true,
+        day: true,
+      },
       take: pagination.limit,
       skip: pagination.offset,
     });
@@ -110,13 +130,13 @@ export class WorkerService {
     return worker;
   }
 
-  async findOneByUserAndWorker(userId: number, workerId: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id: workerId, user_id: userId, deleted_at: null },
+  async findOneByUserAndCompany(userId: number, companyId: number) {
+    const worker = await this.prisma.worker.findFirst({
+      where: { company_id: companyId, user_id: userId, deleted_at: null },
     });
     if (!worker) {
       throw new BadRequestException(
-        ErrorMessages.notFound.modelNotFound('User or Worker'),
+        ErrorMessages.badRequest.invalid('User or Company'),
       );
     }
 
@@ -135,10 +155,21 @@ export class WorkerService {
 
     await validateRelations(this.prisma, dto);
 
-    // return await this.prisma.worker.update({
-    //   where: { id },
-    //   data: {},
-    // });
+    if (dto.company_id) {
+      const checkWorker = await this.prisma.worker.findFirst({
+        where: { id, company_id: dto.company_id, deleted_at: null },
+      });
+      if (checkWorker) {
+        throw new BadRequestException(
+          ErrorMessages.badRequest.invalid('Company'),
+        );
+      }
+    }
+
+    return await this.prisma.worker.update({
+      where: { id },
+      data: dto,
+    });
   }
 
   async remove(id: number) {

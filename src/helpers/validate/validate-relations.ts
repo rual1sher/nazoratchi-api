@@ -13,6 +13,19 @@ const relationMap: Record<string, { model: keyof PrismaClient; name: string }> =
     worker_id: { model: 'worker', name: 'Worker' },
     penalty_id: { model: 'penalty', name: 'Penalty' },
     schedule_id: { model: 'worker_schedule', name: 'Schedule' },
+    penalties_name_id: { model: 'penalties_name', name: 'PenaltysName' },
+
+    //query
+    userId: { model: 'user', name: 'User' },
+    departmentId: { model: 'department', name: 'Department' },
+    positionId: { model: 'position', name: 'Position' },
+    dayId: { model: 'day', name: 'Day' },
+    companyId: { model: 'company', name: 'Company' },
+    filialId: { model: 'filial', name: 'Filial' },
+    workerId: { model: 'worker', name: 'Worker' },
+    penaltyId: { model: 'penalty', name: 'Penalty' },
+    scheduleId: { model: 'worker_schedule', name: 'Schedule' },
+    penaltysNameId: { model: 'penalties_name', name: 'PenaltysName' },
   };
 
 export const validateRelations = async (prisma: PrismaClient, dto: any) => {
@@ -22,6 +35,7 @@ export const validateRelations = async (prisma: PrismaClient, dto: any) => {
 
     const exists = await (prisma[rel.model] as any).findUnique({
       where: { id: value, deleted_at: null },
+      select: { id: true },
     });
 
     if (!exists) {
@@ -29,5 +43,29 @@ export const validateRelations = async (prisma: PrismaClient, dto: any) => {
         ErrorMessages.notFound.modelNotFound(rel.name),
       );
     }
+  }
+};
+
+export const validateRelationsQuery = async (
+  prisma: PrismaClient,
+  query: any,
+  where: any,
+) => {
+  for (const [field, value] of Object.entries(query)) {
+    const rel = relationMap[field];
+    if (!rel || !value || !Number(value)) continue;
+
+    const exists = await (prisma[rel.model] as any).findUnique({
+      where: { id: +value, deleted_at: null },
+      select: { id: true },
+    });
+
+    if (!exists) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound(rel.name),
+      );
+    }
+
+    where[`${rel.model as string}_id`] = +value as Number;
   }
 };
