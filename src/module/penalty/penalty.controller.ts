@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { PenaltyService } from './penalty.service';
 import { CreatePenaltyDto } from './dto/create-penalty.dto';
 import { UpdatePenaltyDto } from './dto/update-penalty.dto';
@@ -23,7 +33,7 @@ export class PenaltyController {
 
   @Get()
   async findAll(@Query() query: IPenaltyQuery) {
-    const {penalty, pagination} = await this.penaltyService.findAll(query);
+    const { penalty, pagination } = await this.penaltyService.findAll(query);
     return new ApiResponse(penalty, 200, pagination);
   }
 
@@ -34,7 +44,10 @@ export class PenaltyController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updatePenaltyDto: UpdatePenaltyDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updatePenaltyDto: UpdatePenaltyDto,
+  ) {
     const data = await this.penaltyService.update(+id, updatePenaltyDto);
     return new ApiResponse(data);
   }

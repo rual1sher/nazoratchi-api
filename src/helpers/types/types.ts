@@ -57,5 +57,11 @@ export interface IPenaltysNameQuery extends IQuery {
 // query penalty
 export interface IPenaltyQuery extends IQuery {
   penaltysNameId?: string;
-  type?: penalty_type
+  type?: penalty_type;
+}
+
+// query payment
+export interface IPaymentQuery extends IQuery {
+  workerId?: string;
+  type?: penalty_type;
 }

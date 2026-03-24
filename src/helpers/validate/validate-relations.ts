@@ -61,9 +61,7 @@ export const validateRelationsQuery = async (
     });
 
     if (!exists) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound(rel.name),
-      );
+      continue;
     }
 
     where[`${rel.model as string}_id`] = +value as Number;
