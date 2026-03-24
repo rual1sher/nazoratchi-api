@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePenaltyDto } from './dto/create-penalty.dto';
 import { UpdatePenaltyDto } from './dto/update-penalty.dto';
-import { validateRelations, validateRelationsQuery } from 'src/helpers/validate/validate-relations';
+import {
+  validateRelations,
+  validateRelationsQuery,
+} from 'src/helpers/validate/validate-relations';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { IPenaltyQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
@@ -10,27 +13,27 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 
 @Injectable()
 export class PenaltyService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(dto: CreatePenaltyDto) {
-    await validateRelations(this.prisma, dto)
+    await validateRelations(this.prisma, dto);
     return await this.prisma.penalty.create({ data: dto });
   }
 
   async findAll(query: IPenaltyQuery) {
     const where: Prisma.penaltyWhereInput = { deleted_at: null };
-    if (query.type) where.type = query.type
+    if (query.type) where.type = query.type;
 
-    await validateRelationsQuery(this.prisma, query, where)
+    await validateRelationsQuery(this.prisma, query, where);
 
     const count = await this.prisma.penalty.count({ where });
-    const pagination = new Pagination(count, query.page, query.limit)
+    const pagination = new Pagination(count, query.page, query.limit);
 
     const penalty = await this.prisma.penalty.findMany({
       where,
       orderBy: { created_at: 'desc' },
       skip: pagination.offset,
-      take: pagination.limit
+      take: pagination.limit,
     });
 
     return {
@@ -45,14 +48,14 @@ export class PenaltyService {
     });
 
     if (!penalty) {
-      throw ErrorMessages.notFound.modelNotFound("Penalty")
+      throw ErrorMessages.notFound.modelNotFound('Penalty');
     }
 
     return penalty;
   }
 
   async update(id: number, dto: UpdatePenaltyDto) {
-    await validateRelations(this.prisma, { penalty_id: id, ...dto })
+    await validateRelations(this.prisma, { penalty_id: id, ...dto });
 
     return await this.prisma.penalty.update({
       where: { id },
@@ -61,7 +64,7 @@ export class PenaltyService {
   }
 
   async remove(id: number) {
-    await validateRelations(this.prisma, { penalty_id: id })
+    await validateRelations(this.prisma, { penalty_id: id });
 
     return await this.prisma.penalty.update({
       where: { id },

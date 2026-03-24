@@ -1,7 +1,7 @@
 model payment {
   id Int @id @default(autoincrement())
 
-  amount     String       @db.VarChar(255)
+  amount     Int
   type       payment_type
   date       DateTime     @db.Date
   comment    String?
