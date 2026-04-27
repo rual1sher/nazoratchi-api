@@ -37,6 +37,15 @@ export const salary_type = {
 export type salary_type = (typeof salary_type)[keyof typeof salary_type]
 
 
+export const task_status = {
+  created: 'created',
+  inProgress: 'inProgress',
+  done: 'done'
+} as const
+
+export type task_status = (typeof task_status)[keyof typeof task_status]
+
+
 export const user_role = {
   admin: 'admin',
   worker: 'worker'

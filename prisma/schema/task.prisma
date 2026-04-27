@@ -1,0 +1,20 @@
+model task {
+  id Int @id @default(autoincrement())
+
+  name        String      @db.VarChar(255)
+  description String?     @db.Text
+  priority    Int         @default(2) // 1 = low, 2 = medium, 3 = high
+  status      task_status @default(created)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  workers worker[]
+}
+
+enum task_status {
+  created
+  inProgress
+  done
+}

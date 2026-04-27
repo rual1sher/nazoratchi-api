@@ -297,6 +297,7 @@ export type workerWhereInput = {
   attendance?: Prisma.AttendanceListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
   salary?: Prisma.SalaryListRelationFilter
+  tasks?: Prisma.TaskListRelationFilter
 }
 
 export type workerOrderByWithRelationInput = {
@@ -320,6 +321,7 @@ export type workerOrderByWithRelationInput = {
   attendance?: Prisma.attendanceOrderByRelationAggregateInput
   payment?: Prisma.paymentOrderByRelationAggregateInput
   salary?: Prisma.salaryOrderByRelationAggregateInput
+  tasks?: Prisma.taskOrderByRelationAggregateInput
 }
 
 export type workerWhereUniqueInput = Prisma.AtLeast<{
@@ -346,6 +348,7 @@ export type workerWhereUniqueInput = Prisma.AtLeast<{
   attendance?: Prisma.AttendanceListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
   salary?: Prisma.SalaryListRelationFilter
+  tasks?: Prisma.TaskListRelationFilter
 }, "id">
 
 export type workerOrderByWithAggregationInput = {
@@ -398,6 +401,7 @@ export type workerCreateInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateInput = {
@@ -415,6 +419,7 @@ export type workerUncheckedCreateInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUpdateInput = {
@@ -431,6 +436,7 @@ export type workerUpdateInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateInput = {
@@ -448,6 +454,7 @@ export type workerUncheckedUpdateInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerCreateManyInput = {
@@ -814,6 +821,44 @@ export type workerUpdateOneRequiredWithoutSalaryNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.workerUpdateToOneWithWhereWithoutSalaryInput, Prisma.workerUpdateWithoutSalaryInput>, Prisma.workerUncheckedUpdateWithoutSalaryInput>
 }
 
+export type workerCreateNestedManyWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput> | Prisma.workerCreateWithoutTasksInput[] | Prisma.workerUncheckedCreateWithoutTasksInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutTasksInput | Prisma.workerCreateOrConnectWithoutTasksInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+}
+
+export type workerUncheckedCreateNestedManyWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput> | Prisma.workerCreateWithoutTasksInput[] | Prisma.workerUncheckedCreateWithoutTasksInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutTasksInput | Prisma.workerCreateOrConnectWithoutTasksInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+}
+
+export type workerUpdateManyWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput> | Prisma.workerCreateWithoutTasksInput[] | Prisma.workerUncheckedCreateWithoutTasksInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutTasksInput | Prisma.workerCreateOrConnectWithoutTasksInput[]
+  upsert?: Prisma.workerUpsertWithWhereUniqueWithoutTasksInput | Prisma.workerUpsertWithWhereUniqueWithoutTasksInput[]
+  set?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  disconnect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  delete?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  update?: Prisma.workerUpdateWithWhereUniqueWithoutTasksInput | Prisma.workerUpdateWithWhereUniqueWithoutTasksInput[]
+  updateMany?: Prisma.workerUpdateManyWithWhereWithoutTasksInput | Prisma.workerUpdateManyWithWhereWithoutTasksInput[]
+  deleteMany?: Prisma.workerScalarWhereInput | Prisma.workerScalarWhereInput[]
+}
+
+export type workerUncheckedUpdateManyWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput> | Prisma.workerCreateWithoutTasksInput[] | Prisma.workerUncheckedCreateWithoutTasksInput[]
+  connectOrCreate?: Prisma.workerCreateOrConnectWithoutTasksInput | Prisma.workerCreateOrConnectWithoutTasksInput[]
+  upsert?: Prisma.workerUpsertWithWhereUniqueWithoutTasksInput | Prisma.workerUpsertWithWhereUniqueWithoutTasksInput[]
+  set?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  disconnect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  delete?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  connect?: Prisma.workerWhereUniqueInput | Prisma.workerWhereUniqueInput[]
+  update?: Prisma.workerUpdateWithWhereUniqueWithoutTasksInput | Prisma.workerUpdateWithWhereUniqueWithoutTasksInput[]
+  updateMany?: Prisma.workerUpdateManyWithWhereWithoutTasksInput | Prisma.workerUpdateManyWithWhereWithoutTasksInput[]
+  deleteMany?: Prisma.workerScalarWhereInput | Prisma.workerScalarWhereInput[]
+}
+
 export type workerCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.workerCreateWithoutUserInput, Prisma.workerUncheckedCreateWithoutUserInput> | Prisma.workerCreateWithoutUserInput[] | Prisma.workerUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.workerCreateOrConnectWithoutUserInput | Prisma.workerCreateOrConnectWithoutUserInput[]
@@ -860,14 +905,6 @@ export type Enumworker_roleFieldUpdateOperationsInput = {
   set?: $Enums.worker_role
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type workerCreateWithoutAttendanceInput = {
   role?: $Enums.worker_role
   created_at?: Date | string
@@ -881,6 +918,7 @@ export type workerCreateWithoutAttendanceInput = {
   user: Prisma.userCreateNestedOneWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutAttendanceInput = {
@@ -897,6 +935,7 @@ export type workerUncheckedCreateWithoutAttendanceInput = {
   deleted_at?: Date | string | null
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutAttendanceInput = {
@@ -928,6 +967,7 @@ export type workerUpdateWithoutAttendanceInput = {
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutAttendanceInput = {
@@ -944,6 +984,7 @@ export type workerUncheckedUpdateWithoutAttendanceInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerCreateWithoutCompanyInput = {
@@ -959,6 +1000,7 @@ export type workerCreateWithoutCompanyInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutCompanyInput = {
@@ -975,6 +1017,7 @@ export type workerUncheckedCreateWithoutCompanyInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutCompanyInput = {
@@ -1033,6 +1076,7 @@ export type workerCreateWithoutDayInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutDayInput = {
@@ -1049,6 +1093,7 @@ export type workerUncheckedCreateWithoutDayInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutDayInput = {
@@ -1090,6 +1135,7 @@ export type workerCreateWithoutDepartmentInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutDepartmentInput = {
@@ -1106,6 +1152,7 @@ export type workerUncheckedCreateWithoutDepartmentInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutDepartmentInput = {
@@ -1147,6 +1194,7 @@ export type workerCreateWithoutFilialInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutFilialInput = {
@@ -1163,6 +1211,7 @@ export type workerUncheckedCreateWithoutFilialInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutFilialInput = {
@@ -1204,6 +1253,7 @@ export type workerCreateWithoutPaymentInput = {
   user: Prisma.userCreateNestedOneWithoutWorkerInput
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutPaymentInput = {
@@ -1220,6 +1270,7 @@ export type workerUncheckedCreateWithoutPaymentInput = {
   deleted_at?: Date | string | null
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutPaymentInput = {
@@ -1251,6 +1302,7 @@ export type workerUpdateWithoutPaymentInput = {
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutPaymentInput = {
@@ -1267,6 +1319,7 @@ export type workerUncheckedUpdateWithoutPaymentInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerCreateWithoutPositionInput = {
@@ -1282,6 +1335,7 @@ export type workerCreateWithoutPositionInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutPositionInput = {
@@ -1298,6 +1352,7 @@ export type workerUncheckedCreateWithoutPositionInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutPositionInput = {
@@ -1339,6 +1394,7 @@ export type workerCreateWithoutSalaryInput = {
   user: Prisma.userCreateNestedOneWithoutWorkerInput
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutSalaryInput = {
@@ -1355,6 +1411,7 @@ export type workerUncheckedCreateWithoutSalaryInput = {
   deleted_at?: Date | string | null
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutSalaryInput = {
@@ -1386,6 +1443,7 @@ export type workerUpdateWithoutSalaryInput = {
   user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutSalaryInput = {
@@ -1402,6 +1460,61 @@ export type workerUncheckedUpdateWithoutSalaryInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
+}
+
+export type workerCreateWithoutTasksInput = {
+  role?: $Enums.worker_role
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutWorkerInput
+  filial?: Prisma.filialCreateNestedOneWithoutWorkerInput
+  day?: Prisma.dayCreateNestedOneWithoutWorkerInput
+  department?: Prisma.departmentCreateNestedOneWithoutWorkerInput
+  position?: Prisma.positionCreateNestedOneWithoutWorkerInput
+  user: Prisma.userCreateNestedOneWithoutWorkerInput
+  attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
+  payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
+  salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+}
+
+export type workerUncheckedCreateWithoutTasksInput = {
+  id?: number
+  company_id: number
+  department_id?: number | null
+  day_id?: number | null
+  position_id?: number | null
+  filial_id?: number | null
+  user_id: number
+  role?: $Enums.worker_role
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
+  payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
+  salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+}
+
+export type workerCreateOrConnectWithoutTasksInput = {
+  where: Prisma.workerWhereUniqueInput
+  create: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput>
+}
+
+export type workerUpsertWithWhereUniqueWithoutTasksInput = {
+  where: Prisma.workerWhereUniqueInput
+  update: Prisma.XOR<Prisma.workerUpdateWithoutTasksInput, Prisma.workerUncheckedUpdateWithoutTasksInput>
+  create: Prisma.XOR<Prisma.workerCreateWithoutTasksInput, Prisma.workerUncheckedCreateWithoutTasksInput>
+}
+
+export type workerUpdateWithWhereUniqueWithoutTasksInput = {
+  where: Prisma.workerWhereUniqueInput
+  data: Prisma.XOR<Prisma.workerUpdateWithoutTasksInput, Prisma.workerUncheckedUpdateWithoutTasksInput>
+}
+
+export type workerUpdateManyWithWhereWithoutTasksInput = {
+  where: Prisma.workerScalarWhereInput
+  data: Prisma.XOR<Prisma.workerUpdateManyMutationInput, Prisma.workerUncheckedUpdateManyWithoutTasksInput>
 }
 
 export type workerCreateWithoutUserInput = {
@@ -1417,6 +1530,7 @@ export type workerCreateWithoutUserInput = {
   attendance?: Prisma.attendanceCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskCreateNestedManyWithoutWorkersInput
 }
 
 export type workerUncheckedCreateWithoutUserInput = {
@@ -1433,6 +1547,7 @@ export type workerUncheckedCreateWithoutUserInput = {
   attendance?: Prisma.attendanceUncheckedCreateNestedManyWithoutWorkerInput
   payment?: Prisma.paymentUncheckedCreateNestedManyWithoutWorkerInput
   salary?: Prisma.salaryUncheckedCreateNestedManyWithoutWorkerInput
+  tasks?: Prisma.taskUncheckedCreateNestedManyWithoutWorkersInput
 }
 
 export type workerCreateOrConnectWithoutUserInput = {
@@ -1487,6 +1602,7 @@ export type workerUpdateWithoutCompanyInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutCompanyInput = {
@@ -1503,6 +1619,7 @@ export type workerUncheckedUpdateWithoutCompanyInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutCompanyInput = {
@@ -1544,6 +1661,7 @@ export type workerUpdateWithoutDayInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutDayInput = {
@@ -1560,6 +1678,7 @@ export type workerUncheckedUpdateWithoutDayInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutDayInput = {
@@ -1601,6 +1720,7 @@ export type workerUpdateWithoutDepartmentInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutDepartmentInput = {
@@ -1617,6 +1737,7 @@ export type workerUncheckedUpdateWithoutDepartmentInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutDepartmentInput = {
@@ -1658,6 +1779,7 @@ export type workerUpdateWithoutFilialInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutFilialInput = {
@@ -1674,6 +1796,7 @@ export type workerUncheckedUpdateWithoutFilialInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutFilialInput = {
@@ -1715,6 +1838,7 @@ export type workerUpdateWithoutPositionInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutPositionInput = {
@@ -1731,6 +1855,7 @@ export type workerUncheckedUpdateWithoutPositionInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutPositionInput = {
@@ -1738,6 +1863,53 @@ export type workerUncheckedUpdateManyWithoutPositionInput = {
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type workerUpdateWithoutTasksInput = {
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutWorkerNestedInput
+  filial?: Prisma.filialUpdateOneWithoutWorkerNestedInput
+  day?: Prisma.dayUpdateOneWithoutWorkerNestedInput
+  department?: Prisma.departmentUpdateOneWithoutWorkerNestedInput
+  position?: Prisma.positionUpdateOneWithoutWorkerNestedInput
+  user?: Prisma.userUpdateOneRequiredWithoutWorkerNestedInput
+  attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
+  payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
+  salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+}
+
+export type workerUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+  department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
+  payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
+  salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+}
+
+export type workerUncheckedUpdateManyWithoutTasksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
+  department_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   filial_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.Enumworker_roleFieldUpdateOperationsInput | $Enums.worker_role
@@ -1772,6 +1944,7 @@ export type workerUpdateWithoutUserInput = {
   attendance?: Prisma.attendanceUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateWithoutUserInput = {
@@ -1788,6 +1961,7 @@ export type workerUncheckedUpdateWithoutUserInput = {
   attendance?: Prisma.attendanceUncheckedUpdateManyWithoutWorkerNestedInput
   payment?: Prisma.paymentUncheckedUpdateManyWithoutWorkerNestedInput
   salary?: Prisma.salaryUncheckedUpdateManyWithoutWorkerNestedInput
+  tasks?: Prisma.taskUncheckedUpdateManyWithoutWorkersNestedInput
 }
 
 export type workerUncheckedUpdateManyWithoutUserInput = {
@@ -1812,12 +1986,14 @@ export type WorkerCountOutputType = {
   attendance: number
   payment: number
   salary: number
+  tasks: number
 }
 
 export type WorkerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attendance?: boolean | WorkerCountOutputTypeCountAttendanceArgs
   payment?: boolean | WorkerCountOutputTypeCountPaymentArgs
   salary?: boolean | WorkerCountOutputTypeCountSalaryArgs
+  tasks?: boolean | WorkerCountOutputTypeCountTasksArgs
 }
 
 /**
@@ -1851,6 +2027,13 @@ export type WorkerCountOutputTypeCountSalaryArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.salaryWhereInput
 }
 
+/**
+ * WorkerCountOutputType without action
+ */
+export type WorkerCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.taskWhereInput
+}
+
 
 export type workerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1873,6 +2056,7 @@ export type workerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   attendance?: boolean | Prisma.worker$attendanceArgs<ExtArgs>
   payment?: boolean | Prisma.worker$paymentArgs<ExtArgs>
   salary?: boolean | Prisma.worker$salaryArgs<ExtArgs>
+  tasks?: boolean | Prisma.worker$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.WorkerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["worker"]>
 
@@ -1941,6 +2125,7 @@ export type workerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   attendance?: boolean | Prisma.worker$attendanceArgs<ExtArgs>
   payment?: boolean | Prisma.worker$paymentArgs<ExtArgs>
   salary?: boolean | Prisma.worker$salaryArgs<ExtArgs>
+  tasks?: boolean | Prisma.worker$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.WorkerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type workerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1972,6 +2157,7 @@ export type $workerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     attendance: Prisma.$attendancePayload<ExtArgs>[]
     payment: Prisma.$paymentPayload<ExtArgs>[]
     salary: Prisma.$salaryPayload<ExtArgs>[]
+    tasks: Prisma.$taskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -2388,6 +2574,7 @@ export interface Prisma__workerClient<T, Null = never, ExtArgs extends runtime.T
   attendance<T extends Prisma.worker$attendanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$attendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payment<T extends Prisma.worker$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$paymentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$paymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salary<T extends Prisma.worker$salaryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$salaryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$salaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tasks<T extends Prisma.worker$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$taskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2969,6 +3156,30 @@ export type worker$salaryArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SalaryScalarFieldEnum | Prisma.SalaryScalarFieldEnum[]
+}
+
+/**
+ * worker.tasks
+ */
+export type worker$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the task
+   */
+  select?: Prisma.taskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the task
+   */
+  omit?: Prisma.taskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.taskInclude<ExtArgs> | null
+  where?: Prisma.taskWhereInput
+  orderBy?: Prisma.taskOrderByWithRelationInput | Prisma.taskOrderByWithRelationInput[]
+  cursor?: Prisma.taskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
 }
 
 /**

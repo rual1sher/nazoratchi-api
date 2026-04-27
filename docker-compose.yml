@@ -1,0 +1,29 @@
+services:
+  api:
+    build:
+      context: .
+      target: development # production
+    volumes: # ubiraem na production
+      - .:/usr/src/app # ubiraem na production
+      - /usr/src/app/node_modules # ubiraem na production
+    ports:
+      - "7777:7777"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-nazoratchi}?schema=public
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-nazoratchi}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -21,6 +21,7 @@ model worker {
   attendance attendance[]
   payment    payment[]
   salary     salary[]
+  tasks      task[]
 
   @@index([user_id, company_id])
 }

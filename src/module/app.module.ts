@@ -12,9 +12,13 @@ import { WorkerScheduleModule } from './worker-schedule/worker-schedule.module';
 import { PenaltysNameModule } from './penaltys-name/penaltys-name.module';
 import { PenaltyModule } from './penalty/penalty.module';
 import { PaymentModule } from './payment/payment.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { SalaryModule } from './salary/salary.module';
+import { TaskModule } from './task/task.module';
+import { HolidayModule } from './holiday/holiday.module';
 
 @Module({
-  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule, WorkerScheduleModule, PenaltysNameModule, PenaltyModule, PaymentModule],
+  imports: [AuthModule, UserModule, WorkerModule, CompanyModule, FilialModule, DepartmentModule, PositionModule, DayModule, WorkerScheduleModule, PenaltysNameModule, PenaltyModule, PaymentModule, AttendanceModule, SalaryModule, HolidayModule, TaskModule],
   providers: [PrismaService],
 })
 export class AppModule {}

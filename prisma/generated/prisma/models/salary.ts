@@ -456,10 +456,6 @@ export type Enumsalary_typeFieldUpdateOperationsInput = {
   set?: $Enums.salary_type
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type salaryCreateNestedManyWithoutWorkerInput = {
   create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput> | Prisma.salaryCreateWithoutWorkerInput[] | Prisma.salaryUncheckedCreateWithoutWorkerInput[]
   connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkerInput | Prisma.salaryCreateOrConnectWithoutWorkerInput[]

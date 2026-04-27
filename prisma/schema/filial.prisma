@@ -12,4 +12,5 @@ model filial {
   company    company      @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "filial_company_id_foreign")
   worker     worker[]
   coordinate coordinate[]
+  holidays   holiday[]
 }
