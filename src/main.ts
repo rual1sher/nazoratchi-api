@@ -2,13 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './module/app.module';
 import { env } from './helpers/config/env.config';
 import * as cookieParser from 'cookie-parser';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { HttpExceptionFilter } from './helpers/error/http-exception.filter';
+import { LoggingInterceptor } from './helpers/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const port = env.port;
 
   const app = await NestFactory.create(AppModule, { cors: true });
   app.use(cookieParser());
+
+  // Global Interceptors & Filters
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -20,8 +27,25 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
+  // API Versioning
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
+
+  // Swagger Documentation
+  const config = new DocumentBuilder()
+    .setTitle('Nazoratchi API')
+    .setDescription('The Nazoratchi API description')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
   await app.listen(port);
-  console.log('starting server on port', port);
+  console.log('Starting server on port', port);
+  console.log(`Swagger documentation available at http://localhost:${port}/api/docs`);
 }
 
 bootstrap();

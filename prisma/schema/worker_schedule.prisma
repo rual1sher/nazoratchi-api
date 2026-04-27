@@ -13,4 +13,5 @@ model worker_schedule {
   deleted_at DateTime?
 
   days day? @relation(fields: [day_id], references: [id], onDelete: SetNull, map: "worker_schedule_day_id_foreign")
+  holidays holiday[]
 }

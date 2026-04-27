@@ -48,6 +48,11 @@ export type department = Prisma.departmentModel
  */
 export type filial = Prisma.filialModel
 /**
+ * Model holiday
+ * 
+ */
+export type holiday = Prisma.holidayModel
+/**
  * Model payment
  * 
  */
@@ -72,6 +77,11 @@ export type position = Prisma.positionModel
  * 
  */
 export type salary = Prisma.salaryModel
+/**
+ * Model task
+ * 
+ */
+export type task = Prisma.taskModel
 /**
  * Model user
  * 

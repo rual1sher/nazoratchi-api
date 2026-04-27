@@ -12,4 +12,5 @@ model position {
   department department @relation(fields: [department_id], references: [id], onDelete: NoAction)
 
   worker worker[]
+  holidays holiday[]
 }

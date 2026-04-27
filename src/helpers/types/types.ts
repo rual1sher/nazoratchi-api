@@ -65,3 +65,25 @@ export interface IPaymentQuery extends IQuery {
   workerId?: string;
   type?: penalty_type;
 }
+
+// query attendance
+export interface IAttendanceQuery extends IQuery {
+  workerId?: string;
+}
+
+// query salary
+export interface ISalaryQuery extends IQuery {
+  workerId?: string;
+}
+
+// query task
+export interface ITaskQuery extends IQuery {
+  workerId?: string;
+}
+
+// query holiday
+export interface IHolidayQuery extends IQuery {
+  filialId?: string;
+  departmentId?: string;
+  positionId?: string;
+}

@@ -265,6 +265,7 @@ export type worker_scheduleWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
   days?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
+  holidays?: Prisma.HolidayListRelationFilter
 }
 
 export type worker_scheduleOrderByWithRelationInput = {
@@ -279,6 +280,7 @@ export type worker_scheduleOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   days?: Prisma.dayOrderByWithRelationInput
+  holidays?: Prisma.holidayOrderByRelationAggregateInput
 }
 
 export type worker_scheduleWhereUniqueInput = Prisma.AtLeast<{
@@ -296,6 +298,7 @@ export type worker_scheduleWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
   days?: Prisma.XOR<Prisma.DayNullableScalarRelationFilter, Prisma.dayWhereInput> | null
+  holidays?: Prisma.HolidayListRelationFilter
 }, "id">
 
 export type worker_scheduleOrderByWithAggregationInput = {
@@ -342,6 +345,7 @@ export type worker_scheduleCreateInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   days?: Prisma.dayCreateNestedOneWithoutWorker_scheduleInput
+  holidays?: Prisma.holidayCreateNestedManyWithoutScheduleInput
 }
 
 export type worker_scheduleUncheckedCreateInput = {
@@ -355,6 +359,7 @@ export type worker_scheduleUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutScheduleInput
 }
 
 export type worker_scheduleUpdateInput = {
@@ -367,6 +372,7 @@ export type worker_scheduleUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   days?: Prisma.dayUpdateOneWithoutWorker_scheduleNestedInput
+  holidays?: Prisma.holidayUpdateManyWithoutScheduleNestedInput
 }
 
 export type worker_scheduleUncheckedUpdateInput = {
@@ -380,6 +386,7 @@ export type worker_scheduleUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  holidays?: Prisma.holidayUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
 export type worker_scheduleCreateManyInput = {
@@ -427,6 +434,11 @@ export type Worker_scheduleListRelationFilter = {
 
 export type worker_scheduleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type Worker_scheduleNullableScalarRelationFilter = {
+  is?: Prisma.worker_scheduleWhereInput | null
+  isNot?: Prisma.worker_scheduleWhereInput | null
 }
 
 export type worker_scheduleCountOrderByAggregateInput = {
@@ -522,6 +534,22 @@ export type worker_scheduleUncheckedUpdateManyWithoutDaysNestedInput = {
   deleteMany?: Prisma.worker_scheduleScalarWhereInput | Prisma.worker_scheduleScalarWhereInput[]
 }
 
+export type worker_scheduleCreateNestedOneWithoutHolidaysInput = {
+  create?: Prisma.XOR<Prisma.worker_scheduleCreateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedCreateWithoutHolidaysInput>
+  connectOrCreate?: Prisma.worker_scheduleCreateOrConnectWithoutHolidaysInput
+  connect?: Prisma.worker_scheduleWhereUniqueInput
+}
+
+export type worker_scheduleUpdateOneWithoutHolidaysNestedInput = {
+  create?: Prisma.XOR<Prisma.worker_scheduleCreateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedCreateWithoutHolidaysInput>
+  connectOrCreate?: Prisma.worker_scheduleCreateOrConnectWithoutHolidaysInput
+  upsert?: Prisma.worker_scheduleUpsertWithoutHolidaysInput
+  disconnect?: Prisma.worker_scheduleWhereInput | boolean
+  delete?: Prisma.worker_scheduleWhereInput | boolean
+  connect?: Prisma.worker_scheduleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.worker_scheduleUpdateToOneWithWhereWithoutHolidaysInput, Prisma.worker_scheduleUpdateWithoutHolidaysInput>, Prisma.worker_scheduleUncheckedUpdateWithoutHolidaysInput>
+}
+
 export type worker_scheduleCreateWithoutDaysInput = {
   day: number
   start_time: Date | string
@@ -531,6 +559,7 @@ export type worker_scheduleCreateWithoutDaysInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  holidays?: Prisma.holidayCreateNestedManyWithoutScheduleInput
 }
 
 export type worker_scheduleUncheckedCreateWithoutDaysInput = {
@@ -543,6 +572,7 @@ export type worker_scheduleUncheckedCreateWithoutDaysInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutScheduleInput
 }
 
 export type worker_scheduleCreateOrConnectWithoutDaysInput = {
@@ -587,6 +617,72 @@ export type worker_scheduleScalarWhereInput = {
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
 }
 
+export type worker_scheduleCreateWithoutHolidaysInput = {
+  day: number
+  start_time: Date | string
+  end_time: Date | string
+  break_start?: Date | string | null
+  break_end?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  days?: Prisma.dayCreateNestedOneWithoutWorker_scheduleInput
+}
+
+export type worker_scheduleUncheckedCreateWithoutHolidaysInput = {
+  id?: number
+  day: number
+  start_time: Date | string
+  end_time: Date | string
+  break_start?: Date | string | null
+  break_end?: Date | string | null
+  day_id?: number | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type worker_scheduleCreateOrConnectWithoutHolidaysInput = {
+  where: Prisma.worker_scheduleWhereUniqueInput
+  create: Prisma.XOR<Prisma.worker_scheduleCreateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedCreateWithoutHolidaysInput>
+}
+
+export type worker_scheduleUpsertWithoutHolidaysInput = {
+  update: Prisma.XOR<Prisma.worker_scheduleUpdateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedUpdateWithoutHolidaysInput>
+  create: Prisma.XOR<Prisma.worker_scheduleCreateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedCreateWithoutHolidaysInput>
+  where?: Prisma.worker_scheduleWhereInput
+}
+
+export type worker_scheduleUpdateToOneWithWhereWithoutHolidaysInput = {
+  where?: Prisma.worker_scheduleWhereInput
+  data: Prisma.XOR<Prisma.worker_scheduleUpdateWithoutHolidaysInput, Prisma.worker_scheduleUncheckedUpdateWithoutHolidaysInput>
+}
+
+export type worker_scheduleUpdateWithoutHolidaysInput = {
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  break_start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  break_end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  days?: Prisma.dayUpdateOneWithoutWorker_scheduleNestedInput
+}
+
+export type worker_scheduleUncheckedUpdateWithoutHolidaysInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  day?: Prisma.IntFieldUpdateOperationsInput | number
+  start_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  break_start?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  break_end?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  day_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type worker_scheduleCreateManyDaysInput = {
   id?: number
   day: number
@@ -608,6 +704,7 @@ export type worker_scheduleUpdateWithoutDaysInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  holidays?: Prisma.holidayUpdateManyWithoutScheduleNestedInput
 }
 
 export type worker_scheduleUncheckedUpdateWithoutDaysInput = {
@@ -620,6 +717,7 @@ export type worker_scheduleUncheckedUpdateWithoutDaysInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  holidays?: Prisma.holidayUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
 export type worker_scheduleUncheckedUpdateManyWithoutDaysInput = {
@@ -635,6 +733,35 @@ export type worker_scheduleUncheckedUpdateManyWithoutDaysInput = {
 }
 
 
+/**
+ * Count Type Worker_scheduleCountOutputType
+ */
+
+export type Worker_scheduleCountOutputType = {
+  holidays: number
+}
+
+export type Worker_scheduleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  holidays?: boolean | Worker_scheduleCountOutputTypeCountHolidaysArgs
+}
+
+/**
+ * Worker_scheduleCountOutputType without action
+ */
+export type Worker_scheduleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Worker_scheduleCountOutputType
+   */
+  select?: Prisma.Worker_scheduleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Worker_scheduleCountOutputType without action
+ */
+export type Worker_scheduleCountOutputTypeCountHolidaysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.holidayWhereInput
+}
+
 
 export type worker_scheduleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -648,6 +775,8 @@ export type worker_scheduleSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updated_at?: boolean
   deleted_at?: boolean
   days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
+  holidays?: boolean | Prisma.worker_schedule$holidaysArgs<ExtArgs>
+  _count?: boolean | Prisma.Worker_scheduleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["worker_schedule"]>
 
 export type worker_scheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -694,6 +823,8 @@ export type worker_scheduleSelectScalar = {
 export type worker_scheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "day" | "start_time" | "end_time" | "break_start" | "break_end" | "day_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["worker_schedule"]>
 export type worker_scheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
+  holidays?: boolean | Prisma.worker_schedule$holidaysArgs<ExtArgs>
+  _count?: boolean | Prisma.Worker_scheduleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type worker_scheduleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   days?: boolean | Prisma.worker_schedule$daysArgs<ExtArgs>
@@ -706,6 +837,7 @@ export type $worker_schedulePayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "worker_schedule"
   objects: {
     days: Prisma.$dayPayload<ExtArgs> | null
+    holidays: Prisma.$holidayPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1113,6 +1245,7 @@ readonly fields: worker_scheduleFieldRefs;
 export interface Prisma__worker_scheduleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   days<T extends Prisma.worker_schedule$daysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker_schedule$daysArgs<ExtArgs>>): Prisma.Prisma__dayClient<runtime.Types.Result.GetResult<Prisma.$dayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  holidays<T extends Prisma.worker_schedule$holidaysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.worker_schedule$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1564,6 +1697,30 @@ export type worker_schedule$daysArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.dayInclude<ExtArgs> | null
   where?: Prisma.dayWhereInput
+}
+
+/**
+ * worker_schedule.holidays
+ */
+export type worker_schedule$holidaysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the holiday
+   */
+  select?: Prisma.holidaySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the holiday
+   */
+  omit?: Prisma.holidayOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.holidayInclude<ExtArgs> | null
+  where?: Prisma.holidayWhereInput
+  orderBy?: Prisma.holidayOrderByWithRelationInput | Prisma.holidayOrderByWithRelationInput[]
+  cursor?: Prisma.holidayWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HolidayScalarFieldEnum | Prisma.HolidayScalarFieldEnum[]
 }
 
 /**

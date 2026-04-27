@@ -57,11 +57,13 @@ export const ModelName = {
   day: 'day',
   department: 'department',
   filial: 'filial',
+  holiday: 'holiday',
   payment: 'payment',
   penalties_name: 'penalties_name',
   penalty: 'penalty',
   position: 'position',
   salary: 'salary',
+  task: 'task',
   user: 'user',
   worker: 'worker',
   worker_schedule: 'worker_schedule'
@@ -161,6 +163,24 @@ export const FilialScalarFieldEnum = {
 export type FilialScalarFieldEnum = (typeof FilialScalarFieldEnum)[keyof typeof FilialScalarFieldEnum]
 
 
+export const HolidayScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  date: 'date',
+  yearly_loop: 'yearly_loop',
+  filial_id: 'filial_id',
+  department_id: 'department_id',
+  position_id: 'position_id',
+  schedule_id: 'schedule_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
+
+
 export const PaymentScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
@@ -234,12 +254,27 @@ export const SalaryScalarFieldEnum = {
 export type SalaryScalarFieldEnum = (typeof SalaryScalarFieldEnum)[keyof typeof SalaryScalarFieldEnum]
 
 
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   avatar: 'avatar',
   first_name: 'first_name',
   last_name: 'last_name',
   phone: 'phone',
+  username: 'username',
   password: 'password',
   token: 'token',
   role: 'role',

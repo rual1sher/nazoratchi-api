@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { LoginPhoneDto } from './dto/login-phone.dto';
+import { LoginUsernameDto } from './dto/login-username.dto';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { Request, Response } from 'express';
 import { env } from 'src/helpers/config/env.config';
@@ -18,15 +20,40 @@ import { IRequest } from 'src/helpers/types/types';
 import { VerifyDto } from './dto/verify.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateAuthDto } from './dto/update.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Login with phone + password (old flow, sends OTP)' })
   @Post('login')
   async login(@Body() createAuthDto: LoginDto) {
     const data = await this.authService.login(createAuthDto);
     return new ApiResponse({ message: `send code = ${data}` });
+  }
+
+  @ApiOperation({ summary: 'Login with phone only → sends OTP to SMS' })
+  @Post('login-phone')
+  async loginPhone(@Body() dto: LoginPhoneDto) {
+    const code = await this.authService.loginPhone(dto);
+    return new ApiResponse({ message: `OTP sent`, code });
+  }
+
+  @ApiOperation({ summary: 'Login with username + password → returns tokens directly (no OTP)' })
+  @Post('login-username')
+  async loginUsername(@Body() dto: LoginUsernameDto, @Res() res: Response) {
+    const { accessToken, refreshToken } = await this.authService.loginUsername(dto, res);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: env.node === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.json(new ApiResponse({ accessToken }));
   }
 
   @Post('verify')

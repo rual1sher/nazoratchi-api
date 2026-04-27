@@ -1,0 +1,22 @@
+model holiday {
+  id Int @id @default(autoincrement())
+
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  date        DateTime @db.Date
+  yearly_loop Boolean  @default(false)
+
+  filial_id     Int?
+  department_id Int?
+  position_id   Int?
+  schedule_id   Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  filial     filial?          @relation(fields: [filial_id], references: [id], onDelete: SetNull)
+  department department?      @relation(fields: [department_id], references: [id], onDelete: SetNull)
+  position   position?        @relation(fields: [position_id], references: [id], onDelete: SetNull)
+  schedule   worker_schedule? @relation(fields: [schedule_id], references: [id], onDelete: SetNull)
+}

@@ -5,6 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
+import { LoginPhoneDto } from './dto/login-phone.dto';
+import { LoginUsernameDto } from './dto/login-username.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { checkPassword, hashingPassword } from 'src/helpers/hash/password';
 import { JwtService } from 'src/helpers/jwt/jwt.service';
@@ -30,7 +32,7 @@ export class AuthService {
     });
     if (!user) {
       throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
-    }
+    }    
 
     const isPasswordValid = checkPassword(
       createAuthDto.password,
@@ -48,6 +50,49 @@ export class AuthService {
       data: { isVerified: false },
     });
     return code;
+  }
+
+  // Способ 1: Phone → OTP (без пароля)
+  async loginPhone(dto: LoginPhoneDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { phone: dto.phone, deleted_at: null },
+    });
+    if (!user) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
+    }
+
+    const code = randomInt(100000, 999999);
+    await this.cacheManager.set(`login-${user.phone}`, code);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { isVerified: false },
+    });
+    return code;
+  }
+
+  // Способ 2: Username + Password → сразу токены (без OTP)
+  async loginUsername(dto: LoginUsernameDto, res: any) {
+    const user = await this.prisma.user.findFirst({
+      where: { username: dto.username, deleted_at: null },
+    });
+    if (!user) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
+    }
+
+    const isPasswordValid = checkPassword(dto.password, user.password);
+    if (!isPasswordValid) {
+      throw new BadRequestException(ErrorMessages.badRequest.invalid('Password'));
+    }
+
+    const accessToken = this.jwtService.generateAccess({ id: user.id, role: user.role });
+    const refreshToken = this.jwtService.generateRefresh({ id: user.id, role: user.role });
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { token: refreshToken, isVerified: true },
+    });
+
+    return { accessToken, refreshToken };
   }
 
   async verify({ code, phone }: VerifyDto) {

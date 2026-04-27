@@ -390,11 +390,13 @@ export const ModelName = {
   day: 'day',
   department: 'department',
   filial: 'filial',
+  holiday: 'holiday',
   payment: 'payment',
   penalties_name: 'penalties_name',
   penalty: 'penalty',
   position: 'position',
   salary: 'salary',
+  task: 'task',
   user: 'user',
   worker: 'worker',
   worker_schedule: 'worker_schedule'
@@ -413,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "attendance" | "company" | "coordinate" | "day" | "department" | "filial" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "user" | "worker" | "worker_schedule"
+    modelProps: "attendance" | "company" | "coordinate" | "day" | "department" | "filial" | "holiday" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "task" | "user" | "worker" | "worker_schedule"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -861,6 +863,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    holiday: {
+      payload: Prisma.$holidayPayload<ExtArgs>
+      fields: Prisma.holidayFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.holidayFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.holidayFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        findFirst: {
+          args: Prisma.holidayFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.holidayFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        findMany: {
+          args: Prisma.holidayFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>[]
+        }
+        create: {
+          args: Prisma.holidayCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        createMany: {
+          args: Prisma.holidayCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.holidayCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>[]
+        }
+        delete: {
+          args: Prisma.holidayDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        update: {
+          args: Prisma.holidayUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        deleteMany: {
+          args: Prisma.holidayDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.holidayUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.holidayUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>[]
+        }
+        upsert: {
+          args: Prisma.holidayUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holidayPayload>
+        }
+        aggregate: {
+          args: Prisma.HolidayAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHoliday>
+        }
+        groupBy: {
+          args: Prisma.holidayGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HolidayGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.holidayCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HolidayCountAggregateOutputType> | number
+        }
+      }
+    }
     payment: {
       payload: Prisma.$paymentPayload<ExtArgs>
       fields: Prisma.paymentFieldRefs
@@ -1231,6 +1307,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    task: {
+      payload: Prisma.$taskPayload<ExtArgs>
+      fields: Prisma.taskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.taskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.taskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        findFirst: {
+          args: Prisma.taskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.taskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        findMany: {
+          args: Prisma.taskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        create: {
+          args: Prisma.taskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        createMany: {
+          args: Prisma.taskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.taskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        delete: {
+          args: Prisma.taskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        update: {
+          args: Prisma.taskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        deleteMany: {
+          args: Prisma.taskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.taskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.taskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        upsert: {
+          args: Prisma.taskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        aggregate: {
+          args: Prisma.TaskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTask>
+        }
+        groupBy: {
+          args: Prisma.taskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.taskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskCountAggregateOutputType> | number
+        }
+      }
+    }
     user: {
       payload: Prisma.$userPayload<ExtArgs>
       fields: Prisma.userFieldRefs
@@ -1570,6 +1720,24 @@ export const FilialScalarFieldEnum = {
 export type FilialScalarFieldEnum = (typeof FilialScalarFieldEnum)[keyof typeof FilialScalarFieldEnum]
 
 
+export const HolidayScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  date: 'date',
+  yearly_loop: 'yearly_loop',
+  filial_id: 'filial_id',
+  department_id: 'department_id',
+  position_id: 'position_id',
+  schedule_id: 'schedule_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
+
+
 export const PaymentScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
@@ -1643,12 +1811,27 @@ export const SalaryScalarFieldEnum = {
 export type SalaryScalarFieldEnum = (typeof SalaryScalarFieldEnum)[keyof typeof SalaryScalarFieldEnum]
 
 
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   avatar: 'avatar',
   first_name: 'first_name',
   last_name: 'last_name',
   phone: 'phone',
+  username: 'username',
   password: 'password',
   token: 'token',
   role: 'role',
@@ -1781,6 +1964,13 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'payment_type'
  */
 export type Enumpayment_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_type'>
@@ -1823,9 +2013,16 @@ export type ListEnumsalary_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'task_status'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+export type Enumtask_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'task_status'>
+    
+
+
+/**
+ * Reference to a field of type 'task_status[]'
+ */
+export type ListEnumtask_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'task_status[]'>
     
 
 
@@ -1957,11 +2154,13 @@ export type GlobalOmitConfig = {
   day?: Prisma.dayOmit
   department?: Prisma.departmentOmit
   filial?: Prisma.filialOmit
+  holiday?: Prisma.holidayOmit
   payment?: Prisma.paymentOmit
   penalties_name?: Prisma.penalties_nameOmit
   penalty?: Prisma.penaltyOmit
   position?: Prisma.positionOmit
   salary?: Prisma.salaryOmit
+  task?: Prisma.taskOmit
   user?: Prisma.userOmit
   worker?: Prisma.workerOmit
   worker_schedule?: Prisma.worker_scheduleOmit
