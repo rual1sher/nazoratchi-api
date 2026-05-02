@@ -19,6 +19,7 @@ import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
 import { IPositionQuery } from 'src/helpers/types/types';
+import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @Controller('position')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -33,8 +34,14 @@ export class PositionController {
   }
 
   @Get()
-  async findAll(@Query() query: IPositionQuery) {
-    const { position, pagination } = await this.positionService.findAll(query);
+  async findAll(
+    @Query() query: IPositionQuery,
+    @CompanyId() companyId: number,
+  ) {
+    const { position, pagination } = await this.positionService.findAll(
+      query,
+      companyId,
+    );
     return new ApiResponse(position, 200, pagination);
   }
 

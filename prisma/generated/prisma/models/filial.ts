@@ -41,6 +41,7 @@ export type FilialMinAggregateOutputType = {
   title_uz: string | null
   title_ru: string | null
   title_en: string | null
+  coordinate: string | null
   company_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -52,6 +53,7 @@ export type FilialMaxAggregateOutputType = {
   title_uz: string | null
   title_ru: string | null
   title_en: string | null
+  coordinate: string | null
   company_id: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -63,6 +65,7 @@ export type FilialCountAggregateOutputType = {
   title_uz: number
   title_ru: number
   title_en: number
+  coordinate: number
   company_id: number
   created_at: number
   updated_at: number
@@ -86,6 +89,7 @@ export type FilialMinAggregateInputType = {
   title_uz?: true
   title_ru?: true
   title_en?: true
+  coordinate?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -97,6 +101,7 @@ export type FilialMaxAggregateInputType = {
   title_uz?: true
   title_ru?: true
   title_en?: true
+  coordinate?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -108,6 +113,7 @@ export type FilialCountAggregateInputType = {
   title_uz?: true
   title_ru?: true
   title_en?: true
+  coordinate?: true
   company_id?: true
   created_at?: true
   updated_at?: true
@@ -206,6 +212,7 @@ export type FilialGroupByOutputType = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   company_id: number
   created_at: Date
   updated_at: Date
@@ -240,13 +247,13 @@ export type filialWhereInput = {
   title_uz?: Prisma.StringFilter<"filial"> | string
   title_ru?: Prisma.StringFilter<"filial"> | string
   title_en?: Prisma.StringFilter<"filial"> | string
+  coordinate?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"filial"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   worker?: Prisma.WorkerListRelationFilter
-  coordinate?: Prisma.CoordinateListRelationFilter
   holidays?: Prisma.HolidayListRelationFilter
 }
 
@@ -255,13 +262,13 @@ export type filialOrderByWithRelationInput = {
   title_uz?: Prisma.SortOrder
   title_ru?: Prisma.SortOrder
   title_en?: Prisma.SortOrder
+  coordinate?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.companyOrderByWithRelationInput
   worker?: Prisma.workerOrderByRelationAggregateInput
-  coordinate?: Prisma.coordinateOrderByRelationAggregateInput
   holidays?: Prisma.holidayOrderByRelationAggregateInput
 }
 
@@ -273,13 +280,13 @@ export type filialWhereUniqueInput = Prisma.AtLeast<{
   title_uz?: Prisma.StringFilter<"filial"> | string
   title_ru?: Prisma.StringFilter<"filial"> | string
   title_en?: Prisma.StringFilter<"filial"> | string
+  coordinate?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"filial"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   worker?: Prisma.WorkerListRelationFilter
-  coordinate?: Prisma.CoordinateListRelationFilter
   holidays?: Prisma.HolidayListRelationFilter
 }, "id">
 
@@ -288,6 +295,7 @@ export type filialOrderByWithAggregationInput = {
   title_uz?: Prisma.SortOrder
   title_ru?: Prisma.SortOrder
   title_en?: Prisma.SortOrder
+  coordinate?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -307,6 +315,7 @@ export type filialScalarWhereWithAggregatesInput = {
   title_uz?: Prisma.StringWithAggregatesFilter<"filial"> | string
   title_ru?: Prisma.StringWithAggregatesFilter<"filial"> | string
   title_en?: Prisma.StringWithAggregatesFilter<"filial"> | string
+  coordinate?: Prisma.StringWithAggregatesFilter<"filial"> | string
   company_id?: Prisma.IntWithAggregatesFilter<"filial"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"filial"> | Date | string
@@ -317,12 +326,12 @@ export type filialCreateInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutFilialInput
   worker?: Prisma.workerCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayCreateNestedManyWithoutFilialInput
 }
 
@@ -331,12 +340,12 @@ export type filialUncheckedCreateInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateUncheckedCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutFilialInput
 }
 
@@ -344,12 +353,12 @@ export type filialUpdateInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutFilialNestedInput
   worker?: Prisma.workerUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUpdateManyWithoutFilialNestedInput
 }
 
@@ -358,12 +367,12 @@ export type filialUncheckedUpdateInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker?: Prisma.workerUncheckedUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUncheckedUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUncheckedUpdateManyWithoutFilialNestedInput
 }
 
@@ -372,6 +381,7 @@ export type filialCreateManyInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
@@ -382,6 +392,7 @@ export type filialUpdateManyMutationInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -392,6 +403,7 @@ export type filialUncheckedUpdateManyInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -408,16 +420,12 @@ export type filialOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type FilialScalarRelationFilter = {
-  is?: Prisma.filialWhereInput
-  isNot?: Prisma.filialWhereInput
-}
-
 export type filialCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title_uz?: Prisma.SortOrder
   title_ru?: Prisma.SortOrder
   title_en?: Prisma.SortOrder
+  coordinate?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -434,6 +442,7 @@ export type filialMaxOrderByAggregateInput = {
   title_uz?: Prisma.SortOrder
   title_ru?: Prisma.SortOrder
   title_en?: Prisma.SortOrder
+  coordinate?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -445,6 +454,7 @@ export type filialMinOrderByAggregateInput = {
   title_uz?: Prisma.SortOrder
   title_ru?: Prisma.SortOrder
   title_en?: Prisma.SortOrder
+  coordinate?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -503,20 +513,6 @@ export type filialUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.filialScalarWhereInput | Prisma.filialScalarWhereInput[]
 }
 
-export type filialCreateNestedOneWithoutCoordinateInput = {
-  create?: Prisma.XOR<Prisma.filialCreateWithoutCoordinateInput, Prisma.filialUncheckedCreateWithoutCoordinateInput>
-  connectOrCreate?: Prisma.filialCreateOrConnectWithoutCoordinateInput
-  connect?: Prisma.filialWhereUniqueInput
-}
-
-export type filialUpdateOneRequiredWithoutCoordinateNestedInput = {
-  create?: Prisma.XOR<Prisma.filialCreateWithoutCoordinateInput, Prisma.filialUncheckedCreateWithoutCoordinateInput>
-  connectOrCreate?: Prisma.filialCreateOrConnectWithoutCoordinateInput
-  upsert?: Prisma.filialUpsertWithoutCoordinateInput
-  connect?: Prisma.filialWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.filialUpdateToOneWithWhereWithoutCoordinateInput, Prisma.filialUpdateWithoutCoordinateInput>, Prisma.filialUncheckedUpdateWithoutCoordinateInput>
-}
-
 export type filialCreateNestedOneWithoutHolidaysInput = {
   create?: Prisma.XOR<Prisma.filialCreateWithoutHolidaysInput, Prisma.filialUncheckedCreateWithoutHolidaysInput>
   connectOrCreate?: Prisma.filialCreateOrConnectWithoutHolidaysInput
@@ -553,11 +549,11 @@ export type filialCreateWithoutCompanyInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   worker?: Prisma.workerCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayCreateNestedManyWithoutFilialInput
 }
 
@@ -566,11 +562,11 @@ export type filialUncheckedCreateWithoutCompanyInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateUncheckedCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutFilialInput
 }
 
@@ -608,88 +604,23 @@ export type filialScalarWhereInput = {
   title_uz?: Prisma.StringFilter<"filial"> | string
   title_ru?: Prisma.StringFilter<"filial"> | string
   title_en?: Prisma.StringFilter<"filial"> | string
+  coordinate?: Prisma.StringFilter<"filial"> | string
   company_id?: Prisma.IntFilter<"filial"> | number
   created_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"filial"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"filial"> | Date | string | null
 }
 
-export type filialCreateWithoutCoordinateInput = {
-  title_uz: string
-  title_ru: string
-  title_en: string
-  created_at?: Date | string
-  updated_at?: Date | string
-  deleted_at?: Date | string | null
-  company: Prisma.companyCreateNestedOneWithoutFilialInput
-  worker?: Prisma.workerCreateNestedManyWithoutFilialInput
-  holidays?: Prisma.holidayCreateNestedManyWithoutFilialInput
-}
-
-export type filialUncheckedCreateWithoutCoordinateInput = {
-  id?: number
-  title_uz: string
-  title_ru: string
-  title_en: string
-  company_id: number
-  created_at?: Date | string
-  updated_at?: Date | string
-  deleted_at?: Date | string | null
-  worker?: Prisma.workerUncheckedCreateNestedManyWithoutFilialInput
-  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutFilialInput
-}
-
-export type filialCreateOrConnectWithoutCoordinateInput = {
-  where: Prisma.filialWhereUniqueInput
-  create: Prisma.XOR<Prisma.filialCreateWithoutCoordinateInput, Prisma.filialUncheckedCreateWithoutCoordinateInput>
-}
-
-export type filialUpsertWithoutCoordinateInput = {
-  update: Prisma.XOR<Prisma.filialUpdateWithoutCoordinateInput, Prisma.filialUncheckedUpdateWithoutCoordinateInput>
-  create: Prisma.XOR<Prisma.filialCreateWithoutCoordinateInput, Prisma.filialUncheckedCreateWithoutCoordinateInput>
-  where?: Prisma.filialWhereInput
-}
-
-export type filialUpdateToOneWithWhereWithoutCoordinateInput = {
-  where?: Prisma.filialWhereInput
-  data: Prisma.XOR<Prisma.filialUpdateWithoutCoordinateInput, Prisma.filialUncheckedUpdateWithoutCoordinateInput>
-}
-
-export type filialUpdateWithoutCoordinateInput = {
-  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
-  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
-  title_en?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  company?: Prisma.companyUpdateOneRequiredWithoutFilialNestedInput
-  worker?: Prisma.workerUpdateManyWithoutFilialNestedInput
-  holidays?: Prisma.holidayUpdateManyWithoutFilialNestedInput
-}
-
-export type filialUncheckedUpdateWithoutCoordinateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title_uz?: Prisma.StringFieldUpdateOperationsInput | string
-  title_ru?: Prisma.StringFieldUpdateOperationsInput | string
-  title_en?: Prisma.StringFieldUpdateOperationsInput | string
-  company_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  worker?: Prisma.workerUncheckedUpdateManyWithoutFilialNestedInput
-  holidays?: Prisma.holidayUncheckedUpdateManyWithoutFilialNestedInput
-}
-
 export type filialCreateWithoutHolidaysInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutFilialInput
   worker?: Prisma.workerCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateCreateNestedManyWithoutFilialInput
 }
 
 export type filialUncheckedCreateWithoutHolidaysInput = {
@@ -697,12 +628,12 @@ export type filialUncheckedCreateWithoutHolidaysInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutFilialInput
-  coordinate?: Prisma.coordinateUncheckedCreateNestedManyWithoutFilialInput
 }
 
 export type filialCreateOrConnectWithoutHolidaysInput = {
@@ -725,12 +656,12 @@ export type filialUpdateWithoutHolidaysInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutFilialNestedInput
   worker?: Prisma.workerUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUpdateManyWithoutFilialNestedInput
 }
 
 export type filialUncheckedUpdateWithoutHolidaysInput = {
@@ -738,23 +669,23 @@ export type filialUncheckedUpdateWithoutHolidaysInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker?: Prisma.workerUncheckedUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUncheckedUpdateManyWithoutFilialNestedInput
 }
 
 export type filialCreateWithoutWorkerInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutFilialInput
-  coordinate?: Prisma.coordinateCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayCreateNestedManyWithoutFilialInput
 }
 
@@ -763,11 +694,11 @@ export type filialUncheckedCreateWithoutWorkerInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   company_id: number
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
-  coordinate?: Prisma.coordinateUncheckedCreateNestedManyWithoutFilialInput
   holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutFilialInput
 }
 
@@ -791,11 +722,11 @@ export type filialUpdateWithoutWorkerInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUpdateManyWithoutFilialNestedInput
 }
 
@@ -804,11 +735,11 @@ export type filialUncheckedUpdateWithoutWorkerInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  coordinate?: Prisma.coordinateUncheckedUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUncheckedUpdateManyWithoutFilialNestedInput
 }
 
@@ -817,6 +748,7 @@ export type filialCreateManyCompanyInput = {
   title_uz: string
   title_ru: string
   title_en: string
+  coordinate: string
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -826,11 +758,11 @@ export type filialUpdateWithoutCompanyInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker?: Prisma.workerUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUpdateManyWithoutFilialNestedInput
 }
 
@@ -839,11 +771,11 @@ export type filialUncheckedUpdateWithoutCompanyInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker?: Prisma.workerUncheckedUpdateManyWithoutFilialNestedInput
-  coordinate?: Prisma.coordinateUncheckedUpdateManyWithoutFilialNestedInput
   holidays?: Prisma.holidayUncheckedUpdateManyWithoutFilialNestedInput
 }
 
@@ -852,6 +784,7 @@ export type filialUncheckedUpdateManyWithoutCompanyInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
+  coordinate?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -864,13 +797,11 @@ export type filialUncheckedUpdateManyWithoutCompanyInput = {
 
 export type FilialCountOutputType = {
   worker: number
-  coordinate: number
   holidays: number
 }
 
 export type FilialCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | FilialCountOutputTypeCountWorkerArgs
-  coordinate?: boolean | FilialCountOutputTypeCountCoordinateArgs
   holidays?: boolean | FilialCountOutputTypeCountHolidaysArgs
 }
 
@@ -894,13 +825,6 @@ export type FilialCountOutputTypeCountWorkerArgs<ExtArgs extends runtime.Types.E
 /**
  * FilialCountOutputType without action
  */
-export type FilialCountOutputTypeCountCoordinateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.coordinateWhereInput
-}
-
-/**
- * FilialCountOutputType without action
- */
 export type FilialCountOutputTypeCountHolidaysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.holidayWhereInput
 }
@@ -911,13 +835,13 @@ export type filialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   title_uz?: boolean
   title_ru?: boolean
   title_en?: boolean
+  coordinate?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.filial$workerArgs<ExtArgs>
-  coordinate?: boolean | Prisma.filial$coordinateArgs<ExtArgs>
   holidays?: boolean | Prisma.filial$holidaysArgs<ExtArgs>
   _count?: boolean | Prisma.FilialCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["filial"]>
@@ -927,6 +851,7 @@ export type filialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   title_uz?: boolean
   title_ru?: boolean
   title_en?: boolean
+  coordinate?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -939,6 +864,7 @@ export type filialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   title_uz?: boolean
   title_ru?: boolean
   title_en?: boolean
+  coordinate?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -951,17 +877,17 @@ export type filialSelectScalar = {
   title_uz?: boolean
   title_ru?: boolean
   title_en?: boolean
+  coordinate?: boolean
   company_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
 }
 
-export type filialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title_uz" | "title_ru" | "title_en" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["filial"]>
+export type filialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title_uz" | "title_ru" | "title_en" | "coordinate" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["filial"]>
 export type filialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   worker?: boolean | Prisma.filial$workerArgs<ExtArgs>
-  coordinate?: boolean | Prisma.filial$coordinateArgs<ExtArgs>
   holidays?: boolean | Prisma.filial$holidaysArgs<ExtArgs>
   _count?: boolean | Prisma.FilialCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -977,7 +903,6 @@ export type $filialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     company: Prisma.$companyPayload<ExtArgs>
     worker: Prisma.$workerPayload<ExtArgs>[]
-    coordinate: Prisma.$coordinatePayload<ExtArgs>[]
     holidays: Prisma.$holidayPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -985,6 +910,7 @@ export type $filialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     title_uz: string
     title_ru: string
     title_en: string
+    coordinate: string
     company_id: number
     created_at: Date
     updated_at: Date
@@ -1385,7 +1311,6 @@ export interface Prisma__filialClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   worker<T extends Prisma.filial$workerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.filial$workerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$workerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  coordinate<T extends Prisma.filial$coordinateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.filial$coordinateArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$coordinatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   holidays<T extends Prisma.filial$holidaysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.filial$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1420,6 +1345,7 @@ export interface filialFieldRefs {
   readonly title_uz: Prisma.FieldRef<"filial", 'String'>
   readonly title_ru: Prisma.FieldRef<"filial", 'String'>
   readonly title_en: Prisma.FieldRef<"filial", 'String'>
+  readonly coordinate: Prisma.FieldRef<"filial", 'String'>
   readonly company_id: Prisma.FieldRef<"filial", 'Int'>
   readonly created_at: Prisma.FieldRef<"filial", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"filial", 'DateTime'>
@@ -1841,30 +1767,6 @@ export type filial$workerArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.WorkerScalarFieldEnum | Prisma.WorkerScalarFieldEnum[]
-}
-
-/**
- * filial.coordinate
- */
-export type filial$coordinateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the coordinate
-   */
-  select?: Prisma.coordinateSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the coordinate
-   */
-  omit?: Prisma.coordinateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.coordinateInclude<ExtArgs> | null
-  where?: Prisma.coordinateWhereInput
-  orderBy?: Prisma.coordinateOrderByWithRelationInput | Prisma.coordinateOrderByWithRelationInput[]
-  cursor?: Prisma.coordinateWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CoordinateScalarFieldEnum | Prisma.CoordinateScalarFieldEnum[]
 }
 
 /**

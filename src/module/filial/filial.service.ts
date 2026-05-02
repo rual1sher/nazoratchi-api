@@ -11,20 +11,15 @@ export class FilialService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreateFilialDto) {
-    const { coordinates, ...data } = dto;
-
-    const filial = await this.prisma.filial.create({ data });
-
-    await Promise.all(
-      coordinates.map(
-        async (coordinate) =>
-          await this.prisma.coordinate.create({
-            data: { coordinate, filial_id: filial.id },
-          }),
-      ),
-    );
-
-    return filial;
+    return this.prisma.filial.create({
+      data: {
+        title_uz: dto.title_uz,
+        title_ru: dto.title_ru,
+        title_en: dto.title_en,
+        company_id: dto.company_id,
+        coordinate: dto.coordinate.trim(),
+      },
+    });
   }
 
   async findAll(query: IFilialQuery) {
@@ -40,27 +35,22 @@ export class FilialService {
       ];
     }
 
-    const filials = await this.prisma.filial.findMany({
+    return this.prisma.filial.findMany({
       where,
       orderBy: { created_at: 'desc' },
     });
-    return filials;
   }
 
   async findOne(id: number) {
     const filial = await this.prisma.filial.findUnique({
       where: { id, deleted_at: null },
-      include: { coordinate: true },
     });
     if (!filial) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Filial'),
       );
     }
-
-    const { coordinate, ...data } = filial;
-
-    return { ...data, coordinate: coordinate.map((el) => el.coordinate) };
+    return filial;
   }
 
   async update(id: number, updateFilialDto: UpdateFilialDto) {
@@ -73,24 +63,14 @@ export class FilialService {
       );
     }
 
-    const { coordinates, ...data } = updateFilialDto;
+    let data: Prisma.filialUncheckedUpdateInput = {};
 
-    if (coordinates) {
-      await this.prisma.coordinate.deleteMany({
-        where: { filial_id: id },
-      });
-
-      await Promise.all(
-        coordinates.map(
-          async (coordinate) =>
-            await this.prisma.coordinate.create({
-              data: { coordinate, filial_id: id },
-            }),
-        ),
-      );
+    data = updateFilialDto;
+    if (updateFilialDto.coordinate !== undefined) {
+      data.coordinate = updateFilialDto.coordinate.trim();
     }
 
-    return await this.prisma.filial.update({ where: { id }, data });
+    return this.prisma.filial.update({ where: { id }, data });
   }
 
   async remove(id: number) {
@@ -103,9 +83,9 @@ export class FilialService {
       );
     }
 
-    return await this.prisma.filial.update({
+    return this.prisma.filial.update({
       where: { id },
-      data: { deleted_at: null },
+      data: { deleted_at: new Date() },
     });
   }
 }

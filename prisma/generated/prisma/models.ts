@@ -10,7 +10,6 @@
  */
 export type * from './models/attendance'
 export type * from './models/company'
-export type * from './models/coordinate'
 export type * from './models/day'
 export type * from './models/department'
 export type * from './models/filial'

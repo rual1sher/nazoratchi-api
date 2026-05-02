@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -18,12 +17,18 @@ export class PositionService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreatePositionDto) {
-    await validateRelations(this.prisma, {department_id: dto.department_id})
+    await validateRelations(this.prisma, { department_id: dto.department_id });
     return await this.prisma.position.create({ data: dto });
   }
 
-  async findAll(query: IPositionQuery) {
+  async findAll(query: IPositionQuery, companyId: number) {
     const where: Prisma.positionWhereInput = { deleted_at: null };
+
+    if (!companyId) {
+      throw new BadRequestException(
+        ErrorMessages.badRequest.invalid('Company ID'),
+      );
+    }
 
     if (query?.departmentId) where.department_id = +query.departmentId;
     if (query.search) {
@@ -40,7 +45,11 @@ export class PositionService {
     const position = await this.prisma.position.findMany({
       where,
       orderBy: { created_at: 'desc' },
-      include: { _count: { select: { worker: true } }, worker: { take: 5 } },
+      include: {
+        department: true,
+        _count: { select: { worker: true } },
+        worker: { take: 5 },
+      },
       take: pagination.limit,
       skip: pagination.offset,
     });

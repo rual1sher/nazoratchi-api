@@ -386,7 +386,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   attendance: 'attendance',
   company: 'company',
-  coordinate: 'coordinate',
   day: 'day',
   department: 'department',
   filial: 'filial',
@@ -415,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "attendance" | "company" | "coordinate" | "day" | "department" | "filial" | "holiday" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "task" | "user" | "worker" | "worker_schedule"
+    modelProps: "attendance" | "company" | "day" | "department" | "filial" | "holiday" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "task" | "user" | "worker" | "worker_schedule"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -564,80 +563,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.companyCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CompanyCountAggregateOutputType> | number
-        }
-      }
-    }
-    coordinate: {
-      payload: Prisma.$coordinatePayload<ExtArgs>
-      fields: Prisma.coordinateFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.coordinateFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.coordinateFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        findFirst: {
-          args: Prisma.coordinateFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.coordinateFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        findMany: {
-          args: Prisma.coordinateFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>[]
-        }
-        create: {
-          args: Prisma.coordinateCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        createMany: {
-          args: Prisma.coordinateCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.coordinateCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>[]
-        }
-        delete: {
-          args: Prisma.coordinateDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        update: {
-          args: Prisma.coordinateUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        deleteMany: {
-          args: Prisma.coordinateDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.coordinateUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.coordinateUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>[]
-        }
-        upsert: {
-          args: Prisma.coordinateUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$coordinatePayload>
-        }
-        aggregate: {
-          args: Prisma.CoordinateAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCoordinate>
-        }
-        groupBy: {
-          args: Prisma.coordinateGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CoordinateGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.coordinateCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CoordinateCountAggregateOutputType> | number
         }
       }
     }
@@ -1667,17 +1592,6 @@ export const CompanyScalarFieldEnum = {
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
-export const CoordinateScalarFieldEnum = {
-  id: 'id',
-  coordinate: 'coordinate',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  filial_id: 'filial_id'
-} as const
-
-export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
-
-
 export const DayScalarFieldEnum = {
   id: 'id',
   title_uz: 'title_uz',
@@ -1711,6 +1625,7 @@ export const FilialScalarFieldEnum = {
   title_uz: 'title_uz',
   title_ru: 'title_ru',
   title_en: 'title_en',
+  coordinate: 'coordinate',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -1950,20 +1865,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -2051,6 +1952,20 @@ export type Enumworker_roleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'worker_role[]'
  */
 export type ListEnumworker_roleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'worker_role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -2150,7 +2065,6 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   attendance?: Prisma.attendanceOmit
   company?: Prisma.companyOmit
-  coordinate?: Prisma.coordinateOmit
   day?: Prisma.dayOmit
   department?: Prisma.departmentOmit
   filial?: Prisma.filialOmit

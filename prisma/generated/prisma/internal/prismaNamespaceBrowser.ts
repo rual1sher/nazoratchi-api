@@ -53,7 +53,6 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   attendance: 'attendance',
   company: 'company',
-  coordinate: 'coordinate',
   day: 'day',
   department: 'department',
   filial: 'filial',
@@ -110,17 +109,6 @@ export const CompanyScalarFieldEnum = {
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
-export const CoordinateScalarFieldEnum = {
-  id: 'id',
-  coordinate: 'coordinate',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  filial_id: 'filial_id'
-} as const
-
-export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
-
-
 export const DayScalarFieldEnum = {
   id: 'id',
   title_uz: 'title_uz',
@@ -154,6 +142,7 @@ export const FilialScalarFieldEnum = {
   title_uz: 'title_uz',
   title_ru: 'title_ru',
   title_en: 'title_en',
+  coordinate: 'coordinate',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',

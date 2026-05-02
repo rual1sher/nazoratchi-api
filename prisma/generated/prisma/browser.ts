@@ -28,11 +28,6 @@ export type attendance = Prisma.attendanceModel
  */
 export type company = Prisma.companyModel
 /**
- * Model coordinate
- * 
- */
-export type coordinate = Prisma.coordinateModel
-/**
  * Model day
  * 
  */
