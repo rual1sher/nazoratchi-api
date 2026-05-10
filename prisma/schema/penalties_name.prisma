@@ -1,13 +1,19 @@
 model penalties_name {
   id Int @id @default(autoincrement())
 
-  title      String    @db.VarChar(255)
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
+  title      String              @db.VarChar(255)
+  type       penalties_name_type @default(active)
+  created_at DateTime            @default(now())
+  updated_at DateTime            @default(now()) @updatedAt
   deleted_at DateTime?
   company_id Int
 
   company company @relation(fields: [company_id], references: [id], onDelete: NoAction)
 
   penalty penalty[]
+}
+
+enum penalties_name_type {
+  active
+  inactive
 }

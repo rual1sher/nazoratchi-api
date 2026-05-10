@@ -113,6 +113,11 @@ export type salary = Prisma.salaryModel
  */
 export type task = Prisma.taskModel
 /**
+ * Model terminal
+ * 
+ */
+export type terminal = Prisma.terminalModel
+/**
  * Model user
  * 
  */

@@ -32,7 +32,7 @@ export class AuthService {
     });
     if (!user) {
       throw new BadRequestException(ErrorMessages.badRequest.invalid('User'));
-    }    
+    }
 
     const isPasswordValid = checkPassword(
       createAuthDto.password,
@@ -81,11 +81,19 @@ export class AuthService {
 
     const isPasswordValid = checkPassword(dto.password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequestException(ErrorMessages.badRequest.invalid('Password'));
+      throw new BadRequestException(
+        ErrorMessages.badRequest.invalid('Password'),
+      );
     }
 
-    const accessToken = this.jwtService.generateAccess({ id: user.id, role: user.role });
-    const refreshToken = this.jwtService.generateRefresh({ id: user.id, role: user.role });
+    const accessToken = this.jwtService.generateAccess({
+      id: user.id,
+      role: user.role,
+    });
+    const refreshToken = this.jwtService.generateRefresh({
+      id: user.id,
+      role: user.role,
+    });
 
     await this.prisma.user.update({
       where: { id: user.id },
@@ -249,7 +257,6 @@ export class AuthService {
   async me(user: IPayload) {
     const data = await this.prisma.user.findUnique({
       where: { id: user.id },
-      include: { worker: true },
       omit: { password: true, token: true },
     });
 

@@ -55,7 +55,6 @@ export class PositionService {
       include: {
         department: true,
         _count: { select: { worker: true } },
-        worker: { take: 5 },
       },
       take: pagination.limit,
       skip: pagination.offset,
@@ -89,11 +88,7 @@ export class PositionService {
     return position;
   }
 
-  async update(
-    id: number,
-    dto: UpdatePositionDto,
-    companyId: number | null,
-  ) {
+  async update(id: number, dto: UpdatePositionDto, companyId: number | null) {
     const cId = requireCompanyId(companyId);
     await this.findOne(id, cId);
 

@@ -26,6 +26,14 @@ export const payment_type = {
 export type payment_type = (typeof payment_type)[keyof typeof payment_type]
 
 
+export const penalties_name_type = {
+  active: 'active',
+  inactive: 'inactive'
+} as const
+
+export type penalties_name_type = (typeof penalties_name_type)[keyof typeof penalties_name_type]
+
+
 export const penalty_type = {
   late_arrival: 'late_arrival',
   early_leave: 'early_leave',
@@ -37,9 +45,9 @@ export type penalty_type = (typeof penalty_type)[keyof typeof penalty_type]
 
 
 export const salary_type = {
-  month: 'month',
-  day: 'day',
-  hours: 'hours'
+  monthly: 'monthly',
+  hourly: 'hourly',
+  project: 'project'
 } as const
 
 export type salary_type = (typeof salary_type)[keyof typeof salary_type]

@@ -6,6 +6,7 @@ model company {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
+  terminal        terminal[]
   penalties_name  penalties_name[]
   filial          filial[]
   department      department[]

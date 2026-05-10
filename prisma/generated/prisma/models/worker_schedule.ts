@@ -217,7 +217,7 @@ export type Worker_scheduleGroupByOutputType = {
   name: string
   type: $Enums.worker_schedule_type
   starts_at: Date
-  days_frequency: number
+  days_frequency: number | null
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
@@ -252,7 +252,7 @@ export type worker_scheduleWhereInput = {
   name?: Prisma.StringFilter<"worker_schedule"> | string
   type?: Prisma.Enumworker_schedule_typeFilter<"worker_schedule"> | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  days_frequency?: Prisma.IntFilter<"worker_schedule"> | number
+  days_frequency?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
@@ -267,7 +267,7 @@ export type worker_scheduleOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   type?: Prisma.SortOrder
   starts_at?: Prisma.SortOrder
-  days_frequency?: Prisma.SortOrder
+  days_frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -285,7 +285,7 @@ export type worker_scheduleWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"worker_schedule"> | string
   type?: Prisma.Enumworker_schedule_typeFilter<"worker_schedule"> | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  days_frequency?: Prisma.IntFilter<"worker_schedule"> | number
+  days_frequency?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
@@ -300,7 +300,7 @@ export type worker_scheduleOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   type?: Prisma.SortOrder
   starts_at?: Prisma.SortOrder
-  days_frequency?: Prisma.SortOrder
+  days_frequency?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -320,7 +320,7 @@ export type worker_scheduleScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"worker_schedule"> | string
   type?: Prisma.Enumworker_schedule_typeWithAggregatesFilter<"worker_schedule"> | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
-  days_frequency?: Prisma.IntWithAggregatesFilter<"worker_schedule"> | number
+  days_frequency?: Prisma.IntNullableWithAggregatesFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"worker_schedule"> | Date | string | null
@@ -330,7 +330,7 @@ export type worker_scheduleCreateInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -345,7 +345,7 @@ export type worker_scheduleUncheckedCreateInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -357,7 +357,7 @@ export type worker_scheduleUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -372,7 +372,7 @@ export type worker_scheduleUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -386,7 +386,7 @@ export type worker_scheduleCreateManyInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -396,7 +396,7 @@ export type worker_scheduleUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -408,7 +408,7 @@ export type worker_scheduleUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -558,7 +558,7 @@ export type worker_scheduleCreateWithoutCompanyInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -571,7 +571,7 @@ export type worker_scheduleUncheckedCreateWithoutCompanyInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -614,7 +614,7 @@ export type worker_scheduleScalarWhereInput = {
   name?: Prisma.StringFilter<"worker_schedule"> | string
   type?: Prisma.Enumworker_schedule_typeFilter<"worker_schedule"> | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
-  days_frequency?: Prisma.IntFilter<"worker_schedule"> | number
+  days_frequency?: Prisma.IntNullableFilter<"worker_schedule"> | number | null
   created_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"worker_schedule"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"worker_schedule"> | Date | string | null
@@ -624,7 +624,7 @@ export type worker_scheduleCreateWithoutDaysInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -638,7 +638,7 @@ export type worker_scheduleUncheckedCreateWithoutDaysInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -665,7 +665,7 @@ export type worker_scheduleUpdateWithoutDaysInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -679,7 +679,7 @@ export type worker_scheduleUncheckedUpdateWithoutDaysInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -690,7 +690,7 @@ export type worker_scheduleCreateWithoutWorkersInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -704,7 +704,7 @@ export type worker_scheduleUncheckedCreateWithoutWorkersInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -731,7 +731,7 @@ export type worker_scheduleUpdateWithoutWorkersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -745,7 +745,7 @@ export type worker_scheduleUncheckedUpdateWithoutWorkersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -757,7 +757,7 @@ export type worker_scheduleCreateManyCompanyInput = {
   name: string
   type?: $Enums.worker_schedule_type
   starts_at: Date | string
-  days_frequency: number
+  days_frequency?: number | null
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
@@ -767,7 +767,7 @@ export type worker_scheduleUpdateWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -780,7 +780,7 @@ export type worker_scheduleUncheckedUpdateWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -793,7 +793,7 @@ export type worker_scheduleUncheckedUpdateManyWithoutCompanyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.Enumworker_schedule_typeFieldUpdateOperationsInput | $Enums.worker_schedule_type
   starts_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  days_frequency?: Prisma.IntFieldUpdateOperationsInput | number
+  days_frequency?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -920,7 +920,7 @@ export type $worker_schedulePayload<ExtArgs extends runtime.Types.Extensions.Int
     name: string
     type: $Enums.worker_schedule_type
     starts_at: Date
-    days_frequency: number
+    days_frequency: number | null
     created_at: Date
     updated_at: Date
     deleted_at: Date | null

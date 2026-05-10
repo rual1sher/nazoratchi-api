@@ -34,7 +34,7 @@ export class WorkerController {
   async create(
     @Body() createWorkerDto: CreateWorkerDto,
     @Owner() { role }: IPayload,
-    @CompanyId() companyId: number,
+    @CompanyId() companyId: number | null,
   ) {
     const data = await this.workerService.create(
       createWorkerDto,
@@ -46,7 +46,7 @@ export class WorkerController {
 
   @Get()
   @ApiOperation({ summary: 'Get all employees' })
-  async findAll(@Query() query: IWorkerQuery, @CompanyId() companyId: number) {
+  async findAll(@Query() query: IWorkerQuery, @CompanyId() companyId: number | null) {
     const { worker, pagination } = await this.workerService.findAll(
       query,
       companyId,
@@ -56,7 +56,7 @@ export class WorkerController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get an employee by id' })
-  async findOne(@Param('id') id: string, @CompanyId() companyId: number) {
+  async findOne(@Param('id') id: string, @CompanyId() companyId: number | null) {
     const data = await this.workerService.findOne(+id, companyId);
     return new ApiResponse(data);
   }
@@ -66,7 +66,7 @@ export class WorkerController {
   async update(
     @Param('id') id: string,
     @Body() updateWorkerDto: UpdateWorkerDto,
-    @CompanyId() companyId: number,
+    @CompanyId() companyId: number | null,
   ) {
     const data = await this.workerService.update(
       +id,
@@ -78,7 +78,7 @@ export class WorkerController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Soft delete an employee' })
-  async remove(@Param('id') id: string, @CompanyId() companyId: number) {
+  async remove(@Param('id') id: string, @CompanyId() companyId: number | null) {
     const data = await this.workerService.remove(+id, companyId);
     return new ApiResponse(data);
   }

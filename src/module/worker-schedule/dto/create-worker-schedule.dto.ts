@@ -69,14 +69,14 @@ export class CreateWorkerScheduleDto {
 
   @ApiPropertyOptional({ example: 7 })
   @IsInt()
-  @IsNotEmpty()
+  @IsOptional()
   @Min(1)
   @Max(7)
-  daysFrequency: number;
+  daysFrequency?: number;
 
   @ApiPropertyOptional({ type: [CreateWorkerScheduleDayItemDto] })
-  @IsArray()
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => CreateWorkerScheduleDayItemDto)
-  days: CreateWorkerScheduleDayItemDto[];
+  days?: CreateWorkerScheduleDayItemDto;
 }

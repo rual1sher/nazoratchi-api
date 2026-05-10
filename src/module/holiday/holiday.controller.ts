@@ -22,7 +22,7 @@ import { worker_role } from 'prisma/generated/prisma/enums';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @ApiTags('Holiday')
-@Controller('api/v1/holiday')
+@Controller('holiday')
 @UseGuards(AuthGuard, WorkerRolesGuard)
 @WorkerRoles(worker_role.maneger)
 export class HolidayController {
@@ -40,10 +40,7 @@ export class HolidayController {
 
   @ApiOperation({ summary: 'Get all holidays' })
   @Get()
-  async findAll(
-    @Query() query: IHolidayQuery,
-    @CompanyId() companyId: number,
-  ) {
+  async findAll(@Query() query: IHolidayQuery, @CompanyId() companyId: number) {
     const { holiday, pagination } = await this.holidayService.findAll(
       query,
       companyId,
@@ -65,7 +62,11 @@ export class HolidayController {
     @Body() updateHolidayDto: UpdateHolidayDto,
     @CompanyId() companyId: number,
   ) {
-    const data = await this.holidayService.update(+id, updateHolidayDto, companyId);
+    const data = await this.holidayService.update(
+      +id,
+      updateHolidayDto,
+      companyId,
+    );
     return new ApiResponse(data);
   }
 

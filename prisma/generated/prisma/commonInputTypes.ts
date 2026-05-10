@@ -226,6 +226,23 @@ export type Enumpayment_typeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumpayment_typeFilter<$PrismaModel>
 }
 
+export type Enumpenalties_name_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.penalties_name_type | Prisma.Enumpenalties_name_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel> | $Enums.penalties_name_type
+}
+
+export type Enumpenalties_name_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.penalties_name_type | Prisma.Enumpenalties_name_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumpenalties_name_typeWithAggregatesFilter<$PrismaModel> | $Enums.penalties_name_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel>
+}
+
 export type Enumpenalty_typeFilter<$PrismaModel = never> = {
   equals?: $Enums.penalty_type | Prisma.Enumpenalty_typeFieldRefInput<$PrismaModel>
   in?: $Enums.penalty_type[] | Prisma.ListEnumpenalty_typeFieldRefInput<$PrismaModel>
@@ -561,6 +578,23 @@ export type NestedEnumpayment_typeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumpayment_typeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumpayment_typeFilter<$PrismaModel>
+}
+
+export type NestedEnumpenalties_name_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.penalties_name_type | Prisma.Enumpenalties_name_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel> | $Enums.penalties_name_type
+}
+
+export type NestedEnumpenalties_name_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.penalties_name_type | Prisma.Enumpenalties_name_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.penalties_name_type[] | Prisma.ListEnumpenalties_name_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumpenalties_name_typeWithAggregatesFilter<$PrismaModel> | $Enums.penalties_name_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumpenalties_name_typeFilter<$PrismaModel>
 }
 
 export type NestedEnumpenalty_typeFilter<$PrismaModel = never> = {

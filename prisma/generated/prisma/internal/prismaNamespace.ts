@@ -399,6 +399,7 @@ export const ModelName = {
   position: 'position',
   salary: 'salary',
   task: 'task',
+  terminal: 'terminal',
   user: 'user',
   worker: 'worker',
   worker_schedule: 'worker_schedule'
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "attendance" | "company" | "day" | "department" | "filial" | "holiday_filial" | "holiday_department" | "holiday_schedule_scope" | "holiday" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "task" | "user" | "worker" | "worker_schedule"
+    modelProps: "attendance" | "company" | "day" | "department" | "filial" | "holiday_filial" | "holiday_department" | "holiday_schedule_scope" | "holiday" | "payment" | "penalties_name" | "penalty" | "position" | "salary" | "task" | "terminal" | "user" | "worker" | "worker_schedule"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1531,6 +1532,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    terminal: {
+      payload: Prisma.$terminalPayload<ExtArgs>
+      fields: Prisma.terminalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.terminalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.terminalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        findFirst: {
+          args: Prisma.terminalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.terminalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        findMany: {
+          args: Prisma.terminalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>[]
+        }
+        create: {
+          args: Prisma.terminalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        createMany: {
+          args: Prisma.terminalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.terminalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>[]
+        }
+        delete: {
+          args: Prisma.terminalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        update: {
+          args: Prisma.terminalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        deleteMany: {
+          args: Prisma.terminalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.terminalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.terminalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>[]
+        }
+        upsert: {
+          args: Prisma.terminalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$terminalPayload>
+        }
+        aggregate: {
+          args: Prisma.TerminalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTerminal>
+        }
+        groupBy: {
+          args: Prisma.terminalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TerminalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.terminalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TerminalCountAggregateOutputType> | number
+        }
+      }
+    }
     user: {
       payload: Prisma.$userPayload<ExtArgs>
       fields: Prisma.userFieldRefs
@@ -1923,6 +1998,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const Penalties_nameScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  type: 'type',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -1967,9 +2043,8 @@ export const SalaryScalarFieldEnum = {
   company_id: 'company_id',
   amount: 'amount',
   type: 'type',
-  date_time: 'date_time',
-  status: 'status',
-  worker_id: 'worker_id',
+  start_date: 'start_date',
+  fixed: 'fixed',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -1991,6 +2066,21 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const TerminalScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  unique_id: 'unique_id',
+  mac_address: 'mac_address',
+  branch_id: 'branch_id',
+  company_id: 'company_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type TerminalScalarFieldEnum = (typeof TerminalScalarFieldEnum)[keyof typeof TerminalScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -2019,6 +2109,7 @@ export const WorkerScalarFieldEnum = {
   schedule_id: 'schedule_id',
   position_id: 'position_id',
   filial_id: 'filial_id',
+  salary_id: 'salary_id',
   user_id: 'user_id',
   role: 'role',
   created_at: 'created_at',
@@ -2162,6 +2253,20 @@ export type Enumpayment_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'payment_type[]'
  */
 export type ListEnumpayment_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_type[]'>
+    
+
+
+/**
+ * Reference to a field of type 'penalties_name_type'
+ */
+export type Enumpenalties_name_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'penalties_name_type'>
+    
+
+
+/**
+ * Reference to a field of type 'penalties_name_type[]'
+ */
+export type ListEnumpenalties_name_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'penalties_name_type[]'>
     
 
 
@@ -2358,6 +2463,7 @@ export type GlobalOmitConfig = {
   position?: Prisma.positionOmit
   salary?: Prisma.salaryOmit
   task?: Prisma.taskOmit
+  terminal?: Prisma.terminalOmit
   user?: Prisma.userOmit
   worker?: Prisma.workerOmit
   worker_schedule?: Prisma.worker_scheduleOmit

@@ -15,6 +15,7 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { SalaryModule } from './salary/salary.module';
 import { TaskModule } from './task/task.module';
 import { HolidayModule } from './holiday/holiday.module';
+import { TerminalModule } from './terminal/terminal.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { HolidayModule } from './holiday/holiday.module';
     SalaryModule,
     HolidayModule,
     TaskModule,
+    TerminalModule,
   ],
   providers: [PrismaService],
 })

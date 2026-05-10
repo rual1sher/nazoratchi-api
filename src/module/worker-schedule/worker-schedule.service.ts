@@ -35,20 +35,6 @@ export class WorkerScheduleService {
   async create(dto: CreateWorkerScheduleDto, companyId: number | null) {
     const cId = requireCompanyId(companyId);
 
-    if (!dto.days?.length) {
-      throw new BadRequestException(
-        'days is required and should contain at least one item',
-      );
-    }
-
-    for (const day of dto.days) {
-      if (!day.day || !day.start || !day.end) {
-        throw new BadRequestException(
-          'Each day item must include day, start and end',
-        );
-      }
-    }
-
     return await this.prisma.$transaction(async (tx) => {
       const schedule = await tx.worker_schedule.create({
         data: {
@@ -60,20 +46,21 @@ export class WorkerScheduleService {
         },
       });
 
-      await tx.day.createMany({
-        data: dto.days.map((day) => ({
-          day: day.day,
-          start_time: parseTimeToDate(day.start, 'start'),
-          end_time: parseTimeToDate(day.end, 'end'),
-          break_start: day.breakStart
-            ? parseTimeToDate(day.breakStart, 'breakStart')
-            : undefined,
-          break_end: day.breakEnd
-            ? parseTimeToDate(day.breakEnd, 'breakEnd')
-            : undefined,
-          schedule_id: schedule.id,
-        })),
-      });
+      Array.isArray(dto.days) &&
+        (await tx.day.createMany({
+          data: dto.days.map((day) => ({
+            day: day.day,
+            start_time: parseTimeToDate(day.start, 'start'),
+            end_time: parseTimeToDate(day.end, 'end'),
+            break_start: day.breakStart
+              ? parseTimeToDate(day.breakStart, 'breakStart')
+              : undefined,
+            break_end: day.breakEnd
+              ? parseTimeToDate(day.breakEnd, 'breakEnd')
+              : undefined,
+            schedule_id: schedule.id,
+          })),
+        }));
 
       return tx.worker_schedule.findUnique({
         where: { id: schedule.id },
@@ -179,7 +166,11 @@ export class WorkerScheduleService {
     };
   }
 
-  async update(id: number, dto: UpdateWorkerScheduleDto, companyId: number | null) {
+  async update(
+    id: number,
+    dto: UpdateWorkerScheduleDto,
+    companyId: number | null,
+  ) {
     const cId = requireCompanyId(companyId);
     const data = await this.prisma.worker_schedule.findFirst({
       where: { id, deleted_at: null, company_id: cId },
@@ -208,7 +199,7 @@ export class WorkerScheduleService {
           data: { deleted_at: new Date() },
         });
 
-        if (dto.days.length > 0) {
+        if (Array.isArray(dto.days)) {
           await tx.day.createMany({
             data: dto.days.map((day) => ({
               day: day.day!,

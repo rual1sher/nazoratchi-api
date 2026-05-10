@@ -28,11 +28,17 @@ export class WorkerService {
     role: user_role,
     companyId: number | null,
   ) {
-    let { user, user_id, ...data } = createWorkerDto;
+    const cId = requireCompanyId(companyId);
+    let {
+      user,
+      user_id,
+      company_id: _omitCompany,
+      ...data
+    } = createWorkerDto as CreateWorkerDto & { company_id?: number };
 
     if (user) {
-      const chechUser = await this.prisma.user.findUnique({
-        where: { phone: user.phone },
+      const chechUser = await this.prisma.user.findFirst({
+        where: { OR: [{ phone: user.phone }, { username: user.username }] },
       });
       if (chechUser) {
         throw new ConflictException(
@@ -56,12 +62,12 @@ export class WorkerService {
       );
     }
 
-    if (role !== user_role.admin) {
-      data = { ...data, company_id: requireCompanyId(companyId) };
-    }
-
     const checkWorker = await this.prisma.worker.findFirst({
-      where: { user_id, company_id: data.company_id, deleted_at: null },
+      where: {
+        user_id,
+        company_id: cId,
+        deleted_at: null,
+      },
     });
     if (checkWorker) {
       throw new ConflictException(
@@ -78,15 +84,16 @@ export class WorkerService {
     }
 
     return await this.prisma.worker.create({
-      data: { ...data, user_id },
+      data: { ...data, user_id, company_id: cId },
     });
   }
 
-  async findAll(query: IWorkerQuery, companyId: number) {
+  async findAll(query: IWorkerQuery, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
     const { search, ...wheresOptional } = query;
     const where: Prisma.workerWhereInput = {
       deleted_at: null,
-      company_id: companyId,
+      company_id: cId,
     };
 
     await validateRelationsQuery(this.prisma, wheresOptional, where);
@@ -110,7 +117,14 @@ export class WorkerService {
       include: {
         user: { omit: { token: true, password: true, role: true } },
         position: true,
+        filial: true,
+        department: true,
+        company: true,
         schedule: true,
+        tasks: true,
+        salary: true,
+        payment: true,
+        attendance: true,
       },
       take: pagination.limit,
       skip: pagination.offset,
@@ -164,17 +178,14 @@ export class WorkerService {
       );
     }
 
-    await validateRelations(this.prisma, dto);
-
-    if (dto.company_id != null && dto.company_id !== cId) {
-      throw new ForbiddenException(
-        ErrorMessages.forbidden.accessDenied,
-      );
-    }
+    const { company_id: _omitCompany, ...dtoSafe } = dto as UpdateWorkerDto & {
+      company_id?: number;
+    };
+    await validateRelations(this.prisma, dtoSafe);
 
     return await this.prisma.worker.update({
       where: { id },
-      data: dto,
+      data: dtoSafe,
     });
   }
 

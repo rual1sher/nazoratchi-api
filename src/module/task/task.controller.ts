@@ -22,7 +22,7 @@ import { worker_role } from 'prisma/generated/prisma/enums';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @ApiTags('Task')
-@Controller('api/v1/task')
+@Controller('task')
 @UseGuards(AuthGuard, WorkerRolesGuard)
 @WorkerRoles(worker_role.maneger)
 export class TaskController {

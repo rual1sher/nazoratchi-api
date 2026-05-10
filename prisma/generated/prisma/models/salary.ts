@@ -29,23 +29,22 @@ export type AggregateSalary = {
 export type SalaryAvgAggregateOutputType = {
   id: number | null
   company_id: number | null
-  worker_id: number | null
+  amount: number | null
 }
 
 export type SalarySumAggregateOutputType = {
   id: number | null
   company_id: number | null
-  worker_id: number | null
+  amount: number | null
 }
 
 export type SalaryMinAggregateOutputType = {
   id: number | null
   company_id: number | null
-  amount: string | null
+  amount: number | null
   type: $Enums.salary_type | null
-  date_time: Date | null
-  status: boolean | null
-  worker_id: number | null
+  start_date: Date | null
+  fixed: boolean | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
@@ -54,11 +53,10 @@ export type SalaryMinAggregateOutputType = {
 export type SalaryMaxAggregateOutputType = {
   id: number | null
   company_id: number | null
-  amount: string | null
+  amount: number | null
   type: $Enums.salary_type | null
-  date_time: Date | null
-  status: boolean | null
-  worker_id: number | null
+  start_date: Date | null
+  fixed: boolean | null
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
@@ -69,9 +67,8 @@ export type SalaryCountAggregateOutputType = {
   company_id: number
   amount: number
   type: number
-  date_time: number
-  status: number
-  worker_id: number
+  start_date: number
+  fixed: number
   created_at: number
   updated_at: number
   deleted_at: number
@@ -82,13 +79,13 @@ export type SalaryCountAggregateOutputType = {
 export type SalaryAvgAggregateInputType = {
   id?: true
   company_id?: true
-  worker_id?: true
+  amount?: true
 }
 
 export type SalarySumAggregateInputType = {
   id?: true
   company_id?: true
-  worker_id?: true
+  amount?: true
 }
 
 export type SalaryMinAggregateInputType = {
@@ -96,9 +93,8 @@ export type SalaryMinAggregateInputType = {
   company_id?: true
   amount?: true
   type?: true
-  date_time?: true
-  status?: true
-  worker_id?: true
+  start_date?: true
+  fixed?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -109,9 +105,8 @@ export type SalaryMaxAggregateInputType = {
   company_id?: true
   amount?: true
   type?: true
-  date_time?: true
-  status?: true
-  worker_id?: true
+  start_date?: true
+  fixed?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -122,9 +117,8 @@ export type SalaryCountAggregateInputType = {
   company_id?: true
   amount?: true
   type?: true
-  date_time?: true
-  status?: true
-  worker_id?: true
+  start_date?: true
+  fixed?: true
   created_at?: true
   updated_at?: true
   deleted_at?: true
@@ -220,11 +214,10 @@ export type salaryGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type SalaryGroupByOutputType = {
   id: number
   company_id: number
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date
-  status: boolean
-  worker_id: number
+  start_date: Date
+  fixed: boolean
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
@@ -256,16 +249,15 @@ export type salaryWhereInput = {
   NOT?: Prisma.salaryWhereInput | Prisma.salaryWhereInput[]
   id?: Prisma.IntFilter<"salary"> | number
   company_id?: Prisma.IntFilter<"salary"> | number
-  amount?: Prisma.StringFilter<"salary"> | string
+  amount?: Prisma.IntFilter<"salary"> | number
   type?: Prisma.Enumsalary_typeFilter<"salary"> | $Enums.salary_type
-  date_time?: Prisma.DateTimeFilter<"salary"> | Date | string
-  status?: Prisma.BoolFilter<"salary"> | boolean
-  worker_id?: Prisma.IntFilter<"salary"> | number
+  start_date?: Prisma.DateTimeFilter<"salary"> | Date | string
+  fixed?: Prisma.BoolFilter<"salary"> | boolean
   created_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"salary"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
-  worker?: Prisma.XOR<Prisma.WorkerScalarRelationFilter, Prisma.workerWhereInput>
+  workers?: Prisma.WorkerListRelationFilter
 }
 
 export type salaryOrderByWithRelationInput = {
@@ -273,14 +265,13 @@ export type salaryOrderByWithRelationInput = {
   company_id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date_time?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  fixed?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.companyOrderByWithRelationInput
-  worker?: Prisma.workerOrderByWithRelationInput
+  workers?: Prisma.workerOrderByRelationAggregateInput
 }
 
 export type salaryWhereUniqueInput = Prisma.AtLeast<{
@@ -289,16 +280,15 @@ export type salaryWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.salaryWhereInput[]
   NOT?: Prisma.salaryWhereInput | Prisma.salaryWhereInput[]
   company_id?: Prisma.IntFilter<"salary"> | number
-  amount?: Prisma.StringFilter<"salary"> | string
+  amount?: Prisma.IntFilter<"salary"> | number
   type?: Prisma.Enumsalary_typeFilter<"salary"> | $Enums.salary_type
-  date_time?: Prisma.DateTimeFilter<"salary"> | Date | string
-  status?: Prisma.BoolFilter<"salary"> | boolean
-  worker_id?: Prisma.IntFilter<"salary"> | number
+  start_date?: Prisma.DateTimeFilter<"salary"> | Date | string
+  fixed?: Prisma.BoolFilter<"salary"> | boolean
   created_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"salary"> | Date | string | null
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
-  worker?: Prisma.XOR<Prisma.WorkerScalarRelationFilter, Prisma.workerWhereInput>
+  workers?: Prisma.WorkerListRelationFilter
 }, "id">
 
 export type salaryOrderByWithAggregationInput = {
@@ -306,9 +296,8 @@ export type salaryOrderByWithAggregationInput = {
   company_id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date_time?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  fixed?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -325,84 +314,82 @@ export type salaryScalarWhereWithAggregatesInput = {
   NOT?: Prisma.salaryScalarWhereWithAggregatesInput | Prisma.salaryScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"salary"> | number
   company_id?: Prisma.IntWithAggregatesFilter<"salary"> | number
-  amount?: Prisma.StringWithAggregatesFilter<"salary"> | string
+  amount?: Prisma.IntWithAggregatesFilter<"salary"> | number
   type?: Prisma.Enumsalary_typeWithAggregatesFilter<"salary"> | $Enums.salary_type
-  date_time?: Prisma.DateTimeWithAggregatesFilter<"salary"> | Date | string
-  status?: Prisma.BoolWithAggregatesFilter<"salary"> | boolean
-  worker_id?: Prisma.IntWithAggregatesFilter<"salary"> | number
+  start_date?: Prisma.DateTimeWithAggregatesFilter<"salary"> | Date | string
+  fixed?: Prisma.BoolWithAggregatesFilter<"salary"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"salary"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"salary"> | Date | string
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"salary"> | Date | string | null
 }
 
 export type salaryCreateInput = {
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutSalaryInput
-  worker: Prisma.workerCreateNestedOneWithoutSalaryInput
+  workers?: Prisma.workerCreateNestedManyWithoutSalaryInput
 }
 
 export type salaryUncheckedCreateInput = {
   id?: number
   company_id: number
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
-  worker_id: number
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  workers?: Prisma.workerUncheckedCreateNestedManyWithoutSalaryInput
 }
 
 export type salaryUpdateInput = {
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutSalaryNestedInput
-  worker?: Prisma.workerUpdateOneRequiredWithoutSalaryNestedInput
+  workers?: Prisma.workerUpdateManyWithoutSalaryNestedInput
 }
 
 export type salaryUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  worker_id?: Prisma.IntFieldUpdateOperationsInput | number
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  workers?: Prisma.workerUncheckedUpdateManyWithoutSalaryNestedInput
 }
 
 export type salaryCreateManyInput = {
   id?: number
   company_id: number
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
-  worker_id: number
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
 export type salaryUpdateManyMutationInput = {
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -411,11 +398,10 @@ export type salaryUpdateManyMutationInput = {
 export type salaryUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  worker_id?: Prisma.IntFieldUpdateOperationsInput | number
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -436,9 +422,8 @@ export type salaryCountOrderByAggregateInput = {
   company_id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date_time?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  fixed?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -447,7 +432,7 @@ export type salaryCountOrderByAggregateInput = {
 export type salaryAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  amount?: Prisma.SortOrder
 }
 
 export type salaryMaxOrderByAggregateInput = {
@@ -455,9 +440,8 @@ export type salaryMaxOrderByAggregateInput = {
   company_id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date_time?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  fixed?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -468,9 +452,8 @@ export type salaryMinOrderByAggregateInput = {
   company_id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  date_time?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  start_date?: Prisma.SortOrder
+  fixed?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
@@ -479,7 +462,12 @@ export type salaryMinOrderByAggregateInput = {
 export type salarySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   company_id?: Prisma.SortOrder
-  worker_id?: Prisma.SortOrder
+  amount?: Prisma.SortOrder
+}
+
+export type SalaryNullableScalarRelationFilter = {
+  is?: Prisma.salaryWhereInput | null
+  isNot?: Prisma.salaryWhereInput | null
 }
 
 export type salaryCreateNestedManyWithoutCompanyInput = {
@@ -528,69 +516,43 @@ export type Enumsalary_typeFieldUpdateOperationsInput = {
   set?: $Enums.salary_type
 }
 
-export type salaryCreateNestedManyWithoutWorkerInput = {
-  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput> | Prisma.salaryCreateWithoutWorkerInput[] | Prisma.salaryUncheckedCreateWithoutWorkerInput[]
-  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkerInput | Prisma.salaryCreateOrConnectWithoutWorkerInput[]
-  createMany?: Prisma.salaryCreateManyWorkerInputEnvelope
-  connect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
+export type salaryCreateNestedOneWithoutWorkersInput = {
+  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkersInput, Prisma.salaryUncheckedCreateWithoutWorkersInput>
+  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkersInput
+  connect?: Prisma.salaryWhereUniqueInput
 }
 
-export type salaryUncheckedCreateNestedManyWithoutWorkerInput = {
-  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput> | Prisma.salaryCreateWithoutWorkerInput[] | Prisma.salaryUncheckedCreateWithoutWorkerInput[]
-  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkerInput | Prisma.salaryCreateOrConnectWithoutWorkerInput[]
-  createMany?: Prisma.salaryCreateManyWorkerInputEnvelope
-  connect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-}
-
-export type salaryUpdateManyWithoutWorkerNestedInput = {
-  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput> | Prisma.salaryCreateWithoutWorkerInput[] | Prisma.salaryUncheckedCreateWithoutWorkerInput[]
-  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkerInput | Prisma.salaryCreateOrConnectWithoutWorkerInput[]
-  upsert?: Prisma.salaryUpsertWithWhereUniqueWithoutWorkerInput | Prisma.salaryUpsertWithWhereUniqueWithoutWorkerInput[]
-  createMany?: Prisma.salaryCreateManyWorkerInputEnvelope
-  set?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  disconnect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  delete?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  connect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  update?: Prisma.salaryUpdateWithWhereUniqueWithoutWorkerInput | Prisma.salaryUpdateWithWhereUniqueWithoutWorkerInput[]
-  updateMany?: Prisma.salaryUpdateManyWithWhereWithoutWorkerInput | Prisma.salaryUpdateManyWithWhereWithoutWorkerInput[]
-  deleteMany?: Prisma.salaryScalarWhereInput | Prisma.salaryScalarWhereInput[]
-}
-
-export type salaryUncheckedUpdateManyWithoutWorkerNestedInput = {
-  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput> | Prisma.salaryCreateWithoutWorkerInput[] | Prisma.salaryUncheckedCreateWithoutWorkerInput[]
-  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkerInput | Prisma.salaryCreateOrConnectWithoutWorkerInput[]
-  upsert?: Prisma.salaryUpsertWithWhereUniqueWithoutWorkerInput | Prisma.salaryUpsertWithWhereUniqueWithoutWorkerInput[]
-  createMany?: Prisma.salaryCreateManyWorkerInputEnvelope
-  set?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  disconnect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  delete?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  connect?: Prisma.salaryWhereUniqueInput | Prisma.salaryWhereUniqueInput[]
-  update?: Prisma.salaryUpdateWithWhereUniqueWithoutWorkerInput | Prisma.salaryUpdateWithWhereUniqueWithoutWorkerInput[]
-  updateMany?: Prisma.salaryUpdateManyWithWhereWithoutWorkerInput | Prisma.salaryUpdateManyWithWhereWithoutWorkerInput[]
-  deleteMany?: Prisma.salaryScalarWhereInput | Prisma.salaryScalarWhereInput[]
+export type salaryUpdateOneWithoutWorkersNestedInput = {
+  create?: Prisma.XOR<Prisma.salaryCreateWithoutWorkersInput, Prisma.salaryUncheckedCreateWithoutWorkersInput>
+  connectOrCreate?: Prisma.salaryCreateOrConnectWithoutWorkersInput
+  upsert?: Prisma.salaryUpsertWithoutWorkersInput
+  disconnect?: Prisma.salaryWhereInput | boolean
+  delete?: Prisma.salaryWhereInput | boolean
+  connect?: Prisma.salaryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.salaryUpdateToOneWithWhereWithoutWorkersInput, Prisma.salaryUpdateWithoutWorkersInput>, Prisma.salaryUncheckedUpdateWithoutWorkersInput>
 }
 
 export type salaryCreateWithoutCompanyInput = {
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
-  worker: Prisma.workerCreateNestedOneWithoutSalaryInput
+  workers?: Prisma.workerCreateNestedManyWithoutSalaryInput
 }
 
 export type salaryUncheckedCreateWithoutCompanyInput = {
   id?: number
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
-  worker_id: number
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  workers?: Prisma.workerUncheckedCreateNestedManyWithoutSalaryInput
 }
 
 export type salaryCreateOrConnectWithoutCompanyInput = {
@@ -625,159 +587,151 @@ export type salaryScalarWhereInput = {
   NOT?: Prisma.salaryScalarWhereInput | Prisma.salaryScalarWhereInput[]
   id?: Prisma.IntFilter<"salary"> | number
   company_id?: Prisma.IntFilter<"salary"> | number
-  amount?: Prisma.StringFilter<"salary"> | string
+  amount?: Prisma.IntFilter<"salary"> | number
   type?: Prisma.Enumsalary_typeFilter<"salary"> | $Enums.salary_type
-  date_time?: Prisma.DateTimeFilter<"salary"> | Date | string
-  status?: Prisma.BoolFilter<"salary"> | boolean
-  worker_id?: Prisma.IntFilter<"salary"> | number
+  start_date?: Prisma.DateTimeFilter<"salary"> | Date | string
+  fixed?: Prisma.BoolFilter<"salary"> | boolean
   created_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"salary"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"salary"> | Date | string | null
 }
 
-export type salaryCreateWithoutWorkerInput = {
-  amount: string
+export type salaryCreateWithoutWorkersInput = {
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutSalaryInput
 }
 
-export type salaryUncheckedCreateWithoutWorkerInput = {
+export type salaryUncheckedCreateWithoutWorkersInput = {
   id?: number
   company_id: number
-  amount: string
+  amount: number
   type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
+  start_date: Date | string
+  fixed?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
 }
 
-export type salaryCreateOrConnectWithoutWorkerInput = {
+export type salaryCreateOrConnectWithoutWorkersInput = {
   where: Prisma.salaryWhereUniqueInput
-  create: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput>
+  create: Prisma.XOR<Prisma.salaryCreateWithoutWorkersInput, Prisma.salaryUncheckedCreateWithoutWorkersInput>
 }
 
-export type salaryCreateManyWorkerInputEnvelope = {
-  data: Prisma.salaryCreateManyWorkerInput | Prisma.salaryCreateManyWorkerInput[]
-  skipDuplicates?: boolean
+export type salaryUpsertWithoutWorkersInput = {
+  update: Prisma.XOR<Prisma.salaryUpdateWithoutWorkersInput, Prisma.salaryUncheckedUpdateWithoutWorkersInput>
+  create: Prisma.XOR<Prisma.salaryCreateWithoutWorkersInput, Prisma.salaryUncheckedCreateWithoutWorkersInput>
+  where?: Prisma.salaryWhereInput
 }
 
-export type salaryUpsertWithWhereUniqueWithoutWorkerInput = {
-  where: Prisma.salaryWhereUniqueInput
-  update: Prisma.XOR<Prisma.salaryUpdateWithoutWorkerInput, Prisma.salaryUncheckedUpdateWithoutWorkerInput>
-  create: Prisma.XOR<Prisma.salaryCreateWithoutWorkerInput, Prisma.salaryUncheckedCreateWithoutWorkerInput>
+export type salaryUpdateToOneWithWhereWithoutWorkersInput = {
+  where?: Prisma.salaryWhereInput
+  data: Prisma.XOR<Prisma.salaryUpdateWithoutWorkersInput, Prisma.salaryUncheckedUpdateWithoutWorkersInput>
 }
 
-export type salaryUpdateWithWhereUniqueWithoutWorkerInput = {
-  where: Prisma.salaryWhereUniqueInput
-  data: Prisma.XOR<Prisma.salaryUpdateWithoutWorkerInput, Prisma.salaryUncheckedUpdateWithoutWorkerInput>
-}
-
-export type salaryUpdateManyWithWhereWithoutWorkerInput = {
-  where: Prisma.salaryScalarWhereInput
-  data: Prisma.XOR<Prisma.salaryUpdateManyMutationInput, Prisma.salaryUncheckedUpdateManyWithoutWorkerInput>
-}
-
-export type salaryCreateManyCompanyInput = {
-  id?: number
-  amount: string
-  type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
-  worker_id: number
-  created_at?: Date | string
-  updated_at?: Date | string
-  deleted_at?: Date | string | null
-}
-
-export type salaryUpdateWithoutCompanyInput = {
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+export type salaryUpdateWithoutWorkersInput = {
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  worker?: Prisma.workerUpdateOneRequiredWithoutSalaryNestedInput
-}
-
-export type salaryUncheckedUpdateWithoutCompanyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  worker_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type salaryUncheckedUpdateManyWithoutCompanyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  worker_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type salaryCreateManyWorkerInput = {
-  id?: number
-  company_id: number
-  amount: string
-  type: $Enums.salary_type
-  date_time: Date | string
-  status?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string
-  deleted_at?: Date | string | null
-}
-
-export type salaryUpdateWithoutWorkerInput = {
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutSalaryNestedInput
 }
 
-export type salaryUncheckedUpdateWithoutWorkerInput = {
+export type salaryUncheckedUpdateWithoutWorkersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   company_id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type salaryUncheckedUpdateManyWithoutWorkerInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  company_id?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.StringFieldUpdateOperationsInput | string
+export type salaryCreateManyCompanyInput = {
+  id?: number
+  amount: number
+  type: $Enums.salary_type
+  start_date: Date | string
+  fixed?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type salaryUpdateWithoutCompanyInput = {
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
-  date_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  workers?: Prisma.workerUpdateManyWithoutSalaryNestedInput
+}
+
+export type salaryUncheckedUpdateWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  workers?: Prisma.workerUncheckedUpdateManyWithoutSalaryNestedInput
+}
+
+export type salaryUncheckedUpdateManyWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumsalary_typeFieldUpdateOperationsInput | $Enums.salary_type
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fixed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+
+/**
+ * Count Type SalaryCountOutputType
+ */
+
+export type SalaryCountOutputType = {
+  workers: number
+}
+
+export type SalaryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  workers?: boolean | SalaryCountOutputTypeCountWorkersArgs
+}
+
+/**
+ * SalaryCountOutputType without action
+ */
+export type SalaryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SalaryCountOutputType
+   */
+  select?: Prisma.SalaryCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SalaryCountOutputType without action
+ */
+export type SalaryCountOutputTypeCountWorkersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.workerWhereInput
+}
 
 
 export type salarySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -785,14 +739,14 @@ export type salarySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   company_id?: boolean
   amount?: boolean
   type?: boolean
-  date_time?: boolean
-  status?: boolean
-  worker_id?: boolean
+  start_date?: boolean
+  fixed?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
+  workers?: boolean | Prisma.salary$workersArgs<ExtArgs>
+  _count?: boolean | Prisma.SalaryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salary"]>
 
 export type salarySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -800,14 +754,12 @@ export type salarySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   company_id?: boolean
   amount?: boolean
   type?: boolean
-  date_time?: boolean
-  status?: boolean
-  worker_id?: boolean
+  start_date?: boolean
+  fixed?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salary"]>
 
 export type salarySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -815,14 +767,12 @@ export type salarySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   company_id?: boolean
   amount?: boolean
   type?: boolean
-  date_time?: boolean
-  status?: boolean
-  worker_id?: boolean
+  start_date?: boolean
+  fixed?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["salary"]>
 
 export type salarySelectScalar = {
@@ -830,42 +780,39 @@ export type salarySelectScalar = {
   company_id?: boolean
   amount?: boolean
   type?: boolean
-  date_time?: boolean
-  status?: boolean
-  worker_id?: boolean
+  start_date?: boolean
+  fixed?: boolean
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
 }
 
-export type salaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "amount" | "type" | "date_time" | "status" | "worker_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["salary"]>
+export type salaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "amount" | "type" | "start_date" | "fixed" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["salary"]>
 export type salaryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
+  workers?: boolean | Prisma.salary$workersArgs<ExtArgs>
+  _count?: boolean | Prisma.SalaryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type salaryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
 }
 export type salaryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
-  worker?: boolean | Prisma.workerDefaultArgs<ExtArgs>
 }
 
 export type $salaryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "salary"
   objects: {
     company: Prisma.$companyPayload<ExtArgs>
-    worker: Prisma.$workerPayload<ExtArgs>
+    workers: Prisma.$workerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     company_id: number
-    amount: string
+    amount: number
     type: $Enums.salary_type
-    date_time: Date
-    status: boolean
-    worker_id: number
+    start_date: Date
+    fixed: boolean
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
@@ -1264,7 +1211,7 @@ readonly fields: salaryFieldRefs;
 export interface Prisma__salaryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  worker<T extends Prisma.workerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.workerDefaultArgs<ExtArgs>>): Prisma.Prisma__workerClient<runtime.Types.Result.GetResult<Prisma.$workerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  workers<T extends Prisma.salary$workersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.salary$workersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$workerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1296,11 +1243,10 @@ export interface Prisma__salaryClient<T, Null = never, ExtArgs extends runtime.T
 export interface salaryFieldRefs {
   readonly id: Prisma.FieldRef<"salary", 'Int'>
   readonly company_id: Prisma.FieldRef<"salary", 'Int'>
-  readonly amount: Prisma.FieldRef<"salary", 'String'>
+  readonly amount: Prisma.FieldRef<"salary", 'Int'>
   readonly type: Prisma.FieldRef<"salary", 'salary_type'>
-  readonly date_time: Prisma.FieldRef<"salary", 'DateTime'>
-  readonly status: Prisma.FieldRef<"salary", 'Boolean'>
-  readonly worker_id: Prisma.FieldRef<"salary", 'Int'>
+  readonly start_date: Prisma.FieldRef<"salary", 'DateTime'>
+  readonly fixed: Prisma.FieldRef<"salary", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"salary", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"salary", 'DateTime'>
   readonly deleted_at: Prisma.FieldRef<"salary", 'DateTime'>
@@ -1697,6 +1643,30 @@ export type salaryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many salaries to delete.
    */
   limit?: number
+}
+
+/**
+ * salary.workers
+ */
+export type salary$workersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the worker
+   */
+  select?: Prisma.workerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the worker
+   */
+  omit?: Prisma.workerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.workerInclude<ExtArgs> | null
+  where?: Prisma.workerWhereInput
+  orderBy?: Prisma.workerOrderByWithRelationInput | Prisma.workerOrderByWithRelationInput[]
+  cursor?: Prisma.workerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkerScalarFieldEnum | Prisma.WorkerScalarFieldEnum[]
 }
 
 /**

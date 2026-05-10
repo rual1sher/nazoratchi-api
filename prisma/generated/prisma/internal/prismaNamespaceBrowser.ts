@@ -66,6 +66,7 @@ export const ModelName = {
   position: 'position',
   salary: 'salary',
   task: 'task',
+  terminal: 'terminal',
   user: 'user',
   worker: 'worker',
   worker_schedule: 'worker_schedule'
@@ -218,6 +219,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 export const Penalties_nameScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  type: 'type',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -262,9 +264,8 @@ export const SalaryScalarFieldEnum = {
   company_id: 'company_id',
   amount: 'amount',
   type: 'type',
-  date_time: 'date_time',
-  status: 'status',
-  worker_id: 'worker_id',
+  start_date: 'start_date',
+  fixed: 'fixed',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -286,6 +287,21 @@ export const TaskScalarFieldEnum = {
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const TerminalScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  unique_id: 'unique_id',
+  mac_address: 'mac_address',
+  branch_id: 'branch_id',
+  company_id: 'company_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type TerminalScalarFieldEnum = (typeof TerminalScalarFieldEnum)[keyof typeof TerminalScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -314,6 +330,7 @@ export const WorkerScalarFieldEnum = {
   schedule_id: 'schedule_id',
   position_id: 'position_id',
   filial_id: 'filial_id',
+  salary_id: 'salary_id',
   user_id: 'user_id',
   role: 'role',
   created_at: 'created_at',

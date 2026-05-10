@@ -5,22 +5,22 @@ model worker {
   schedule_id   Int?
   position_id   Int?
   filial_id     Int?
+  salary_id     Int?
   user_id       Int
   role          worker_role @default(worker)
   created_at    DateTime    @default(now())
   updated_at    DateTime    @default(now()) @updatedAt
   deleted_at    DateTime?
 
-  company    company     @relation(fields: [company_id], references: [id], onDelete: NoAction, map: "worker_company_id_foreign")
-  filial     filial?     @relation(fields: [filial_id], references: [id], onDelete: SetNull)
+  company    company          @relation(fields: [company_id], references: [id], onDelete: NoAction, map: "worker_company_id_foreign")
+  filial     filial?          @relation(fields: [filial_id], references: [id], onDelete: SetNull)
   schedule   worker_schedule? @relation(fields: [schedule_id], references: [id], onDelete: SetNull)
-  department department? @relation(fields: [department_id], references: [id], onDelete: SetNull, map: "worker_department_id_foreign")
-  position   position?   @relation(fields: [position_id], references: [id], onDelete: SetNull, map: "worker_position_id_foreign")
-  user       user        @relation(fields: [user_id], references: [id], onDelete: NoAction)
-
+  department department?      @relation(fields: [department_id], references: [id], onDelete: SetNull, map: "worker_department_id_foreign")
+  position   position?        @relation(fields: [position_id], references: [id], onDelete: SetNull, map: "worker_position_id_foreign")
+  user       user             @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  salary     salary?          @relation(fields: [salary_id], references: [id], onDelete: SetNull)
   attendance attendance[]
   payment    payment[]
-  salary     salary[]
   tasks      task[]
 
   @@index([user_id, company_id])
