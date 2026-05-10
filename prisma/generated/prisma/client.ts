@@ -63,6 +63,21 @@ export type department = Prisma.departmentModel
  */
 export type filial = Prisma.filialModel
 /**
+ * Model holiday_filial
+ * Связь праздник ↔ филиал (multi-select). Пустой список связей = праздник для всех филиалов компании.
+ */
+export type holiday_filial = Prisma.holiday_filialModel
+/**
+ * Model holiday_department
+ * Связь праздник ↔ отдел (multi-select). Пустой список = для всех отделов.
+ */
+export type holiday_department = Prisma.holiday_departmentModel
+/**
+ * Model holiday_schedule_scope
+ * Типы графика (adaptive / free), к которым относится праздник (multi-select). Пустой список = ко всем типам.
+ */
+export type holiday_schedule_scope = Prisma.holiday_schedule_scopeModel
+/**
  * Model holiday
  * 
  */

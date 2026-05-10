@@ -1,22 +1,55 @@
+/// Связь праздник ↔ филиал (multi-select). Пустой список связей = праздник для всех филиалов компании.
+model holiday_filial {
+  holiday_id Int
+  filial_id  Int
+
+  holiday holiday @relation(fields: [holiday_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  filial  filial  @relation(fields: [filial_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([holiday_id, filial_id])
+  @@index([filial_id])
+}
+
+/// Связь праздник ↔ отдел (multi-select). Пустой список = для всех отделов.
+model holiday_department {
+  holiday_id    Int
+  department_id Int
+
+  holiday    holiday    @relation(fields: [holiday_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  department department @relation(fields: [department_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([holiday_id, department_id])
+  @@index([department_id])
+}
+
+/// Типы графика (adaptive / free), к которым относится праздник (multi-select). Пустой список = ко всем типам.
+model holiday_schedule_scope {
+  holiday_id Int
+  type       worker_schedule_type
+
+  holiday holiday @relation(fields: [holiday_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([holiday_id, type])
+}
+
 model holiday {
   id Int @id @default(autoincrement())
 
-  name        String   @db.VarChar(255)
-  description String?  @db.Text
-  date        DateTime @db.Date
-  yearly_loop Boolean  @default(false)
-
-  filial_id     Int?
-  department_id Int?
-  position_id   Int?
-  schedule_id   Int?
+  company_id   Int
+  name         String   @db.VarChar(255)
+  description  String?  @db.Text
+  date         DateTime @db.Date
+  yearly_loop  Boolean  @default(false)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  filial     filial?          @relation(fields: [filial_id], references: [id], onDelete: SetNull)
-  department department?      @relation(fields: [department_id], references: [id], onDelete: SetNull)
-  position   position?        @relation(fields: [position_id], references: [id], onDelete: SetNull)
-  schedule   worker_schedule? @relation(fields: [schedule_id], references: [id], onDelete: SetNull)
+  company company @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "holiday_company_id_foreign")
+
+  holiday_filials         holiday_filial[]
+  holiday_departments     holiday_department[]
+  holiday_schedule_scopes holiday_schedule_scope[]
+
+  @@index([company_id])
 }

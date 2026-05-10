@@ -17,7 +17,6 @@ import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
-import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
 import { IPositionQuery } from 'src/helpers/types/types';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
@@ -28,8 +27,14 @@ export class PositionController {
   constructor(private readonly positionService: PositionService) {}
 
   @Post()
-  async create(@Body() createPositionDto: CreatePositionDto) {
-    const data = await this.positionService.create(createPositionDto);
+  async create(
+    @Body() createPositionDto: CreatePositionDto,
+    @CompanyId() companyId: number,
+  ) {
+    const data = await this.positionService.create(
+      createPositionDto,
+      companyId,
+    );
     return new ApiResponse(data);
   }
 
@@ -46,8 +51,8 @@ export class PositionController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const data = await this.positionService.findOne(+id);
+  async findOne(@Param('id') id: string, @CompanyId() companyId: number) {
+    const data = await this.positionService.findOne(+id, companyId);
     return new ApiResponse(data);
   }
 
@@ -55,14 +60,19 @@ export class PositionController {
   async update(
     @Param('id') id: string,
     @Body() updatePositionDto: UpdatePositionDto,
+    @CompanyId() companyId: number,
   ) {
-    const data = await this.positionService.update(+id, updatePositionDto);
+    const data = await this.positionService.update(
+      +id,
+      updatePositionDto,
+      companyId,
+    );
     return new ApiResponse(data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const data = await this.positionService.remove(+id);
+  async remove(@Param('id') id: string, @CompanyId() companyId: number) {
+    const data = await this.positionService.remove(+id, companyId);
     return new ApiResponse(data);
   }
 }

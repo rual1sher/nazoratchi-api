@@ -2,7 +2,7 @@ model worker {
   id            Int         @id @default(autoincrement())
   company_id    Int
   department_id Int?
-  day_id        Int?
+  schedule_id   Int?
   position_id   Int?
   filial_id     Int?
   user_id       Int
@@ -13,7 +13,7 @@ model worker {
 
   company    company     @relation(fields: [company_id], references: [id], onDelete: NoAction, map: "worker_company_id_foreign")
   filial     filial?     @relation(fields: [filial_id], references: [id], onDelete: SetNull)
-  day        day?        @relation(fields: [day_id], references: [id], onDelete: SetNull, map: "worker_day_id_foreign")
+  schedule   worker_schedule? @relation(fields: [schedule_id], references: [id], onDelete: SetNull)
   department department? @relation(fields: [department_id], references: [id], onDelete: SetNull, map: "worker_department_id_foreign")
   position   position?   @relation(fields: [position_id], references: [id], onDelete: SetNull, map: "worker_position_id_foreign")
   user       user        @relation(fields: [user_id], references: [id], onDelete: NoAction)

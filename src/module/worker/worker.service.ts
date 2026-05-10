@@ -17,12 +17,17 @@ import {
   validateRelations,
   validateRelationsQuery,
 } from 'src/helpers/validate/validate-relations';
+import { requireCompanyId } from 'src/helpers/company/require-company-id';
 
 @Injectable()
 export class WorkerService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createWorkerDto: CreateWorkerDto, role: user_role) {
+  async create(
+    createWorkerDto: CreateWorkerDto,
+    role: user_role,
+    companyId: number | null,
+  ) {
     let { user, user_id, ...data } = createWorkerDto;
 
     if (user) {
@@ -49,6 +54,10 @@ export class WorkerService {
       throw new BadRequestException(
         ErrorMessages.badRequest.userOrUserIdNotFound,
       );
+    }
+
+    if (role !== user_role.admin) {
+      data = { ...data, company_id: requireCompanyId(companyId) };
     }
 
     const checkWorker = await this.prisma.worker.findFirst({
@@ -101,7 +110,7 @@ export class WorkerService {
       include: {
         user: { omit: { token: true, password: true, role: true } },
         position: true,
-        day: true,
+        schedule: true,
       },
       take: pagination.limit,
       skip: pagination.offset,
@@ -110,15 +119,16 @@ export class WorkerService {
     return { worker, pagination };
   }
 
-  async findOne(id: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async findOne(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
       include: {
         user: { omit: { token: true, password: true, role: true } },
         department: true,
         position: true,
         company: true,
-        day: true,
+        schedule: true,
       },
     });
     if (!worker) {
@@ -143,9 +153,10 @@ export class WorkerService {
     return worker;
   }
 
-  async update(id: number, dto: UpdateWorkerDto) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async update(id: number, dto: UpdateWorkerDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
     });
     if (!worker) {
       throw new NotFoundException(
@@ -155,15 +166,10 @@ export class WorkerService {
 
     await validateRelations(this.prisma, dto);
 
-    if (dto.company_id) {
-      const checkWorker = await this.prisma.worker.findFirst({
-        where: { id, company_id: dto.company_id, deleted_at: null },
-      });
-      if (checkWorker) {
-        throw new BadRequestException(
-          ErrorMessages.badRequest.invalid('Company'),
-        );
-      }
+    if (dto.company_id != null && dto.company_id !== cId) {
+      throw new ForbiddenException(
+        ErrorMessages.forbidden.accessDenied,
+      );
     }
 
     return await this.prisma.worker.update({
@@ -172,9 +178,10 @@ export class WorkerService {
     });
   }
 
-  async remove(id: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async remove(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
     });
     if (!worker) {
       throw new NotFoundException(

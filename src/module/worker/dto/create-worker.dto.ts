@@ -39,7 +39,7 @@ export class CreateWorkerDto {
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
   @IsNumber()
-  day_id?: number;
+  schedule_id?: number;
 
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()

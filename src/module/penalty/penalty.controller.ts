@@ -18,6 +18,7 @@ import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { IPenaltyQuery } from 'src/helpers/types/types';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
+import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 
 @Controller('penalty')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -26,20 +27,26 @@ export class PenaltyController {
   constructor(private penaltyService: PenaltyService) {}
 
   @Post()
-  async create(@Body() createPenaltyDto: CreatePenaltyDto) {
-    const data = await this.penaltyService.create(createPenaltyDto);
+  async create(
+    @Body() createPenaltyDto: CreatePenaltyDto,
+    @CompanyId() companyId: number,
+  ) {
+    const data = await this.penaltyService.create(createPenaltyDto, +companyId);
     return new ApiResponse(data);
   }
 
   @Get()
-  async findAll(@Query() query: IPenaltyQuery) {
-    const { penalty, pagination } = await this.penaltyService.findAll(query);
+  async findAll(@Query() query: IPenaltyQuery, @CompanyId() companyId: number) {
+    const { penalty, pagination } = await this.penaltyService.findAll(
+      query,
+      +companyId,
+    );
     return new ApiResponse(penalty, 200, pagination);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const data = await this.penaltyService.findOne(+id);
+  async findOne(@Param('id') id: string, @CompanyId() companyId: number) {
+    const data = await this.penaltyService.findOne(+id, +companyId);
     return new ApiResponse(data);
   }
 
@@ -47,14 +54,15 @@ export class PenaltyController {
   async update(
     @Param('id') id: string,
     @Body() updatePenaltyDto: UpdatePenaltyDto,
+    @CompanyId() companyId: number,
   ) {
-    const data = await this.penaltyService.update(+id, updatePenaltyDto);
+    const data = await this.penaltyService.update(+id, updatePenaltyDto, +companyId);
     return new ApiResponse(data);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const data = await this.penaltyService.remove(+id);
+  async remove(@Param('id') id: string, @CompanyId() companyId: number) {
+    const data = await this.penaltyService.remove(+id, +companyId);
     return new ApiResponse(data);
   }
 }

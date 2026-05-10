@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const attendance_type = {
+  check_in: 'check_in',
+  check_out: 'check_out'
+} as const
+
+export type attendance_type = (typeof attendance_type)[keyof typeof attendance_type]
+
+
 export const payment_type = {
   income: 'income',
   bonus: 'bonus',
@@ -60,3 +68,11 @@ export const worker_role = {
 } as const
 
 export type worker_role = (typeof worker_role)[keyof typeof worker_role]
+
+
+export const worker_schedule_type = {
+  adaptive: 'adaptive',
+  free: 'free'
+} as const
+
+export type worker_schedule_type = (typeof worker_schedule_type)[keyof typeof worker_schedule_type]

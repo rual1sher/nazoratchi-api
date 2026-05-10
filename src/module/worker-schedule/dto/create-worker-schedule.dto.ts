@@ -1,6 +1,21 @@
-import { IsInt, IsNumber, IsString, Matches, Max, Min } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-export class CreateWorkerScheduleDto {
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsDateString,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { worker_schedule_type } from 'prisma/generated/prisma/enums';
+
+class CreateWorkerScheduleDayItemDto {
   @ApiProperty({ example: 1, description: '1 for Monday, 7 for Sunday' })
   @IsInt()
   @Min(1)
@@ -12,30 +27,56 @@ export class CreateWorkerScheduleDto {
   @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
     message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
   })
-  start_time: string;
+  start: string;
 
   @ApiProperty({ example: '18:00' })
   @IsString()
   @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
     message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
   })
-  end_time: string;
+  end: string;
 
-  @ApiProperty({ example: '13:00' })
+  @ApiPropertyOptional({ example: '13:00' })
+  @IsOptional()
   @IsString()
   @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
     message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
   })
-  break_start: string;
+  breakStart?: string;
 
-  @ApiProperty({ example: '14:00' })
+  @ApiPropertyOptional({ example: '14:00' })
+  @IsOptional()
   @IsString()
   @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
     message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
   })
-  break_end: string;
+  breakEnd?: string;
+}
 
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  day_id: number;
+export class CreateWorkerScheduleDto {
+  @ApiProperty({ example: 'test' })
+  @IsString()
+  name: string;
+
+  @ApiPropertyOptional({ example: 'adaptive' })
+  @IsEnum(worker_schedule_type)
+  type: worker_schedule_type;
+
+  @ApiPropertyOptional({ example: '2026-05-08' })
+  @IsDateString()
+  @IsNotEmpty()
+  startsAt: string;
+
+  @ApiPropertyOptional({ example: 7 })
+  @IsInt()
+  @IsNotEmpty()
+  @Min(1)
+  @Max(7)
+  daysFrequency: number;
+
+  @ApiPropertyOptional({ type: [CreateWorkerScheduleDayItemDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateWorkerScheduleDayItemDto)
+  days: CreateWorkerScheduleDayItemDto[];
 }

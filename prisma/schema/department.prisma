@@ -13,5 +13,5 @@ model department {
 
   position position[]
   worker   worker[]
-  holidays holiday[]
+  holiday_departments holiday_department[]
 }

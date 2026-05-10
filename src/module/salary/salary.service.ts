@@ -6,14 +6,28 @@ import { ErrorMessages } from 'src/helpers/error/error.message';
 import { ISalaryQuery } from 'src/helpers/types/types';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { Prisma } from 'prisma/generated/prisma/client';
+import { requireCompanyId } from 'src/helpers/company/require-company-id';
 
 @Injectable()
 export class SalaryService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateSalaryDto) {
+  async create(dto: CreateSalaryDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+
+    const worker = await this.prisma.worker.findFirst({
+      where: { id: dto.worker_id, company_id: cId, deleted_at: null },
+      select: { id: true },
+    });
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
+
     return await this.prisma.salary.create({
       data: {
+        company_id: cId,
         amount: dto.amount,
         type: dto.type,
         date_time: new Date(dto.date_time),
@@ -23,10 +37,16 @@ export class SalaryService {
     });
   }
 
-  async findAll(query: ISalaryQuery) {
-    const where: Prisma.salaryWhereInput = { deleted_at: null };
+  async findAll(query: ISalaryQuery, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const where: Prisma.salaryWhereInput = {
+      deleted_at: null,
+      company_id: cId,
+    };
 
-    if (query?.workerId) where.worker_id = +query.workerId;
+    if (query?.workerId) {
+      where.worker_id = +query.workerId;
+    }
 
     const count = await this.prisma.salary.count({ where });
     const pagination = new Pagination(count, query.page, query.limit);
@@ -42,12 +62,13 @@ export class SalaryService {
     return { salary, pagination };
   }
 
-  async findOne(id: number) {
-    const salary = await this.prisma.salary.findUnique({
-      where: { id, deleted_at: null },
+  async findOne(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const salary = await this.prisma.salary.findFirst({
+      where: { id, deleted_at: null, company_id: cId },
       include: { worker: true },
     });
-    
+
     if (!salary) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Salary'),
@@ -56,15 +77,19 @@ export class SalaryService {
     return salary;
   }
 
-  async update(id: number, dto: UpdateSalaryDto) {
-    const salary = await this.prisma.salary.findUnique({
-      where: { id, deleted_at: null },
-    });
-    
-    if (!salary) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Salary'),
-      );
+  async update(id: number, dto: UpdateSalaryDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    await this.findOne(id, cId);
+
+    if (dto.worker_id != null) {
+      const worker = await this.prisma.worker.findFirst({
+        where: { id: dto.worker_id, company_id: cId, deleted_at: null },
+      });
+      if (!worker) {
+        throw new NotFoundException(
+          ErrorMessages.notFound.modelNotFound('Worker'),
+        );
+      }
     }
 
     return await this.prisma.salary.update({
@@ -79,16 +104,9 @@ export class SalaryService {
     });
   }
 
-  async remove(id: number) {
-    const salary = await this.prisma.salary.findUnique({
-      where: { id, deleted_at: null },
-    });
-    
-    if (!salary) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Salary'),
-      );
-    }
+  async remove(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    await this.findOne(id, cId);
 
     return await this.prisma.salary.update({
       where: { id },

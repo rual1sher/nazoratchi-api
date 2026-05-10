@@ -29,7 +29,7 @@ export class DepartmentController {
   @Post()
   async create(
     @Body() createDepartmentDto: CreateDepartmentDto,
-    @CompanyId() companyId: number,
+    @CompanyId() companyId: number | null,
   ) {
     const data = await this.departmentService.create(
       createDepartmentDto,
@@ -39,7 +39,7 @@ export class DepartmentController {
   }
 
   @Get()
-  async findAll(@Query() query: IQuery, @CompanyId() companyId: number) {
+  async findAll(@Query() query: IQuery, @CompanyId() companyId: number | null) {
     const { department, pagination } = await this.departmentService.findAll(
       query,
       companyId,
@@ -48,8 +48,8 @@ export class DepartmentController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const data = await this.departmentService.findOne(+id);
+  async findOne(@Param('id') id: string, @CompanyId() companyId: number | null) {
+    const data = await this.departmentService.findOne(+id, companyId);
     return new ApiResponse(data);
   }
 
@@ -57,7 +57,7 @@ export class DepartmentController {
   async update(
     @Param('id') id: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto,
-    @CompanyId() companyId: number,
+    @CompanyId() companyId: number | null,
   ) {
     const data = await this.departmentService.update(
       +id,
@@ -68,8 +68,8 @@ export class DepartmentController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const data = await this.departmentService.remove(+id);
+  async remove(@Param('id') id: string, @CompanyId() companyId: number | null) {
+    const data = await this.departmentService.remove(+id, companyId);
     return new ApiResponse(data);
   }
 }

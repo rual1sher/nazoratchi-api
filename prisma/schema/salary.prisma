@@ -1,6 +1,7 @@
 model salary {
   id Int @id @default(autoincrement())
 
+  company_id Int
   amount     String      @db.VarChar(255)
   type       salary_type
   date_time  DateTime    @db.Timestamptz(0)
@@ -10,7 +11,10 @@ model salary {
   updated_at DateTime    @default(now()) @updatedAt
   deleted_at DateTime?
 
-  worker worker @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "salary_worker_id_foreign")
+  company company @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "salary_company_id_foreign")
+  worker  worker  @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "salary_worker_id_foreign")
+
+  @@index([company_id])
 }
 
 enum salary_type {

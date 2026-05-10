@@ -247,7 +247,7 @@ export type departmentWhereInput = {
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   position?: Prisma.PositionListRelationFilter
   worker?: Prisma.WorkerListRelationFilter
-  holidays?: Prisma.HolidayListRelationFilter
+  holiday_departments?: Prisma.Holiday_departmentListRelationFilter
 }
 
 export type departmentOrderByWithRelationInput = {
@@ -262,7 +262,7 @@ export type departmentOrderByWithRelationInput = {
   company?: Prisma.companyOrderByWithRelationInput
   position?: Prisma.positionOrderByRelationAggregateInput
   worker?: Prisma.workerOrderByRelationAggregateInput
-  holidays?: Prisma.holidayOrderByRelationAggregateInput
+  holiday_departments?: Prisma.holiday_departmentOrderByRelationAggregateInput
 }
 
 export type departmentWhereUniqueInput = Prisma.AtLeast<{
@@ -280,7 +280,7 @@ export type departmentWhereUniqueInput = Prisma.AtLeast<{
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   position?: Prisma.PositionListRelationFilter
   worker?: Prisma.WorkerListRelationFilter
-  holidays?: Prisma.HolidayListRelationFilter
+  holiday_departments?: Prisma.Holiday_departmentListRelationFilter
 }, "id">
 
 export type departmentOrderByWithAggregationInput = {
@@ -323,7 +323,7 @@ export type departmentCreateInput = {
   company: Prisma.companyCreateNestedOneWithoutDepartmentInput
   position?: Prisma.positionCreateNestedManyWithoutDepartmentInput
   worker?: Prisma.workerCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentUncheckedCreateInput = {
@@ -337,7 +337,7 @@ export type departmentUncheckedCreateInput = {
   deleted_at?: Date | string | null
   position?: Prisma.positionUncheckedCreateNestedManyWithoutDepartmentInput
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentUpdateInput = {
@@ -350,7 +350,7 @@ export type departmentUpdateInput = {
   company?: Prisma.companyUpdateOneRequiredWithoutDepartmentNestedInput
   position?: Prisma.positionUpdateManyWithoutDepartmentNestedInput
   worker?: Prisma.workerUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentUncheckedUpdateInput = {
@@ -364,7 +364,7 @@ export type departmentUncheckedUpdateInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position?: Prisma.positionUncheckedUpdateManyWithoutDepartmentNestedInput
   worker?: Prisma.workerUncheckedUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUncheckedUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentCreateManyInput = {
@@ -451,14 +451,14 @@ export type departmentSumOrderByAggregateInput = {
   company_id?: Prisma.SortOrder
 }
 
-export type DepartmentNullableScalarRelationFilter = {
-  is?: Prisma.departmentWhereInput | null
-  isNot?: Prisma.departmentWhereInput | null
-}
-
 export type DepartmentScalarRelationFilter = {
   is?: Prisma.departmentWhereInput
   isNot?: Prisma.departmentWhereInput
+}
+
+export type DepartmentNullableScalarRelationFilter = {
+  is?: Prisma.departmentWhereInput | null
+  isNot?: Prisma.departmentWhereInput | null
 }
 
 export type departmentCreateNestedManyWithoutCompanyInput = {
@@ -503,20 +503,18 @@ export type departmentUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.departmentScalarWhereInput | Prisma.departmentScalarWhereInput[]
 }
 
-export type departmentCreateNestedOneWithoutHolidaysInput = {
-  create?: Prisma.XOR<Prisma.departmentCreateWithoutHolidaysInput, Prisma.departmentUncheckedCreateWithoutHolidaysInput>
-  connectOrCreate?: Prisma.departmentCreateOrConnectWithoutHolidaysInput
+export type departmentCreateNestedOneWithoutHoliday_departmentsInput = {
+  create?: Prisma.XOR<Prisma.departmentCreateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedCreateWithoutHoliday_departmentsInput>
+  connectOrCreate?: Prisma.departmentCreateOrConnectWithoutHoliday_departmentsInput
   connect?: Prisma.departmentWhereUniqueInput
 }
 
-export type departmentUpdateOneWithoutHolidaysNestedInput = {
-  create?: Prisma.XOR<Prisma.departmentCreateWithoutHolidaysInput, Prisma.departmentUncheckedCreateWithoutHolidaysInput>
-  connectOrCreate?: Prisma.departmentCreateOrConnectWithoutHolidaysInput
-  upsert?: Prisma.departmentUpsertWithoutHolidaysInput
-  disconnect?: Prisma.departmentWhereInput | boolean
-  delete?: Prisma.departmentWhereInput | boolean
+export type departmentUpdateOneRequiredWithoutHoliday_departmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.departmentCreateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedCreateWithoutHoliday_departmentsInput>
+  connectOrCreate?: Prisma.departmentCreateOrConnectWithoutHoliday_departmentsInput
+  upsert?: Prisma.departmentUpsertWithoutHoliday_departmentsInput
   connect?: Prisma.departmentWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.departmentUpdateToOneWithWhereWithoutHolidaysInput, Prisma.departmentUpdateWithoutHolidaysInput>, Prisma.departmentUncheckedUpdateWithoutHolidaysInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.departmentUpdateToOneWithWhereWithoutHoliday_departmentsInput, Prisma.departmentUpdateWithoutHoliday_departmentsInput>, Prisma.departmentUncheckedUpdateWithoutHoliday_departmentsInput>
 }
 
 export type departmentCreateNestedOneWithoutPositionInput = {
@@ -558,7 +556,7 @@ export type departmentCreateWithoutCompanyInput = {
   deleted_at?: Date | string | null
   position?: Prisma.positionCreateNestedManyWithoutDepartmentInput
   worker?: Prisma.workerCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentUncheckedCreateWithoutCompanyInput = {
@@ -571,7 +569,7 @@ export type departmentUncheckedCreateWithoutCompanyInput = {
   deleted_at?: Date | string | null
   position?: Prisma.positionUncheckedCreateNestedManyWithoutDepartmentInput
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentCreateOrConnectWithoutCompanyInput = {
@@ -614,7 +612,7 @@ export type departmentScalarWhereInput = {
   deleted_at?: Prisma.DateTimeNullableFilter<"department"> | Date | string | null
 }
 
-export type departmentCreateWithoutHolidaysInput = {
+export type departmentCreateWithoutHoliday_departmentsInput = {
   title_uz: string
   title_ru: string
   title_en: string
@@ -626,7 +624,7 @@ export type departmentCreateWithoutHolidaysInput = {
   worker?: Prisma.workerCreateNestedManyWithoutDepartmentInput
 }
 
-export type departmentUncheckedCreateWithoutHolidaysInput = {
+export type departmentUncheckedCreateWithoutHoliday_departmentsInput = {
   id?: number
   title_uz: string
   title_ru: string
@@ -639,23 +637,23 @@ export type departmentUncheckedCreateWithoutHolidaysInput = {
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
-export type departmentCreateOrConnectWithoutHolidaysInput = {
+export type departmentCreateOrConnectWithoutHoliday_departmentsInput = {
   where: Prisma.departmentWhereUniqueInput
-  create: Prisma.XOR<Prisma.departmentCreateWithoutHolidaysInput, Prisma.departmentUncheckedCreateWithoutHolidaysInput>
+  create: Prisma.XOR<Prisma.departmentCreateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedCreateWithoutHoliday_departmentsInput>
 }
 
-export type departmentUpsertWithoutHolidaysInput = {
-  update: Prisma.XOR<Prisma.departmentUpdateWithoutHolidaysInput, Prisma.departmentUncheckedUpdateWithoutHolidaysInput>
-  create: Prisma.XOR<Prisma.departmentCreateWithoutHolidaysInput, Prisma.departmentUncheckedCreateWithoutHolidaysInput>
+export type departmentUpsertWithoutHoliday_departmentsInput = {
+  update: Prisma.XOR<Prisma.departmentUpdateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedUpdateWithoutHoliday_departmentsInput>
+  create: Prisma.XOR<Prisma.departmentCreateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedCreateWithoutHoliday_departmentsInput>
   where?: Prisma.departmentWhereInput
 }
 
-export type departmentUpdateToOneWithWhereWithoutHolidaysInput = {
+export type departmentUpdateToOneWithWhereWithoutHoliday_departmentsInput = {
   where?: Prisma.departmentWhereInput
-  data: Prisma.XOR<Prisma.departmentUpdateWithoutHolidaysInput, Prisma.departmentUncheckedUpdateWithoutHolidaysInput>
+  data: Prisma.XOR<Prisma.departmentUpdateWithoutHoliday_departmentsInput, Prisma.departmentUncheckedUpdateWithoutHoliday_departmentsInput>
 }
 
-export type departmentUpdateWithoutHolidaysInput = {
+export type departmentUpdateWithoutHoliday_departmentsInput = {
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
   title_en?: Prisma.StringFieldUpdateOperationsInput | string
@@ -667,7 +665,7 @@ export type departmentUpdateWithoutHolidaysInput = {
   worker?: Prisma.workerUpdateManyWithoutDepartmentNestedInput
 }
 
-export type departmentUncheckedUpdateWithoutHolidaysInput = {
+export type departmentUncheckedUpdateWithoutHoliday_departmentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title_uz?: Prisma.StringFieldUpdateOperationsInput | string
   title_ru?: Prisma.StringFieldUpdateOperationsInput | string
@@ -689,7 +687,7 @@ export type departmentCreateWithoutPositionInput = {
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutDepartmentInput
   worker?: Prisma.workerCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentUncheckedCreateWithoutPositionInput = {
@@ -702,7 +700,7 @@ export type departmentUncheckedCreateWithoutPositionInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   worker?: Prisma.workerUncheckedCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentCreateOrConnectWithoutPositionInput = {
@@ -730,7 +728,7 @@ export type departmentUpdateWithoutPositionInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutDepartmentNestedInput
   worker?: Prisma.workerUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentUncheckedUpdateWithoutPositionInput = {
@@ -743,7 +741,7 @@ export type departmentUncheckedUpdateWithoutPositionInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   worker?: Prisma.workerUncheckedUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUncheckedUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentCreateWithoutWorkerInput = {
@@ -755,7 +753,7 @@ export type departmentCreateWithoutWorkerInput = {
   deleted_at?: Date | string | null
   company: Prisma.companyCreateNestedOneWithoutDepartmentInput
   position?: Prisma.positionCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentUncheckedCreateWithoutWorkerInput = {
@@ -768,7 +766,7 @@ export type departmentUncheckedCreateWithoutWorkerInput = {
   updated_at?: Date | string
   deleted_at?: Date | string | null
   position?: Prisma.positionUncheckedCreateNestedManyWithoutDepartmentInput
-  holidays?: Prisma.holidayUncheckedCreateNestedManyWithoutDepartmentInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type departmentCreateOrConnectWithoutWorkerInput = {
@@ -796,7 +794,7 @@ export type departmentUpdateWithoutWorkerInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   company?: Prisma.companyUpdateOneRequiredWithoutDepartmentNestedInput
   position?: Prisma.positionUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentUncheckedUpdateWithoutWorkerInput = {
@@ -809,7 +807,7 @@ export type departmentUncheckedUpdateWithoutWorkerInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position?: Prisma.positionUncheckedUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUncheckedUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentCreateManyCompanyInput = {
@@ -831,7 +829,7 @@ export type departmentUpdateWithoutCompanyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position?: Prisma.positionUpdateManyWithoutDepartmentNestedInput
   worker?: Prisma.workerUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentUncheckedUpdateWithoutCompanyInput = {
@@ -844,7 +842,7 @@ export type departmentUncheckedUpdateWithoutCompanyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position?: Prisma.positionUncheckedUpdateManyWithoutDepartmentNestedInput
   worker?: Prisma.workerUncheckedUpdateManyWithoutDepartmentNestedInput
-  holidays?: Prisma.holidayUncheckedUpdateManyWithoutDepartmentNestedInput
+  holiday_departments?: Prisma.holiday_departmentUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type departmentUncheckedUpdateManyWithoutCompanyInput = {
@@ -865,13 +863,13 @@ export type departmentUncheckedUpdateManyWithoutCompanyInput = {
 export type DepartmentCountOutputType = {
   position: number
   worker: number
-  holidays: number
+  holiday_departments: number
 }
 
 export type DepartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | DepartmentCountOutputTypeCountPositionArgs
   worker?: boolean | DepartmentCountOutputTypeCountWorkerArgs
-  holidays?: boolean | DepartmentCountOutputTypeCountHolidaysArgs
+  holiday_departments?: boolean | DepartmentCountOutputTypeCountHoliday_departmentsArgs
 }
 
 /**
@@ -901,8 +899,8 @@ export type DepartmentCountOutputTypeCountWorkerArgs<ExtArgs extends runtime.Typ
 /**
  * DepartmentCountOutputType without action
  */
-export type DepartmentCountOutputTypeCountHolidaysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.holidayWhereInput
+export type DepartmentCountOutputTypeCountHoliday_departmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.holiday_departmentWhereInput
 }
 
 
@@ -918,7 +916,7 @@ export type departmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   position?: boolean | Prisma.department$positionArgs<ExtArgs>
   worker?: boolean | Prisma.department$workerArgs<ExtArgs>
-  holidays?: boolean | Prisma.department$holidaysArgs<ExtArgs>
+  holiday_departments?: boolean | Prisma.department$holiday_departmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
@@ -962,7 +960,7 @@ export type departmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   position?: boolean | Prisma.department$positionArgs<ExtArgs>
   worker?: boolean | Prisma.department$workerArgs<ExtArgs>
-  holidays?: boolean | Prisma.department$holidaysArgs<ExtArgs>
+  holiday_departments?: boolean | Prisma.department$holiday_departmentsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type departmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -978,7 +976,7 @@ export type $departmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     company: Prisma.$companyPayload<ExtArgs>
     position: Prisma.$positionPayload<ExtArgs>[]
     worker: Prisma.$workerPayload<ExtArgs>[]
-    holidays: Prisma.$holidayPayload<ExtArgs>[]
+    holiday_departments: Prisma.$holiday_departmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1386,7 +1384,7 @@ export interface Prisma__departmentClient<T, Null = never, ExtArgs extends runti
   company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   position<T extends Prisma.department$positionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.department$positionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$positionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   worker<T extends Prisma.department$workerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.department$workerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$workerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  holidays<T extends Prisma.department$holidaysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.department$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  holiday_departments<T extends Prisma.department$holiday_departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.department$holiday_departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holiday_departmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1868,27 +1866,27 @@ export type department$workerArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * department.holidays
+ * department.holiday_departments
  */
-export type department$holidaysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type department$holiday_departmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the holiday
+   * Select specific fields to fetch from the holiday_department
    */
-  select?: Prisma.holidaySelect<ExtArgs> | null
+  select?: Prisma.holiday_departmentSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the holiday
+   * Omit specific fields from the holiday_department
    */
-  omit?: Prisma.holidayOmit<ExtArgs> | null
+  omit?: Prisma.holiday_departmentOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.holidayInclude<ExtArgs> | null
-  where?: Prisma.holidayWhereInput
-  orderBy?: Prisma.holidayOrderByWithRelationInput | Prisma.holidayOrderByWithRelationInput[]
-  cursor?: Prisma.holidayWhereUniqueInput
+  include?: Prisma.holiday_departmentInclude<ExtArgs> | null
+  where?: Prisma.holiday_departmentWhereInput
+  orderBy?: Prisma.holiday_departmentOrderByWithRelationInput | Prisma.holiday_departmentOrderByWithRelationInput[]
+  cursor?: Prisma.holiday_departmentWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.HolidayScalarFieldEnum | Prisma.HolidayScalarFieldEnum[]
+  distinct?: Prisma.Holiday_departmentScalarFieldEnum | Prisma.Holiday_departmentScalarFieldEnum[]
 }
 
 /**

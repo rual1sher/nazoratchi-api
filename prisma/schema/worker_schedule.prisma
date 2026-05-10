@@ -1,17 +1,23 @@
 model worker_schedule {
   id Int @id @default(autoincrement())
 
-  day         Int
-  start_time  DateTime  @db.Time()
-  end_time    DateTime  @db.Time()
-  break_start DateTime? @db.Time()
-  break_end   DateTime? @db.Time()
+  company_id     Int
+  name           String
+  type           worker_schedule_type @default(adaptive)
+  starts_at      DateTime             @db.Timestamp()
+  days_frequency Int
+  created_at     DateTime             @default(now())
+  updated_at     DateTime             @default(now()) @updatedAt
+  deleted_at     DateTime?
 
-  day_id     Int?
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
+  company company  @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "worker_schedule_company_id_foreign")
+  workers worker[]
+  days    day[]
 
-  days day? @relation(fields: [day_id], references: [id], onDelete: SetNull, map: "worker_schedule_day_id_foreign")
-  holidays holiday[]
+  @@index([company_id])
+}
+
+enum worker_schedule_type {
+  adaptive
+  free
 }

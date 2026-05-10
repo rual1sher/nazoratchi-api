@@ -2,7 +2,10 @@ import { NotFoundException } from '@nestjs/common';
 import { PrismaClient } from 'prisma/generated/prisma/internal/class';
 import { ErrorMessages } from '../error/error.message';
 
-const relationMap: Record<string, { model: keyof PrismaClient; name: string }> =
+const relationMap: Record<
+  string,
+  { model: keyof PrismaClient; name: string; whereField?: string }
+> =
   {
     user_id: { model: 'user', name: 'User' },
     department_id: { model: 'department', name: 'Department' },
@@ -24,7 +27,11 @@ const relationMap: Record<string, { model: keyof PrismaClient; name: string }> =
     filialId: { model: 'filial', name: 'Filial' },
     workerId: { model: 'worker', name: 'Worker' },
     penaltyId: { model: 'penalty', name: 'Penalty' },
-    scheduleId: { model: 'worker_schedule', name: 'Schedule' },
+    scheduleId: {
+      model: 'worker_schedule',
+      name: 'Schedule',
+      whereField: 'schedule_id',
+    },
     penaltysNameId: { model: 'penalties_name', name: 'PenaltysName' },
   };
 
@@ -64,6 +71,6 @@ export const validateRelationsQuery = async (
       continue;
     }
 
-    where[`${rel.model as string}_id`] = +value as Number;
+    where[rel.whereField ?? `${rel.model as string}_id`] = +value as Number;
   }
 };

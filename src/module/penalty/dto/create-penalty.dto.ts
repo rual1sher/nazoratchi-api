@@ -1,9 +1,27 @@
-import { Type } from "class-transformer";
-import { IsDate, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
-import { penalty_type } from "prisma/generated/prisma/enums";
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-export class CreatePenaltyDto {
-  @ApiProperty({ example: 50 })
+
+class CreatePenaltyItemDto {
+  @ApiProperty({ example: 'late' })
+  @IsString()
+  type: string;
+
+  @ApiProperty({ example: '15m' })
+  @IsString()
+  @Matches(/^\d+m$/, {
+    message: 'time must be in Xm format, for example 15m',
+  })
+  time: string;
+
+  @ApiProperty({ example: 100 })
   @IsNumber()
   amount: number;
 
@@ -11,16 +29,16 @@ export class CreatePenaltyDto {
   @IsString()
   @IsOptional()
   comment?: string;
+}
 
-  @ApiProperty({ example: 15 })
-  @IsNumber()
-  min_minutes: number;
+export class CreatePenaltyDto {
+  @ApiProperty({ example: 'Late penalties' })
+  @IsString()
+  name: string;
 
-  @ApiProperty({ enum: penalty_type })
-  @IsEnum(penalty_type)
-  type: penalty_type;
-
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  penalties_name_id: number;
+  @ApiProperty({ type: [CreatePenaltyItemDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreatePenaltyItemDto)
+  penalties: CreatePenaltyItemDto[];
 }

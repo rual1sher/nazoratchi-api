@@ -1,5 +1,6 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateDepartmentDto {
   @ApiProperty({ example: 'IT bo`limi', description: 'Uzbek title' })
   @IsString()
@@ -12,9 +13,4 @@ export class CreateDepartmentDto {
   @ApiProperty({ example: 'IT Department', description: 'English title' })
   @IsString()
   title_en: string;
-
-  @ApiPropertyOptional({ example: 1 })
-  @IsOptional()
-  @IsNumber()
-  company_id?: number;
 }

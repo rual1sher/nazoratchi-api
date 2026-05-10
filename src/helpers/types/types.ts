@@ -26,7 +26,7 @@ export interface IWorkerQuery extends IQuery {
   companyId?: string;
   positionId?: string;
   departmant?: string;
-  dayId?: string;
+  scheduleId?: string;
 }
 
 // query filial
@@ -41,12 +41,12 @@ export interface IPositionQuery extends IQuery {
 
 // query day
 export interface IDayQuery extends IQuery {
-  companyId?: string;
+  scheduleId?: string;
 }
 
 // query schedule
 export interface IScheduleQuery extends IQuery {
-  dayId?: string;
+  workerId?: string;
 }
 
 // query penaltys-name
@@ -57,7 +57,7 @@ export interface IPenaltysNameQuery extends IQuery {
 // query penalty
 export interface IPenaltyQuery extends IQuery {
   penaltysNameId?: string;
-  type?: penalty_type;
+  type?: string;
 }
 
 // query payment
@@ -85,5 +85,6 @@ export interface ITaskQuery extends IQuery {
 export interface IHolidayQuery extends IQuery {
   filialId?: string;
   departmentId?: string;
-  positionId?: string;
+  /** adaptive | free — праздник, привязанный к этому типу графика */
+  scheduleType?: string;
 }

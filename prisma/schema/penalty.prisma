@@ -1,6 +1,7 @@
 model penalty {
   id Int @id @default(autoincrement())
 
+  company_id  Int
   type        penalty_type
   min_minutes Int
   amount      Int
@@ -11,7 +12,10 @@ model penalty {
   updated_at        DateTime  @default(now()) @updatedAt
   deleted_at        DateTime?
 
+  company        company        @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "penalty_company_id_foreign")
   penalties_name penalties_name @relation(fields: [penalties_name_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "penalty_penalties_name_id_foreign")
+
+  @@index([company_id])
 }
 
 enum penalty_type {

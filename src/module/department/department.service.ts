@@ -7,21 +7,24 @@ import { Pagination } from 'src/helpers/pagination/pagination';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { ErrorMessages } from 'src/helpers/error/error.message';
 import { validateRelations } from 'src/helpers/validate/validate-relations';
+import { requireCompanyId } from 'src/helpers/company/require-company-id';
 
 @Injectable()
 export class DepartmentService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateDepartmentDto, cId: number) {
+  async create(dto: CreateDepartmentDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
     return await this.prisma.department.create({
       data: { ...dto, company_id: cId },
     });
   }
 
-  async findAll(query: IQuery, companyId: number) {
+  async findAll(query: IQuery, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
     const where: Prisma.departmentWhereInput = {
       deleted_at: null,
-      company_id: companyId,
+      company_id: cId,
     };
 
     if (query.search) {
@@ -49,9 +52,10 @@ export class DepartmentService {
     return { department, pagination };
   }
 
-  async findOne(id: number) {
-    const department = await this.prisma.department.findUnique({
-      where: { id, deleted_at: null },
+  async findOne(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const department = await this.prisma.department.findFirst({
+      where: { id, deleted_at: null, company_id: cId },
       include: { position: true, worker: true },
     });
     if (!department) {
@@ -63,24 +67,31 @@ export class DepartmentService {
     return department;
   }
 
-  async update(id: number, dto: UpdateDepartmentDto, companyId: number) {
+  async update(id: number, dto: UpdateDepartmentDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
     const where: Prisma.departmentWhereInput = {
       id,
       deleted_at: null,
-      company_id: companyId,
+      company_id: cId,
     };
 
     const department = await this.prisma.department.findFirst({ where });
     if (!department) throw new NotFoundException('Department not found');
 
-    if (dto?.company_id) {
-      await validateRelations(this.prisma, { company_id: dto.company_id });
-    }
-
     return await this.prisma.department.update({ where: { id }, data: dto });
   }
 
-  async remove(id: number) {
+  async remove(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const existing = await this.prisma.department.findFirst({
+      where: { id, deleted_at: null, company_id: cId },
+    });
+    if (!existing) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Department'),
+      );
+    }
+
     await validateRelations(this.prisma, { department_id: id });
 
     return await this.prisma.department.update({
