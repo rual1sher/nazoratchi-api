@@ -3,7 +3,10 @@ import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { ErrorMessages } from 'src/helpers/error/error.message';
-import { IAttendanceQuery } from 'src/helpers/types/types';
+import {
+  IAttendanceDashboardQuery,
+  IAttendanceQuery,
+} from 'src/helpers/types/types';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { Prisma } from 'prisma/generated/prisma/client';
 
@@ -41,12 +44,34 @@ export class AttendanceService {
     return { attendance, pagination };
   }
 
+  async getDashboardAttendance(query: IAttendanceDashboardQuery) {
+    const where: Prisma.attendanceWhereInput = { deleted_at: null };
+
+    if (query?.department_id)
+      where.worker = { department_id: +query.department_id };
+    if (query?.filial_id) where.worker = { filial_id: +query.filial_id };
+    if (query?.date) where.date = new Date(query.date);
+    if (query?.order_by) where.created_at = { [query.order_by]: 'desc' };
+
+    const count = await this.prisma.attendance.count({ where });
+    const pagination = new Pagination(count, query.page, query.limit);
+
+    const attendance = await this.prisma.attendance.findMany({
+      where,
+      orderBy: { created_at: 'desc' },
+      include: { worker: true },
+      take: pagination.limit,
+      skip: pagination.offset,
+    });
+    return { attendance, pagination };
+  }
+
   async findOne(id: number) {
     const attendance = await this.prisma.attendance.findUnique({
       where: { id, deleted_at: null },
       include: { worker: true },
     });
-    
+
     if (!attendance) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Attendance'),
@@ -59,7 +84,7 @@ export class AttendanceService {
     const attendance = await this.prisma.attendance.findUnique({
       where: { id, deleted_at: null },
     });
-    
+
     if (!attendance) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Attendance'),
@@ -81,7 +106,7 @@ export class AttendanceService {
     const attendance = await this.prisma.attendance.findUnique({
       where: { id, deleted_at: null },
     });
-    
+
     if (!attendance) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Attendance'),

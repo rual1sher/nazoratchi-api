@@ -1,10 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
-import { IAttendanceQuery } from 'src/helpers/types/types';
+import {
+  IAttendanceDashboardQuery,
+  IAttendanceQuery,
+} from 'src/helpers/types/types';
 @ApiTags('Attendance')
 @Controller('attendance')
 export class AttendanceController {
@@ -20,7 +32,16 @@ export class AttendanceController {
   @Get()
   @ApiOperation({ summary: 'Get all attendance records' })
   async findAll(@Query() query: IAttendanceQuery) {
-    const { attendance, pagination } = await this.attendanceService.findAll(query);
+    const { attendance, pagination } =
+      await this.attendanceService.findAll(query);
+    return new ApiResponse(attendance, 200, pagination);
+  }
+
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Get dashboard attendance records' })
+  async getDashboardAttendance(@Query() query: IAttendanceDashboardQuery) {
+    const { attendance, pagination } =
+      await this.attendanceService.getDashboardAttendance(query);
     return new ApiResponse(attendance, 200, pagination);
   }
 
@@ -33,7 +54,10 @@ export class AttendanceController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update an attendance record' })
-  async update(@Param('id') id: string, @Body() updateAttendanceDto: UpdateAttendanceDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateAttendanceDto: UpdateAttendanceDto,
+  ) {
     const data = await this.attendanceService.update(+id, updateAttendanceDto);
     return new ApiResponse(data);
   }

@@ -9,7 +9,7 @@ import { CreateWorkerDto } from './dto/create-worker.dto';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { hashingPassword } from 'src/helpers/hash/password';
-import { IWorkerQuery } from 'src/helpers/types/types';
+import { IWorkerQuery, IDashboardWorkerQuery } from 'src/helpers/types/types';
 import { Prisma, user_role } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
@@ -108,6 +108,83 @@ export class WorkerService {
     });
 
     return { worker, pagination };
+  }
+
+  async getDashboardWorkers(query: IDashboardWorkerQuery, companyId: number) {
+    const { department_id, filial_id, date } = query;
+    const targetDate = new Date(isNaN(Number(date)) ? date : Number(date));
+    const dayOfWeek = targetDate.getDay(); // 0 (Sun) to 6 (Sat)
+    const dbDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+
+    const where: Prisma.workerWhereInput = {
+      company_id: companyId,
+      deleted_at: null,
+    };
+
+    if (department_id) where.department_id = +department_id;
+    if (filial_id) where.filial_id = +filial_id;
+
+    const workers = await this.prisma.worker.findMany({
+      where,
+      include: {
+        day: {
+          include: {
+            worker_schedule: {
+              where: {
+                day: dbDayOfWeek,
+                deleted_at: null,
+              },
+            },
+          },
+        },
+        attendance: {
+          where: {
+            date: {
+              equals: targetDate,
+            },
+            deleted_at: null,
+          },
+        },
+      },
+    });
+
+    let on_time = 0;
+    let late = 0;
+    let not_work = 0;
+
+    for (const worker of workers) {
+      const schedule = worker.day?.worker_schedule?.[0];
+      const attendance = worker.attendance?.[0];
+
+      if (!schedule) {
+        continue;
+      }
+
+      if (!attendance || !attendance.arrival_at) {
+        not_work++;
+      } else {
+        const arrivalTime = new Date(attendance.arrival_at);
+        const scheduleStartTime = new Date(schedule.start_time);
+
+        const arrivalTotalMinutes =
+          arrivalTime.getHours() * 60 + arrivalTime.getMinutes();
+        const scheduleTotalMinutes =
+          scheduleStartTime.getHours() * 60 + scheduleStartTime.getMinutes();
+
+        if (arrivalTotalMinutes <= scheduleTotalMinutes) {
+          on_time++;
+        } else {
+          late++;
+        }
+      }
+    }
+
+    return {
+      all: on_time + late + not_work,
+      on_time,
+      late,
+      not_work,
+    };
   }
 
   async findOne(id: number) {

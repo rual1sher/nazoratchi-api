@@ -16,7 +16,11 @@ import { AuthGuard } from 'src/helpers/guard/auth.guard';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
-import { IPayload, IWorkerQuery } from 'src/helpers/types/types';
+import {
+  IPayload,
+  IWorkerQuery,
+  IDashboardWorkerQuery,
+} from 'src/helpers/types/types';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { Owner } from 'src/helpers/decorators/owner.decorator';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
@@ -43,6 +47,15 @@ export class WorkerController {
       companyId,
     );
     return new ApiResponse(worker, 200, pagination);
+  }
+
+  @Get('dashboard')
+  async getDashboardWorkers(
+    @Query() query: IDashboardWorkerQuery,
+    @CompanyId() companyId: number,
+  ) {
+    const data = await this.workerService.getDashboardWorkers(query, companyId);
+    return new ApiResponse(data);
   }
 
   @Get(':id')

@@ -71,6 +71,13 @@ export interface IAttendanceQuery extends IQuery {
   workerId?: string;
 }
 
+export interface IAttendanceDashboardQuery extends IQuery {
+  department_id?: string;
+  filial_id?: string;
+  date?: string;
+  order_by?: 'desc' | 'asc';
+}
+
 // query salary
 export interface ISalaryQuery extends IQuery {
   workerId?: string;
@@ -86,4 +93,11 @@ export interface IHolidayQuery extends IQuery {
   filialId?: string;
   departmentId?: string;
   positionId?: string;
+}
+
+// query dashboard worker
+export interface IDashboardWorkerQuery {
+  department_id?: string;
+  filial_id?: string;
+  date: string;
 }
