@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { CreateFaceIdAttendanceDto } from './dto/create-face-id-attendance.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { ErrorMessages } from 'src/helpers/error/error.message';
 import {
@@ -16,7 +17,12 @@ import {
 } from 'src/helpers/types/types';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { Prisma } from 'prisma/generated/prisma/client';
-import { attendance_resource } from 'prisma/generated/prisma/enums';
+import {
+  attendance_resource,
+  payment_type,
+  penalties_name_type,
+  penalty_type,
+} from 'prisma/generated/prisma/enums';
 import { requireCompanyId } from 'src/helpers/company/require-company-id';
 import * as ExcelJS from 'exceljs';
 
@@ -72,6 +78,28 @@ const formatTotalHours = (checkIn: Date, checkOut: Date): string | null => {
 const timeToMinutes = (d: Date): number =>
   d.getUTCHours() * 60 + d.getUTCMinutes();
 
+const weekdayFromDate = (date: Date): number =>
+  date.getUTCDay() === 0 ? 7 : date.getUTCDay();
+
+type DayScheduleRow = {
+  start_time: Date;
+  end_time: Date;
+};
+
+const PENALTY_COMMENT_PREFIX: Record<penalty_type, string> = {
+  [penalty_type.late_arrival]: '[late_arrival]',
+  [penalty_type.early_leave]: '[early_leave]',
+  [penalty_type.no_exit]: '[no_exit]',
+  [penalty_type.not_arrive]: '[not_arrive]',
+};
+
+const getYesterdayDateOnly = (): Date => {
+  const today = toPrismaDateOnly(new Date().toISOString());
+  const yesterday = new Date(today);
+  yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+  return yesterday;
+};
+
 const CHART_DAYS = 30;
 
 const getLast30Days = (): Date[] => {
@@ -122,6 +150,8 @@ const getChartDates = (query: IAttendanceChartQuery): Date[] => {
 
 type AttendanceReportStatus = 'on_time' | 'late';
 
+const attendanceInclude = { worker: true, branch: true } as const;
+
 @Injectable()
 export class AttendanceService {
   constructor(private prisma: PrismaService) {}
@@ -149,35 +179,59 @@ export class AttendanceService {
       );
     }
 
-    try {
-      if (existing) {
-        return await this.prisma.attendance.update({
-          where: { id: existing.id },
-          data: {
-            deleted_at: null,
-            ...(isCheckIn
-              ? { check_in_at: timestamp }
-              : { check_out_at: timestamp }),
-            description: dto.description ?? existing.description,
-            branch_id: dto.branchId,
-            resource: attendance_resource.manual,
-          },
-          include: { worker: true, branch: true },
-        });
-      }
+    const isFirstCheckIn = isCheckIn && !existing?.check_in_at;
 
-      return await this.prisma.attendance.create({
-        data: {
-          company_id: cId,
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        let attendance;
+
+        if (existing) {
+          attendance = await tx.attendance.update({
+            where: { id: existing.id },
+            data: {
+              deleted_at: null,
+              ...(isCheckIn
+                ? { check_in_at: timestamp }
+                : { check_out_at: timestamp }),
+              description: dto.description ?? existing.description,
+              branch_id: dto.branchId,
+              resource: attendance_resource.manual,
+            },
+            include: attendanceInclude,
+          });
+        } else {
+          attendance = await tx.attendance.create({
+            data: {
+              company_id: cId,
+              date,
+              worker_id: dto.employeeId,
+              branch_id: dto.branchId,
+              description: dto.description ?? null,
+              resource: attendance_resource.manual,
+              check_in_at: isCheckIn ? timestamp : null,
+              check_out_at: isCheckIn ? null : timestamp,
+            },
+            include: attendanceInclude,
+          });
+        }
+
+        if (!isFirstCheckIn) {
+          return attendance;
+        }
+
+        const payment = await this.applyLateArrivalPenalty(
+          tx,
+          cId,
+          dto.employeeId,
           date,
-          worker_id: dto.employeeId,
-          branch_id: dto.branchId,
-          description: dto.description ?? null,
-          resource: attendance_resource.manual,
-          check_in_at: isCheckIn ? timestamp : null,
-          check_out_at: isCheckIn ? null : timestamp,
-        },
-        include: { worker: true, branch: true },
+          timestamp,
+        );
+
+        if (!payment) {
+          return attendance;
+        }
+
+        return { ...attendance, payment };
       });
     } catch (e) {
       if (
@@ -190,6 +244,396 @@ export class AttendanceService {
       }
       throw e;
     }
+  }
+
+  async faceIdCreate(
+    dto: CreateFaceIdAttendanceDto,
+    companyId: number | null,
+    workerId: number | null,
+  ) {
+    if (!workerId) {
+      throw new BadRequestException(
+        'Face-id attendance is available for workers only',
+      );
+    }
+
+    const cId = requireCompanyId(companyId);
+    const branchId = await this.resolveBranchId(cId, workerId);
+
+    const timestamp = toTimestamp(dto.date);
+    const date = toPrismaDateOnly(dto.date);
+
+    const existing = await this.prisma.attendance.findUnique({
+      where: {
+        worker_id_date: {
+          worker_id: workerId,
+          date,
+        },
+      },
+    });
+
+    if (existing && existing.company_id !== cId) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Attendance'),
+      );
+    }
+
+    const isFirstCheckIn = !existing?.check_in_at;
+
+    return this.prisma.$transaction(async (tx) => {
+      let attendance;
+
+      if (!existing) {
+        attendance = await tx.attendance.create({
+          data: {
+            company_id: cId,
+            date,
+            worker_id: workerId,
+            branch_id: branchId,
+            resource: attendance_resource.mobile,
+            check_in_at: timestamp,
+            check_out_at: null,
+          },
+          include: attendanceInclude,
+        });
+      } else if (!existing.check_in_at) {
+        attendance = await tx.attendance.update({
+          where: { id: existing.id },
+          data: {
+            deleted_at: null,
+            check_in_at: timestamp,
+            branch_id: branchId,
+            resource: attendance_resource.mobile,
+          },
+          include: attendanceInclude,
+        });
+      } else {
+        attendance = await tx.attendance.update({
+          where: { id: existing.id },
+          data: {
+            check_out_at: timestamp,
+            branch_id: branchId,
+            resource: attendance_resource.mobile,
+          },
+          include: attendanceInclude,
+        });
+      }
+
+      if (!isFirstCheckIn) {
+        return attendance;
+      }
+
+      const payment = await this.applyLateArrivalPenalty(
+        tx,
+        cId,
+        workerId,
+        date,
+        timestamp,
+      );
+
+      if (!payment) {
+        return attendance;
+      }
+
+      return { ...attendance, payment };
+    });
+  }
+
+  /** End-of-day penalties (not_arrive, no_exit, early_leave). Same logic as midnight cron. */
+  async processDailyPenalties(options?: {
+    targetDate?: Date | string;
+    companyId?: number;
+  }) {
+    const date =
+      options?.targetDate != null
+        ? typeof options.targetDate === 'string'
+          ? toPrismaDateOnly(options.targetDate)
+          : options.targetDate
+        : getYesterdayDateOnly();
+    const weekday = weekdayFromDate(date);
+    let paymentsCreated = 0;
+
+    const workers = await this.prisma.worker.findMany({
+      where: {
+        deleted_at: null,
+        ...(options?.companyId != null && { company_id: options.companyId }),
+        schedule_id: { not: null },
+        schedule: {
+          deleted_at: null,
+          days: { some: { day: weekday, deleted_at: null } },
+        },
+      },
+      select: {
+        id: true,
+        company_id: true,
+        schedule: {
+          where: { deleted_at: null },
+          include: {
+            days: {
+              where: { day: weekday, deleted_at: null },
+              take: 1,
+              select: { start_time: true, end_time: true },
+            },
+          },
+        },
+      },
+    });
+
+    for (const worker of workers) {
+      const daySchedule = worker.schedule?.days?.[0];
+      if (!daySchedule) {
+        continue;
+      }
+
+      const created = await this.prisma.$transaction((tx) =>
+        this.processWorkerEndOfDayPenalties(
+          tx,
+          worker.company_id,
+          worker.id,
+          date,
+          daySchedule,
+        ),
+      );
+      if (created) {
+        paymentsCreated += created;
+      }
+    }
+
+    return {
+      date: date.toISOString().slice(0, 10),
+      paymentsCreated,
+    };
+  }
+
+  private async processWorkerEndOfDayPenalties(
+    tx: Prisma.TransactionClient,
+    companyId: number,
+    workerId: number,
+    date: Date,
+    daySchedule: DayScheduleRow,
+  ): Promise<number> {
+    const attendance = await tx.attendance.findUnique({
+      where: {
+        worker_id_date: { worker_id: workerId, date },
+      },
+    });
+
+    if (!attendance?.check_in_at || attendance.deleted_at) {
+      const payment = await this.createPenaltyPayment(
+        tx,
+        companyId,
+        workerId,
+        date,
+        penalty_type.not_arrive,
+        1,
+        'Did not check in',
+      );
+      return payment ? 1 : 0;
+    }
+
+    if (!attendance.check_out_at) {
+      const payment = await this.createPenaltyPayment(
+        tx,
+        companyId,
+        workerId,
+        date,
+        penalty_type.no_exit,
+        1,
+        'Did not check out',
+      );
+      return payment ? 1 : 0;
+    }
+
+    const payment = await this.applyEarlyLeavePenalty(
+      tx,
+      companyId,
+      workerId,
+      date,
+      attendance.check_out_at,
+      daySchedule,
+    );
+    return payment ? 1 : 0;
+  }
+
+  private async getWorkerDaySchedule(
+    tx: Prisma.TransactionClient,
+    workerId: number,
+    companyId: number,
+    date: Date,
+  ): Promise<DayScheduleRow | null> {
+    const weekday = weekdayFromDate(date);
+
+    const worker = await tx.worker.findFirst({
+      where: { id: workerId, company_id: companyId, deleted_at: null },
+      select: {
+        schedule: {
+          where: { deleted_at: null },
+          include: {
+            days: {
+              where: { day: weekday, deleted_at: null },
+              take: 1,
+              select: { start_time: true, end_time: true },
+            },
+          },
+        },
+      },
+    });
+
+    return worker?.schedule?.days?.[0] ?? null;
+  }
+
+  private async findPenaltyRule(
+    tx: Prisma.TransactionClient,
+    companyId: number,
+    type: penalty_type,
+    violationMinutes: number,
+  ) {
+    if (violationMinutes <= 0) {
+      return null;
+    }
+
+    return tx.penalty.findFirst({
+      where: {
+        company_id: companyId,
+        deleted_at: null,
+        type,
+        min_minutes: { lte: violationMinutes },
+        penalties_name: {
+          deleted_at: null,
+          type: penalties_name_type.active,
+        },
+      },
+      orderBy: { min_minutes: 'desc' },
+    });
+  }
+
+  private async hasPenaltyPayment(
+    tx: Prisma.TransactionClient,
+    workerId: number,
+    date: Date,
+    type: penalty_type,
+  ): Promise<boolean> {
+    const prefix = PENALTY_COMMENT_PREFIX[type];
+    const existing = await tx.payment.findFirst({
+      where: {
+        worker_id: workerId,
+        date,
+        type: payment_type.penalty,
+        deleted_at: null,
+        comment: { startsWith: prefix },
+      },
+    });
+    return Boolean(existing);
+  }
+
+  private async createPenaltyPayment(
+    tx: Prisma.TransactionClient,
+    companyId: number,
+    workerId: number,
+    date: Date,
+    type: penalty_type,
+    violationMinutes: number,
+    fallbackComment: string,
+  ) {
+    if (await this.hasPenaltyPayment(tx, workerId, date, type)) {
+      return null;
+    }
+
+    const rule = await this.findPenaltyRule(
+      tx,
+      companyId,
+      type,
+      violationMinutes,
+    );
+    if (!rule) {
+      return null;
+    }
+
+    const prefix = PENALTY_COMMENT_PREFIX[type];
+    return tx.payment.create({
+      data: {
+        company_id: companyId,
+        worker_id: workerId,
+        amount: rule.amount,
+        type: payment_type.penalty,
+        date,
+        comment: rule.comment ?? `${prefix} ${fallbackComment}`,
+      },
+    });
+  }
+
+  private async applyLateArrivalPenalty(
+    tx: Prisma.TransactionClient,
+    companyId: number,
+    workerId: number,
+    date: Date,
+    checkInAt: Date,
+  ) {
+    const daySchedule = await this.getWorkerDaySchedule(
+      tx,
+      workerId,
+      companyId,
+      date,
+    );
+    if (!daySchedule) {
+      return null;
+    }
+
+    const arrivalMinutes = timeToMinutes(checkInAt);
+    const startMinutes = timeToMinutes(daySchedule.start_time);
+    if (arrivalMinutes <= startMinutes) {
+      return null;
+    }
+
+    const lateMinutes = arrivalMinutes - startMinutes;
+    return this.createPenaltyPayment(
+      tx,
+      companyId,
+      workerId,
+      date,
+      penalty_type.late_arrival,
+      lateMinutes,
+      `Late arrival: ${lateMinutes} min (scheduled ${this.formatScheduleTime(daySchedule.start_time)})`,
+    );
+  }
+
+  private async applyEarlyLeavePenalty(
+    tx: Prisma.TransactionClient,
+    companyId: number,
+    workerId: number,
+    date: Date,
+    checkOutAt: Date,
+    daySchedule?: DayScheduleRow,
+  ) {
+    const schedule =
+      daySchedule ??
+      (await this.getWorkerDaySchedule(tx, workerId, companyId, date));
+    if (!schedule) {
+      return null;
+    }
+
+    const departureMinutes = timeToMinutes(checkOutAt);
+    const endMinutes = timeToMinutes(schedule.end_time);
+    if (departureMinutes >= endMinutes) {
+      return null;
+    }
+
+    const earlyMinutes = endMinutes - departureMinutes;
+    return this.createPenaltyPayment(
+      tx,
+      companyId,
+      workerId,
+      date,
+      penalty_type.early_leave,
+      earlyMinutes,
+      `Early leave: ${earlyMinutes} min (scheduled until ${this.formatScheduleTime(schedule.end_time)})`,
+    );
+  }
+
+  private formatScheduleTime(time: Date): string {
+    const h = time.getUTCHours().toString().padStart(2, '0');
+    const m = time.getUTCMinutes().toString().padStart(2, '0');
+    return `${h}:${m}`;
   }
 
   async findAll(query: IAttendanceQuery, companyId: number | null) {
@@ -602,6 +1046,34 @@ export class AttendanceService {
       where: { id },
       data: { deleted_at: new Date() },
     });
+  }
+
+  private async resolveBranchId(
+    companyId: number,
+    workerId: number,
+    branchId?: number,
+  ): Promise<number> {
+    if (branchId != null) {
+      await this.assertWorkerAndBranch(companyId, workerId, branchId);
+      return branchId;
+    }
+
+    const worker = await this.prisma.worker.findFirst({
+      where: { id: workerId, company_id: companyId, deleted_at: null },
+      select: { id: true, filial_id: true },
+    });
+
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
+
+    if (!worker.filial_id) {
+      throw new BadRequestException('Worker has no branch assigned');
+    }
+
+    return worker.filial_id;
   }
 
   private async assertWorkerAndBranch(

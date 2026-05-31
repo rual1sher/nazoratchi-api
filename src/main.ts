@@ -4,12 +4,7 @@ import { AppModule } from './module/app.module';
 import { env } from './helpers/config/env.config';
 import cookieParser from 'cookie-parser';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { join } from 'path';
-import {
-  UPLOAD_DIR,
-  UPLOAD_URL_PREFIX,
-  ensureUploadDir,
-} from './helpers/config/upload.config';
+import { ensureUploadDir } from './helpers/config/upload.config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './helpers/error/http-exception.filter';
 import { LoggingInterceptor } from './helpers/interceptors/logging.interceptor';
@@ -19,11 +14,14 @@ async function bootstrap() {
 
   ensureUploadDir();
 
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
-  });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser());
-  app.useStaticAssets(join(UPLOAD_DIR), { prefix: UPLOAD_URL_PREFIX });
+
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept, Authorization, x-company-id',
+  });
 
   // Global Interceptors & Filters
   app.useGlobalInterceptors(new LoggingInterceptor());
@@ -51,12 +49,23 @@ async function bootstrap() {
       .setTitle('Nazoratchi API')
       .setDescription('The Nazoratchi API description')
       .setVersion('1.0')
-      .addBearerAuth({
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        description:
-          'Paste accessToken from login (Swagger adds the Bearer prefix)',
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description:
+            'Paste only accessToken from login (without "Bearer " prefix)',
+        },
+        'bearer',
+      )
+      .addSecurityRequirements('bearer')
+      .addGlobalParameters({
+        name: 'x-company-id',
+        in: 'header',
+        required: false,
+        description: 'Company id for scoped routes',
+        schema: { type: 'string', default: '1', example: '1' },
       })
       .build();
     const document = SwaggerModule.createDocument(app, config);

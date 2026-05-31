@@ -30,6 +30,10 @@ export interface IWorkerQuery extends IQuery {
   scheduleId?: string;
 }
 
+export interface IMyWorkerAttendanceQuery {
+  date?: string;
+}
+
 // query filial
 export interface IFilialQuery extends IQuery {
   companyId?: string;

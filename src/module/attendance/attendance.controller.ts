@@ -14,6 +14,7 @@ import {
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { ProcessDailyPenaltiesQueryDto } from './dto/process-daily-penalties-query.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import {
@@ -110,6 +111,22 @@ export class AttendanceController {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       disposition: `attachment; filename="${filename}"`,
     });
+  }
+
+  @Post('process-penalties')
+  @ApiOperation({
+    summary:
+      'Manually run end-of-day penalty processing (same as 00:00 cron)',
+  })
+  async processPenalties(
+    @Query() query: ProcessDailyPenaltiesQueryDto,
+    @CompanyId() companyId: number,
+  ) {
+    const data = await this.attendanceService.processDailyPenalties({
+      targetDate: query.date,
+      companyId,
+    });
+    return new ApiResponse(data);
   }
 
   @Get(':id')

@@ -9,8 +9,17 @@ import { CreateWorkerDto } from './dto/create-worker.dto';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
 import { hashingPassword } from 'src/helpers/hash/password';
-import { IWorkerQuery, IDashboardWorkerQuery } from 'src/helpers/types/types';
-import { Prisma, user_role } from 'prisma/generated/prisma/client';
+import {
+  IWorkerQuery,
+  IDashboardWorkerQuery,
+  IQuery,
+  IMyWorkerAttendanceQuery,
+} from 'src/helpers/types/types';
+import {
+  payment_type,
+  Prisma,
+  user_role,
+} from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
 import {
@@ -185,6 +194,75 @@ export class WorkerService {
       resource: attendance.resource,
       description: attendance.description,
     }));
+  }
+
+  async getMyPayments(
+    type: payment_type,
+    query: IQuery,
+    companyId: number,
+    workerId: number | null,
+  ) {
+    if (!workerId) throw new BadRequestException('Worker ID is required');
+
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id: workerId, company_id: cId, deleted_at: null },
+    });
+    if (!worker) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Worker'),
+      );
+    }
+
+    const count = await this.prisma.payment.count({
+      where: {
+        company_id: cId,
+        deleted_at: null,
+        worker_id: workerId,
+        type: type,
+      },
+    });
+    const pagination = new Pagination(count, query.page, query.limit);
+
+    const payment = await this.prisma.payment.findMany({
+      where: {
+        company_id: cId,
+        deleted_at: null,
+        worker_id: workerId,
+        type: type,
+      },
+      orderBy: { created_at: 'desc' },
+      take: pagination.limit,
+      skip: pagination.offset,
+    });
+
+    return { payment, pagination };
+  }
+
+  async getMyAttendance(
+    query: IMyWorkerAttendanceQuery,
+    companyId: number,
+    workerId: number | null,
+  ) {
+    if (!workerId) throw new BadRequestException('Worker ID is required');
+
+    const cId = requireCompanyId(companyId);
+
+    const attendance = await this.prisma.attendance.findFirst({
+      where: {
+        worker_id: workerId,
+        company_id: cId,
+        deleted_at: null,
+        date: query.date ? toPrismaDateOnly(query.date) : new Date(),
+      },
+    });
+    if (!attendance) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Attendance'),
+      );
+    }
+
+    return attendance;
   }
 
   async getDashboardWorkers(

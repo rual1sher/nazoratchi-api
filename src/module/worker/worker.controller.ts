@@ -20,19 +20,22 @@ import {
   IPayload,
   IWorkerQuery,
   IDashboardWorkerQuery,
+  IQuery,
+  IMyWorkerAttendanceQuery,
 } from 'src/helpers/types/types';
-import { worker_role } from 'prisma/generated/prisma/enums';
+import { payment_type, worker_role } from 'prisma/generated/prisma/enums';
 import { Owner } from 'src/helpers/decorators/owner.decorator';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
 
 @ApiTags('employee')
 @Controller('employee')
 @UseGuards(AuthGuard, WorkerRolesGuard)
-@WorkerRoles(worker_role.maneger)
 export class WorkerController {
   constructor(private readonly workerService: WorkerService) {}
 
+  @WorkerRoles(worker_role.maneger)
   @Post()
   @ApiOperation({ summary: 'Create a new employee' })
   async create(
@@ -48,6 +51,7 @@ export class WorkerController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger)
   @Get()
   @ApiOperation({ summary: 'Get all employees' })
   async findAll(
@@ -61,6 +65,42 @@ export class WorkerController {
     return new ApiResponse(worker, 200, pagination);
   }
 
+  @WorkerRoles(worker_role.worker)
+  @Get('my/penalty')
+  @ApiOperation({ summary: 'Get my penalties' })
+  async getMyPenalties(
+    @CompanyId() companyId: number,
+    @WorkerId() workerId: number | null,
+    @Query() query: IQuery,
+  ) {
+    const { payment, pagination } = await this.workerService.getMyPayments(
+      payment_type.penalty,
+      query,
+      companyId,
+      workerId,
+    );
+    return new ApiResponse(payment, 200, pagination);
+  }
+
+  @WorkerRoles(worker_role.worker)
+  @Get('my/bonus')
+  @ApiOperation({ summary: 'Get my bonuses' })
+  async getMyBonuses(
+    @CompanyId() companyId: number,
+    @WorkerId() workerId: number | null,
+    @Query() query: IQuery,
+  ) {
+    const { payment, pagination } = await this.workerService.getMyPayments(
+      payment_type.bonus,
+      query,
+      companyId,
+      workerId,
+    );
+    return new ApiResponse(payment, 200, pagination);
+  }
+
+  @WorkerRoles(worker_role.maneger)
+  @ApiOperation({ summary: 'Get worker attendance' })
   @Get(':id/attendance')
   async getWorkerAttendance(
     @Param('id') id: string,
@@ -75,6 +115,8 @@ export class WorkerController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger)
+  @ApiOperation({ summary: 'Get dashboard workers' })
   @Get('dashboard')
   async getDashboardWorkers(
     @Query() query: IDashboardWorkerQuery,
@@ -84,6 +126,23 @@ export class WorkerController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.worker)
+  @Get('my/attendance')
+  @ApiOperation({ summary: 'Get my attendance' })
+  async getMyAttendance(
+    @CompanyId() companyId: number,
+    @WorkerId() workerId: number | null,
+    @Query() query: IMyWorkerAttendanceQuery,
+  ) {
+    const data = await this.workerService.getMyAttendance(
+      query,
+      companyId,
+      workerId,
+    );
+    return new ApiResponse(data);
+  }
+
+  @WorkerRoles(worker_role.maneger)
   @Get(':id')
   @ApiOperation({ summary: 'Get an employee by id' })
   async findOne(
@@ -94,6 +153,7 @@ export class WorkerController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger)
   @Patch(':id')
   @ApiOperation({ summary: 'Update an employee' })
   async update(
@@ -109,6 +169,7 @@ export class WorkerController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger)
   @Delete(':id')
   @ApiOperation({ summary: 'Soft delete an employee' })
   async remove(@Param('id') id: string, @CompanyId() companyId: number | null) {

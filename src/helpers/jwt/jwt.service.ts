@@ -35,8 +35,8 @@ export class JwtService {
 
     try {
       return verify(token, secret) as IPayload;
-    } catch (err) {
-      throw new BadRequestException(err?.message);
+    } catch {
+      return null;
     }
   }
 

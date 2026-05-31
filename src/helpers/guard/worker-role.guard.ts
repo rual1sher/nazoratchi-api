@@ -11,6 +11,7 @@ import { WorkerService } from 'src/module/worker/worker.service';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { IRequest } from '../types/types';
 import { ErrorMessages } from '../error/error.message';
+import { parseCompanyIdHeader } from '../company/require-company-id';
 
 @Injectable()
 export class WorkerRolesGuard implements CanActivate {
@@ -43,14 +44,11 @@ export class WorkerRolesGuard implements CanActivate {
       return true;
     }
 
-    const companyId: string = request.headers['x-company-id'];
-    if (!companyId) {
-      throw new ForbiddenException(ErrorMessages.forbidden.noCompanyId);
-    }
+    const companyId = parseCompanyIdHeader(request.headers['x-company-id']);
 
     const worker = await this.workerService.findOneByUserAndCompany(
       +user.id,
-      +companyId,
+      companyId,
     );
 
     request.workerId = worker.id;

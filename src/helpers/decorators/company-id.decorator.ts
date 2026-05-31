@@ -1,8 +1,7 @@
 import { createParamDecorator } from '@nestjs/common';
+import { parseCompanyIdHeader } from '../company/require-company-id';
 
-export const CompanyId = createParamDecorator((_, ctx): number | null => {
+export const CompanyId = createParamDecorator((_, ctx): number => {
   const req = ctx.switchToHttp().getRequest();
-  return req.headers['x-company-id']
-    ? Number(req.headers['x-company-id'])
-    : null;
+  return parseCompanyIdHeader(req.headers['x-company-id']);
 });
