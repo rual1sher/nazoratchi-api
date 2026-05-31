@@ -403,7 +403,9 @@ export class AttendanceService {
       let not_work = 0;
 
       for (const worker of workers) {
-        const daySchedule = worker.schedule?.days.find((d) => d.day === weekday);
+        const daySchedule = worker.schedule?.days.find(
+          (d) => d.day === weekday,
+        );
         if (!daySchedule) continue;
 
         const key = `${worker.id}-${date.toISOString().slice(0, 10)}`;
@@ -465,6 +467,7 @@ export class AttendanceService {
     const records = await this.prisma.attendance.findMany({
       where,
       orderBy,
+      take: 5,
       include: {
         worker: {
           include: {

@@ -4,10 +4,10 @@ import {
   IsDateString,
   IsEnum,
   IsInt,
+  IsISO8601,
   IsNotEmpty,
   IsOptional,
   IsString,
-  Matches,
   Max,
   Min,
   ValidateNested,
@@ -22,34 +22,36 @@ class CreateWorkerScheduleDayItemDto {
   @Max(7)
   day: number;
 
-  @ApiProperty({ example: '09:00' })
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
+  @ApiProperty({
+    example: '2026-05-10T09:00:00.000Z',
+    description: 'Shift start (ISO 8601); only time-of-day is stored',
   })
+  @IsISO8601()
+  @IsNotEmpty()
   start: string;
 
-  @ApiProperty({ example: '18:00' })
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
+  @ApiProperty({
+    example: '2026-05-10T18:00:00.000Z',
+    description: 'Shift end (ISO 8601); only time-of-day is stored',
   })
+  @IsISO8601()
+  @IsNotEmpty()
   end: string;
 
-  @ApiPropertyOptional({ example: '13:00' })
-  @IsOptional()
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
+  @ApiPropertyOptional({
+    example: '2026-05-10T13:00:00.000Z',
+    description: 'Break start (ISO 8601); only time-of-day is stored',
   })
+  @IsOptional()
+  @IsISO8601()
   breakStart?: string;
 
-  @ApiPropertyOptional({ example: '14:00' })
-  @IsOptional()
-  @IsString()
-  @Matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: 'Время должно быть от 00:00 до 23:59 (например 09:30)',
+  @ApiPropertyOptional({
+    example: '2026-05-10T14:00:00.000Z',
+    description: 'Break end (ISO 8601); only time-of-day is stored',
   })
+  @IsOptional()
+  @IsISO8601()
   breakEnd?: string;
 }
 
@@ -76,7 +78,8 @@ export class CreateWorkerScheduleDto {
 
   @ApiPropertyOptional({ type: [CreateWorkerScheduleDayItemDto] })
   @IsOptional()
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateWorkerScheduleDayItemDto)
-  days?: CreateWorkerScheduleDayItemDto;
+  days?: CreateWorkerScheduleDayItemDto[];
 }

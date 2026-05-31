@@ -15,7 +15,17 @@ export type TerminalListItem = {
   name: string;
   unique_id: string;
   mac_address: string;
-  branch: string;
+  branch: {
+    name: string;
+    id: number;
+    company_id: number;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date | null;
+    address: string;
+    radius: number;
+    coordinates: string;
+  };
 };
 
 type TerminalWithBranch = Prisma.terminalGetPayload<{
@@ -32,7 +42,7 @@ export class TerminalService {
       name: row.name,
       unique_id: row.unique_id,
       mac_address: row.mac_address,
-      branch: row.branch.name,
+      branch: row.branch,
     };
   }
 
@@ -108,11 +118,7 @@ export class TerminalService {
     return this.serialize(row);
   }
 
-  async update(
-    id: number,
-    dto: UpdateTerminalDto,
-    companyId: number | null,
-  ) {
+  async update(id: number, dto: UpdateTerminalDto, companyId: number | null) {
     const cId = requireCompanyId(companyId);
 
     const existing = await this.prisma.terminal.findFirst({
@@ -133,7 +139,8 @@ export class TerminalService {
 
     if (dto.name !== undefined) data.name = dto.name.trim();
     if (dto.unique_id !== undefined) data.unique_id = dto.unique_id.trim();
-    if (dto.mac_address !== undefined) data.mac_address = dto.mac_address.trim();
+    if (dto.mac_address !== undefined)
+      data.mac_address = dto.mac_address.trim();
     if (dto.filial_id !== undefined) data.branch_id = dto.filial_id;
 
     if (Object.keys(data).length === 0) {

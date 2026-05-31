@@ -7,6 +7,7 @@ export interface IPayload {
 
 export interface IRequest extends Request {
   user: IPayload;
+  workerId?: number | null;
 }
 
 export interface IQuery {

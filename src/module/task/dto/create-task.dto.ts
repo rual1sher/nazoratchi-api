@@ -38,8 +38,9 @@ export class CreateTaskDto {
 
   @ApiProperty({ example: 0 })
   @IsInt()
+  @IsOptional()
   @Min(0)
-  row: number;
+  row?: number;
 
   @ApiPropertyOptional({ example: 'https://example.com/file.pdf' })
   @IsString()

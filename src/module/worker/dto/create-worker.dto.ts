@@ -9,18 +9,13 @@ import {
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { CreateUserDto } from 'src/module/user/dto/create-user.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 export class CreateWorkerDto {
   @ApiPropertyOptional({ type: () => CreateUserDto })
   @ValidateNested()
-  @IsOptional()
   @IsNotEmpty()
   @Type(() => CreateUserDto)
-  user?: CreateUserDto;
-
-  @ApiPropertyOptional({ example: 1 })
-  @IsOptional()
-  @IsNumber()
-  user_id?: number;
+  user: CreateUserDto;
 
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()

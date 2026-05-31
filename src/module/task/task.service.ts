@@ -20,6 +20,12 @@ export class TaskService {
     const cId = requireCompanyId(companyId);
     await this.assertWorkersBelongToCompany(cId, createTaskDto.workers_ids);
 
+    const { row } = (await this.prisma.task.findFirst({
+      where: { company_id: cId, deleted_at: null, col: createTaskDto.col },
+      orderBy: { row: 'desc' },
+      select: { row: true },
+    })) || { row: 0 };
+
     return this.prisma.task.create({
       data: {
         company_id: cId,
@@ -27,7 +33,7 @@ export class TaskService {
         description: createTaskDto.description,
         priority: createTaskDto.priority,
         col: createTaskDto.col,
-        row: createTaskDto.row,
+        row: row,
         file: createTaskDto.file ?? null,
         workers: {
           connect: createTaskDto.workers_ids.map((id) => ({ id })),
@@ -44,23 +50,30 @@ export class TaskService {
     });
   }
 
-  async findAll(query: ITaskQuery, companyId: number | null) {
+  async findAll(
+    query: ITaskQuery,
+    companyId: number | null,
+    workerId: number | null,
+  ) {
     const cId = requireCompanyId(companyId);
     const where: Prisma.taskWhereInput = {
       deleted_at: null,
       company_id: cId,
     };
 
-    if (query?.workerId) {
+    if (query?.workerId && !workerId) {
       where.workers = { some: { id: +query.workerId, company_id: cId } };
+    }
+    if (workerId) {
+      where.workers = { some: { id: workerId, company_id: cId } };
     }
 
     const count = await this.prisma.task.count({ where });
-    const pagination = new Pagination(count, query.page, query.limit);
+    const pagination = new Pagination(count, query.page, query.limit ?? 9999);
 
     const task = await this.prisma.task.findMany({
       where,
-      orderBy: { created_at: 'desc' },
+      orderBy: { row: 'asc' },
       include: {
         workers: {
           select: {
@@ -113,56 +126,56 @@ export class TaskService {
 
     const newCol = updateTaskDto.col ?? existing.col;
     const newRow = updateTaskDto.row ?? existing.row;
-    const colChanged =
-      updateTaskDto.col !== undefined && updateTaskDto.col !== existing.col;
     const rowChanged =
       updateTaskDto.row !== undefined && updateTaskDto.row !== existing.row;
+    const colChanged =
+      updateTaskDto.col !== undefined && updateTaskDto.col !== existing.col;
 
     return this.prisma.$transaction(async (tx) => {
-      if (rowChanged) {
+      if (colChanged) {
         await tx.task.updateMany({
           where: {
             company_id: cId,
             deleted_at: null,
-            row: existing.row,
-            col: { gt: existing.col },
+            col: existing.col,
+            row: { gt: existing.row },
             id: { not: id },
           },
-          data: { col: { decrement: 1 } },
+          data: { row: { decrement: 1 } },
         });
 
         await tx.task.updateMany({
           where: {
             company_id: cId,
             deleted_at: null,
-            row: newRow,
-            col: { gte: newCol },
+            col: newCol,
+            row: { gte: newRow },
             id: { not: id },
           },
-          data: { col: { increment: 1 } },
+          data: { row: { increment: 1 } },
         });
-      } else if (colChanged) {
-        if (newCol < existing.col) {
+      } else if (rowChanged) {
+        if (newRow < existing.row) {
           await tx.task.updateMany({
             where: {
               company_id: cId,
               deleted_at: null,
-              row: existing.row,
-              col: { gte: newCol, lt: existing.col },
+              col: existing.col,
+              row: { gte: newRow, lt: existing.row },
               id: { not: id },
             },
-            data: { col: { increment: 1 } },
+            data: { row: { increment: 1 } },
           });
         } else {
           await tx.task.updateMany({
             where: {
               company_id: cId,
               deleted_at: null,
-              row: existing.row,
-              col: { gt: existing.col, lte: newCol },
+              col: existing.col,
+              row: { gt: existing.row, lte: newRow },
               id: { not: id },
             },
-            data: { col: { decrement: 1 } },
+            data: { row: { decrement: 1 } },
           });
         }
       }

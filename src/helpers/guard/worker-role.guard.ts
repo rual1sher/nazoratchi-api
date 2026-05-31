@@ -39,6 +39,7 @@ export class WorkerRolesGuard implements CanActivate {
     }
 
     if (user.role === 'admin') {
+      request.workerId = null;
       return true;
     }
 
@@ -51,6 +52,8 @@ export class WorkerRolesGuard implements CanActivate {
       +user.id,
       +companyId,
     );
+
+    request.workerId = worker.id;
 
     const hasRole = requireRoles.some((role) => worker.role === role);
     if (!hasRole) {

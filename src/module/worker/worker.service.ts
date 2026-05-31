@@ -52,46 +52,37 @@ export class WorkerService {
     const cId = requireCompanyId(companyId);
     let {
       user,
-      user_id,
       company_id: _omitCompany,
       ...data
     } = createWorkerDto as CreateWorkerDto & { company_id?: number };
 
     return await this.prisma.$transaction(async (tx) => {
-      if (user) {
-        const userWhere: Prisma.userWhereInput[] = [{ phone: user.phone }];
-        if (user.username) {
-          userWhere.push({ username: user.username });
-        }
+      const userWhere: Prisma.userWhereInput[] = [{ phone: user.phone }];
+      if (user.username) {
+        userWhere.push({ username: user.username });
+      }
 
-        const chechUser = await tx.user.findFirst({
-          where: { OR: userWhere },
-        });
-        if (chechUser) {
-          throw new ConflictException(
-            ErrorMessages.conflict.alreadyExists('User'),
-          );
-        }
-
-        const hashedPassword = hashingPassword(user.password);
-        user.password = hashedPassword;
-
-        user_id = (
-          await tx.user.create({
-            data: user,
-          })
-        ).id;
-      } else if (user_id) {
-        user_id = +user_id;
-      } else {
-        throw new BadRequestException(
-          ErrorMessages.badRequest.userOrUserIdNotFound,
+      const chechUser = await tx.user.findFirst({
+        where: { OR: userWhere },
+      });
+      if (chechUser) {
+        throw new ConflictException(
+          ErrorMessages.conflict.alreadyExists(
+            'User with this phone or username',
+          ),
         );
       }
 
+      user.password = hashingPassword(user.password);
+
+      const newUser = await tx.user.create({
+        data: user,
+        omit: { token: true, password: true, role: true },
+      });
+
       const checkWorker = await tx.worker.findFirst({
         where: {
-          user_id,
+          user_id: newUser.id,
           company_id: cId,
           deleted_at: null,
         },
@@ -111,7 +102,7 @@ export class WorkerService {
       }
 
       return await tx.worker.create({
-        data: { ...data, user_id, company_id: cId },
+        data: { ...data, company_id: cId, user_id: newUser.id },
       });
     });
   }
@@ -183,9 +174,7 @@ export class WorkerService {
       },
     });
     if (!worker?.attendance?.length) {
-      throw new BadRequestException(
-        ErrorMessages.badRequest.invalid('Worker has no attendance'),
-      );
+      return [];
     }
 
     return worker.attendance.map((attendance) => ({
@@ -320,9 +309,49 @@ export class WorkerService {
     };
     await validateRelations(this.prisma, dtoSafe);
 
+    const { user, ...data } = dtoSafe;
+
+    if (user) {
+      const userWhere: Prisma.userWhereInput[] = [];
+      if (user.phone) userWhere.push({ phone: user.phone });
+      if (user.username) userWhere.push({ username: user.username });
+
+      if (userWhere.length) {
+        const duplicate = await this.prisma.user.findFirst({
+          where: {
+            id: { not: worker.user_id },
+            deleted_at: null,
+            OR: userWhere,
+          },
+        });
+        if (duplicate) {
+          throw new ConflictException(
+            ErrorMessages.conflict.alreadyExists(
+              'User with this phone or username',
+            ),
+          );
+        }
+      }
+
+      const userData: Prisma.userUpdateInput = {
+        avatar: user.avatar,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone: user.phone,
+        username: user.username,
+      };
+
+      if (user.password) delete userData.password;
+
+      await this.prisma.user.update({
+        where: { id: worker.user_id },
+        data: userData,
+      });
+    }
+
     return await this.prisma.worker.update({
       where: { id },
-      data: dtoSafe,
+      data,
     });
   }
 

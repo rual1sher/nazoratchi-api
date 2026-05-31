@@ -20,14 +20,15 @@ import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
+import { WorkerId } from 'src/helpers/decorators/worker-id.decorator';
 
 @ApiTags('Task')
 @Controller('task')
 @UseGuards(AuthGuard, WorkerRolesGuard)
-@WorkerRoles(worker_role.maneger)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
+  @WorkerRoles(worker_role.maneger)
   @ApiOperation({ summary: 'Create a new task' })
   @Post()
   async create(
@@ -38,16 +39,23 @@ export class TaskController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger, worker_role.worker)
   @ApiOperation({ summary: 'Get all tasks' })
   @Get()
-  async findAll(@Query() query: ITaskQuery, @CompanyId() companyId: number) {
+  async findAll(
+    @Query() query: ITaskQuery,
+    @CompanyId() companyId: number,
+    @WorkerId() workerId: number,
+  ) {
     const { task, pagination } = await this.taskService.findAll(
       query,
       companyId,
+      workerId,
     );
     return new ApiResponse(task, 200, pagination);
   }
 
+  @WorkerRoles(worker_role.maneger, worker_role.worker)
   @ApiOperation({ summary: 'Get task by ID' })
   @Get(':id')
   async findOne(@Param('id') id: string, @CompanyId() companyId: number) {
@@ -55,6 +63,7 @@ export class TaskController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger, worker_role.worker)
   @ApiOperation({ summary: 'Update task' })
   @Patch(':id')
   async update(
@@ -66,6 +75,7 @@ export class TaskController {
     return new ApiResponse(data);
   }
 
+  @WorkerRoles(worker_role.maneger)
   @ApiOperation({ summary: 'Delete task' })
   @Delete(':id')
   async remove(@Param('id') id: string, @CompanyId() companyId: number) {

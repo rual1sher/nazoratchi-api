@@ -185,6 +185,7 @@ export class WorkerScheduleService {
       name: dto.name,
       type: dto.type,
       starts_at: dto.startsAt ? new Date(dto.startsAt) : undefined,
+      ...(dto.daysFrequency && { days_frequency: dto.daysFrequency }),
     };
 
     return await this.prisma.$transaction(async (tx) => {
