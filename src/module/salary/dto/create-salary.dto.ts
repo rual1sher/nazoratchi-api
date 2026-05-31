@@ -1,30 +1,38 @@
-import { IsBoolean, IsDateString, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsDateString,
+  IsEnum,
+  IsNumber,
+  IsNotEmpty,
+} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { salary_type } from 'prisma/generated/prisma/client';
 
 export class CreateSalaryDto {
-  @ApiProperty({ example: '5000', description: 'Amount of salary' })
-  @IsString()
+  @ApiProperty({ example: 5000, description: 'Amount of salary' })
+  @IsNumber()
   @IsNotEmpty()
-  amount: string;
+  amount: number;
 
-  @ApiProperty({ enum: salary_type, example: salary_type.month, description: 'Type of salary (month, day, hours)' })
+  @ApiProperty({
+    enum: salary_type,
+    example: salary_type.monthly,
+    description: 'Type of salary (month, day, hours)',
+  })
   @IsEnum(salary_type)
   @IsNotEmpty()
   type: salary_type;
 
-  @ApiProperty({ example: '2026-04-24T00:00:00Z', description: 'Date and time of salary record' })
+  @ApiProperty({
+    example: '2026-04-24T00:00:00Z',
+    description: 'Date and time of salary record',
+  })
   @IsDateString()
   @IsNotEmpty()
-  date_time: string;
+  start_date: string;
 
-  @ApiPropertyOptional({ example: true, description: 'Status of the salary (e.g. paid)' })
+  @ApiProperty({ example: true, description: 'Fixed salary' })
   @IsBoolean()
-  @IsOptional()
-  status?: boolean;
-
-  @ApiProperty({ example: 1, description: 'ID of the worker' })
-  @IsInt()
   @IsNotEmpty()
-  worker_id: number;
+  fixed: boolean;
 }

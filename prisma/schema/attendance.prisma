@@ -2,15 +2,28 @@ model attendance {
   id Int @id @default(autoincrement())
 
   date         DateTime  @db.Date
-  arrival_at   DateTime? @db.Timestamptz // prishol
-  departure_at DateTime? @db.Timestamptz // ushol
+  check_in_at  DateTime? @db.Timestamptz
+  check_out_at DateTime? @db.Timestamptz
+  resource     attendance_resource @default(manual)
+  description  String?
 
+  company_id Int
   worker_id  Int
+  branch_id  Int
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  worker worker @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attendance_worker_id_foreign")
+  company company @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attendance_company_id_foreign")
+  worker  worker  @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attendance_worker_id_foreign")
+  branch  filial  @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "attendance_branch_id_foreign")
 
   @@unique([worker_id, date])
+  @@index([company_id])
+}
+
+enum attendance_resource {
+  mobile
+  terminal
+  manual
 }

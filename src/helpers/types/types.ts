@@ -26,7 +26,7 @@ export interface IWorkerQuery extends IQuery {
   companyId?: string;
   positionId?: string;
   departmant?: string;
-  dayId?: string;
+  scheduleId?: string;
 }
 
 // query filial
@@ -41,12 +41,12 @@ export interface IPositionQuery extends IQuery {
 
 // query day
 export interface IDayQuery extends IQuery {
-  companyId?: string;
+  scheduleId?: string;
 }
 
 // query schedule
 export interface IScheduleQuery extends IQuery {
-  dayId?: string;
+  workerId?: string;
 }
 
 // query penaltys-name
@@ -71,6 +71,13 @@ export interface IAttendanceQuery extends IQuery {
   workerId?: string;
 }
 
+export interface IAttendanceReportQuery extends IQuery {
+  department_id?: string;
+  filial_id?: string;
+  date?: string;
+  order_by?: 'desc' | 'asc';
+}
+
 export interface IAttendanceDashboardQuery extends IQuery {
   department_id?: string;
   filial_id?: string;
@@ -78,10 +85,15 @@ export interface IAttendanceDashboardQuery extends IQuery {
   order_by?: 'desc' | 'asc';
 }
 
-// query salary
-export interface ISalaryQuery extends IQuery {
-  workerId?: string;
+export interface IAttendanceChartQuery {
+  department_id?: string;
+  filial_id?: string;
+  date_from?: string;
+  date_to?: string;
 }
+
+// query salary
+export interface ISalaryQuery extends IQuery {}
 
 // query task
 export interface ITaskQuery extends IQuery {
@@ -92,12 +104,13 @@ export interface ITaskQuery extends IQuery {
 export interface IHolidayQuery extends IQuery {
   filialId?: string;
   departmentId?: string;
-  positionId?: string;
+  /** adaptive | free — праздник, привязанный к этому типу графика */
+  scheduleType?: string;
 }
 
 // query dashboard worker
 export interface IDashboardWorkerQuery {
-  department_id?: string;
-  filial_id?: string;
+  department_id?: string | string[];
+  filial_id?: string | string[];
   date: string;
 }

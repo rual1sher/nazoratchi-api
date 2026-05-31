@@ -48,11 +48,6 @@ export type attendance = Prisma.attendanceModel
  */
 export type company = Prisma.companyModel
 /**
- * Model coordinate
- * 
- */
-export type coordinate = Prisma.coordinateModel
-/**
  * Model day
  * 
  */
@@ -67,6 +62,21 @@ export type department = Prisma.departmentModel
  * 
  */
 export type filial = Prisma.filialModel
+/**
+ * Model holiday_filial
+ * Связь праздник ↔ филиал (multi-select). Пустой список связей = праздник для всех филиалов компании.
+ */
+export type holiday_filial = Prisma.holiday_filialModel
+/**
+ * Model holiday_department
+ * Связь праздник ↔ отдел (multi-select). Пустой список = для всех отделов.
+ */
+export type holiday_department = Prisma.holiday_departmentModel
+/**
+ * Model holiday_schedule_scope
+ * Типы графика (adaptive / free), к которым относится праздник (multi-select). Пустой список = ко всем типам.
+ */
+export type holiday_schedule_scope = Prisma.holiday_schedule_scopeModel
 /**
  * Model holiday
  * 
@@ -102,6 +112,11 @@ export type salary = Prisma.salaryModel
  * 
  */
 export type task = Prisma.taskModel
+/**
+ * Model terminal
+ * 
+ */
+export type terminal = Prisma.terminalModel
 /**
  * Model user
  * 

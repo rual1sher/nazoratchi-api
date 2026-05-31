@@ -3,4 +3,7 @@
 /build
 /generated
 .env
-node_modules
+/uploads
+
+# Prisma 7 reads prisma.config.ts; a compiled prisma.config.js breaks CLI parsing.
+prisma.config.js

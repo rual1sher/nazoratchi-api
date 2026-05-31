@@ -28,6 +28,7 @@ export type AggregatePenalty = {
 
 export type PenaltyAvgAggregateOutputType = {
   id: number | null
+  company_id: number | null
   min_minutes: number | null
   amount: number | null
   penalties_name_id: number | null
@@ -35,6 +36,7 @@ export type PenaltyAvgAggregateOutputType = {
 
 export type PenaltySumAggregateOutputType = {
   id: number | null
+  company_id: number | null
   min_minutes: number | null
   amount: number | null
   penalties_name_id: number | null
@@ -42,6 +44,7 @@ export type PenaltySumAggregateOutputType = {
 
 export type PenaltyMinAggregateOutputType = {
   id: number | null
+  company_id: number | null
   type: $Enums.penalty_type | null
   min_minutes: number | null
   amount: number | null
@@ -54,6 +57,7 @@ export type PenaltyMinAggregateOutputType = {
 
 export type PenaltyMaxAggregateOutputType = {
   id: number | null
+  company_id: number | null
   type: $Enums.penalty_type | null
   min_minutes: number | null
   amount: number | null
@@ -66,6 +70,7 @@ export type PenaltyMaxAggregateOutputType = {
 
 export type PenaltyCountAggregateOutputType = {
   id: number
+  company_id: number
   type: number
   min_minutes: number
   amount: number
@@ -80,6 +85,7 @@ export type PenaltyCountAggregateOutputType = {
 
 export type PenaltyAvgAggregateInputType = {
   id?: true
+  company_id?: true
   min_minutes?: true
   amount?: true
   penalties_name_id?: true
@@ -87,6 +93,7 @@ export type PenaltyAvgAggregateInputType = {
 
 export type PenaltySumAggregateInputType = {
   id?: true
+  company_id?: true
   min_minutes?: true
   amount?: true
   penalties_name_id?: true
@@ -94,6 +101,7 @@ export type PenaltySumAggregateInputType = {
 
 export type PenaltyMinAggregateInputType = {
   id?: true
+  company_id?: true
   type?: true
   min_minutes?: true
   amount?: true
@@ -106,6 +114,7 @@ export type PenaltyMinAggregateInputType = {
 
 export type PenaltyMaxAggregateInputType = {
   id?: true
+  company_id?: true
   type?: true
   min_minutes?: true
   amount?: true
@@ -118,6 +127,7 @@ export type PenaltyMaxAggregateInputType = {
 
 export type PenaltyCountAggregateInputType = {
   id?: true
+  company_id?: true
   type?: true
   min_minutes?: true
   amount?: true
@@ -217,6 +227,7 @@ export type penaltyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type PenaltyGroupByOutputType = {
   id: number
+  company_id: number
   type: $Enums.penalty_type
   min_minutes: number
   amount: number
@@ -252,6 +263,7 @@ export type penaltyWhereInput = {
   OR?: Prisma.penaltyWhereInput[]
   NOT?: Prisma.penaltyWhereInput | Prisma.penaltyWhereInput[]
   id?: Prisma.IntFilter<"penalty"> | number
+  company_id?: Prisma.IntFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
   min_minutes?: Prisma.IntFilter<"penalty"> | number
   amount?: Prisma.IntFilter<"penalty"> | number
@@ -260,11 +272,13 @@ export type penaltyWhereInput = {
   created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"penalty"> | Date | string | null
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   penalties_name?: Prisma.XOR<Prisma.Penalties_nameScalarRelationFilter, Prisma.penalties_nameWhereInput>
 }
 
 export type penaltyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -273,6 +287,7 @@ export type penaltyOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  company?: Prisma.companyOrderByWithRelationInput
   penalties_name?: Prisma.penalties_nameOrderByWithRelationInput
 }
 
@@ -281,6 +296,7 @@ export type penaltyWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.penaltyWhereInput | Prisma.penaltyWhereInput[]
   OR?: Prisma.penaltyWhereInput[]
   NOT?: Prisma.penaltyWhereInput | Prisma.penaltyWhereInput[]
+  company_id?: Prisma.IntFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
   min_minutes?: Prisma.IntFilter<"penalty"> | number
   amount?: Prisma.IntFilter<"penalty"> | number
@@ -289,11 +305,13 @@ export type penaltyWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
   deleted_at?: Prisma.DateTimeNullableFilter<"penalty"> | Date | string | null
+  company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.companyWhereInput>
   penalties_name?: Prisma.XOR<Prisma.Penalties_nameScalarRelationFilter, Prisma.penalties_nameWhereInput>
 }, "id">
 
 export type penaltyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -314,6 +332,7 @@ export type penaltyScalarWhereWithAggregatesInput = {
   OR?: Prisma.penaltyScalarWhereWithAggregatesInput[]
   NOT?: Prisma.penaltyScalarWhereWithAggregatesInput | Prisma.penaltyScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"penalty"> | number
+  company_id?: Prisma.IntWithAggregatesFilter<"penalty"> | number
   type?: Prisma.Enumpenalty_typeWithAggregatesFilter<"penalty"> | $Enums.penalty_type
   min_minutes?: Prisma.IntWithAggregatesFilter<"penalty"> | number
   amount?: Prisma.IntWithAggregatesFilter<"penalty"> | number
@@ -332,11 +351,13 @@ export type penaltyCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutPenaltyInput
   penalties_name: Prisma.penalties_nameCreateNestedOneWithoutPenaltyInput
 }
 
 export type penaltyUncheckedCreateInput = {
   id?: number
+  company_id: number
   type: $Enums.penalty_type
   min_minutes: number
   amount: number
@@ -355,11 +376,13 @@ export type penaltyUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutPenaltyNestedInput
   penalties_name?: Prisma.penalties_nameUpdateOneRequiredWithoutPenaltyNestedInput
 }
 
 export type penaltyUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
   min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -372,6 +395,7 @@ export type penaltyUncheckedUpdateInput = {
 
 export type penaltyCreateManyInput = {
   id?: number
+  company_id: number
   type: $Enums.penalty_type
   min_minutes: number
   amount: number
@@ -394,6 +418,7 @@ export type penaltyUpdateManyMutationInput = {
 
 export type penaltyUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
   min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -416,6 +441,7 @@ export type penaltyOrderByRelationAggregateInput = {
 
 export type penaltyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -428,6 +454,7 @@ export type penaltyCountOrderByAggregateInput = {
 
 export type penaltyAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
@@ -435,6 +462,7 @@ export type penaltyAvgOrderByAggregateInput = {
 
 export type penaltyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -447,6 +475,7 @@ export type penaltyMaxOrderByAggregateInput = {
 
 export type penaltyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -459,9 +488,52 @@ export type penaltyMinOrderByAggregateInput = {
 
 export type penaltySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  company_id?: Prisma.SortOrder
   min_minutes?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   penalties_name_id?: Prisma.SortOrder
+}
+
+export type penaltyCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput> | Prisma.penaltyCreateWithoutCompanyInput[] | Prisma.penaltyUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.penaltyCreateOrConnectWithoutCompanyInput | Prisma.penaltyCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.penaltyCreateManyCompanyInputEnvelope
+  connect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+}
+
+export type penaltyUncheckedCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput> | Prisma.penaltyCreateWithoutCompanyInput[] | Prisma.penaltyUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.penaltyCreateOrConnectWithoutCompanyInput | Prisma.penaltyCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.penaltyCreateManyCompanyInputEnvelope
+  connect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+}
+
+export type penaltyUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput> | Prisma.penaltyCreateWithoutCompanyInput[] | Prisma.penaltyUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.penaltyCreateOrConnectWithoutCompanyInput | Prisma.penaltyCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.penaltyUpsertWithWhereUniqueWithoutCompanyInput | Prisma.penaltyUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.penaltyCreateManyCompanyInputEnvelope
+  set?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  disconnect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  delete?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  connect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  update?: Prisma.penaltyUpdateWithWhereUniqueWithoutCompanyInput | Prisma.penaltyUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.penaltyUpdateManyWithWhereWithoutCompanyInput | Prisma.penaltyUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
+}
+
+export type penaltyUncheckedUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput> | Prisma.penaltyCreateWithoutCompanyInput[] | Prisma.penaltyUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.penaltyCreateOrConnectWithoutCompanyInput | Prisma.penaltyCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.penaltyUpsertWithWhereUniqueWithoutCompanyInput | Prisma.penaltyUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.penaltyCreateManyCompanyInputEnvelope
+  set?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  disconnect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  delete?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  connect?: Prisma.penaltyWhereUniqueInput | Prisma.penaltyWhereUniqueInput[]
+  update?: Prisma.penaltyUpdateWithWhereUniqueWithoutCompanyInput | Prisma.penaltyUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.penaltyUpdateManyWithWhereWithoutCompanyInput | Prisma.penaltyUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
 }
 
 export type penaltyCreateNestedManyWithoutPenalties_nameInput = {
@@ -510,6 +582,71 @@ export type Enumpenalty_typeFieldUpdateOperationsInput = {
   set?: $Enums.penalty_type
 }
 
+export type penaltyCreateWithoutCompanyInput = {
+  type: $Enums.penalty_type
+  min_minutes: number
+  amount: number
+  comment?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  penalties_name: Prisma.penalties_nameCreateNestedOneWithoutPenaltyInput
+}
+
+export type penaltyUncheckedCreateWithoutCompanyInput = {
+  id?: number
+  type: $Enums.penalty_type
+  min_minutes: number
+  amount: number
+  comment?: string | null
+  penalties_name_id: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type penaltyCreateOrConnectWithoutCompanyInput = {
+  where: Prisma.penaltyWhereUniqueInput
+  create: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput>
+}
+
+export type penaltyCreateManyCompanyInputEnvelope = {
+  data: Prisma.penaltyCreateManyCompanyInput | Prisma.penaltyCreateManyCompanyInput[]
+  skipDuplicates?: boolean
+}
+
+export type penaltyUpsertWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.penaltyWhereUniqueInput
+  update: Prisma.XOR<Prisma.penaltyUpdateWithoutCompanyInput, Prisma.penaltyUncheckedUpdateWithoutCompanyInput>
+  create: Prisma.XOR<Prisma.penaltyCreateWithoutCompanyInput, Prisma.penaltyUncheckedCreateWithoutCompanyInput>
+}
+
+export type penaltyUpdateWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.penaltyWhereUniqueInput
+  data: Prisma.XOR<Prisma.penaltyUpdateWithoutCompanyInput, Prisma.penaltyUncheckedUpdateWithoutCompanyInput>
+}
+
+export type penaltyUpdateManyWithWhereWithoutCompanyInput = {
+  where: Prisma.penaltyScalarWhereInput
+  data: Prisma.XOR<Prisma.penaltyUpdateManyMutationInput, Prisma.penaltyUncheckedUpdateManyWithoutCompanyInput>
+}
+
+export type penaltyScalarWhereInput = {
+  AND?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
+  OR?: Prisma.penaltyScalarWhereInput[]
+  NOT?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
+  id?: Prisma.IntFilter<"penalty"> | number
+  company_id?: Prisma.IntFilter<"penalty"> | number
+  type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
+  min_minutes?: Prisma.IntFilter<"penalty"> | number
+  amount?: Prisma.IntFilter<"penalty"> | number
+  comment?: Prisma.StringNullableFilter<"penalty"> | string | null
+  penalties_name_id?: Prisma.IntFilter<"penalty"> | number
+  created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
+  deleted_at?: Prisma.DateTimeNullableFilter<"penalty"> | Date | string | null
+}
+
 export type penaltyCreateWithoutPenalties_nameInput = {
   type: $Enums.penalty_type
   min_minutes: number
@@ -518,10 +655,12 @@ export type penaltyCreateWithoutPenalties_nameInput = {
   created_at?: Date | string
   updated_at?: Date | string
   deleted_at?: Date | string | null
+  company: Prisma.companyCreateNestedOneWithoutPenaltyInput
 }
 
 export type penaltyUncheckedCreateWithoutPenalties_nameInput = {
   id?: number
+  company_id: number
   type: $Enums.penalty_type
   min_minutes: number
   amount: number
@@ -557,23 +696,56 @@ export type penaltyUpdateManyWithWhereWithoutPenalties_nameInput = {
   data: Prisma.XOR<Prisma.penaltyUpdateManyMutationInput, Prisma.penaltyUncheckedUpdateManyWithoutPenalties_nameInput>
 }
 
-export type penaltyScalarWhereInput = {
-  AND?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
-  OR?: Prisma.penaltyScalarWhereInput[]
-  NOT?: Prisma.penaltyScalarWhereInput | Prisma.penaltyScalarWhereInput[]
-  id?: Prisma.IntFilter<"penalty"> | number
-  type?: Prisma.Enumpenalty_typeFilter<"penalty"> | $Enums.penalty_type
-  min_minutes?: Prisma.IntFilter<"penalty"> | number
-  amount?: Prisma.IntFilter<"penalty"> | number
-  comment?: Prisma.StringNullableFilter<"penalty"> | string | null
-  penalties_name_id?: Prisma.IntFilter<"penalty"> | number
-  created_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"penalty"> | Date | string
-  deleted_at?: Prisma.DateTimeNullableFilter<"penalty"> | Date | string | null
+export type penaltyCreateManyCompanyInput = {
+  id?: number
+  type: $Enums.penalty_type
+  min_minutes: number
+  amount: number
+  comment?: string | null
+  penalties_name_id: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+}
+
+export type penaltyUpdateWithoutCompanyInput = {
+  type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  penalties_name?: Prisma.penalties_nameUpdateOneRequiredWithoutPenaltyNestedInput
+}
+
+export type penaltyUncheckedUpdateWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penalties_name_id?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type penaltyUncheckedUpdateManyWithoutCompanyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
+  min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  penalties_name_id?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type penaltyCreateManyPenalties_nameInput = {
   id?: number
+  company_id: number
   type: $Enums.penalty_type
   min_minutes: number
   amount: number
@@ -591,10 +763,12 @@ export type penaltyUpdateWithoutPenalties_nameInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.companyUpdateOneRequiredWithoutPenaltyNestedInput
 }
 
 export type penaltyUncheckedUpdateWithoutPenalties_nameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
   min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -606,6 +780,7 @@ export type penaltyUncheckedUpdateWithoutPenalties_nameInput = {
 
 export type penaltyUncheckedUpdateManyWithoutPenalties_nameInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  company_id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.Enumpenalty_typeFieldUpdateOperationsInput | $Enums.penalty_type
   min_minutes?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -619,6 +794,7 @@ export type penaltyUncheckedUpdateManyWithoutPenalties_nameInput = {
 
 export type penaltySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  company_id?: boolean
   type?: boolean
   min_minutes?: boolean
   amount?: boolean
@@ -627,11 +803,13 @@ export type penaltySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["penalty"]>
 
 export type penaltySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  company_id?: boolean
   type?: boolean
   min_minutes?: boolean
   amount?: boolean
@@ -640,11 +818,13 @@ export type penaltySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["penalty"]>
 
 export type penaltySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  company_id?: boolean
   type?: boolean
   min_minutes?: boolean
   amount?: boolean
@@ -653,11 +833,13 @@ export type penaltySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   created_at?: boolean
   updated_at?: boolean
   deleted_at?: boolean
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["penalty"]>
 
 export type penaltySelectScalar = {
   id?: boolean
+  company_id?: boolean
   type?: boolean
   min_minutes?: boolean
   amount?: boolean
@@ -668,24 +850,29 @@ export type penaltySelectScalar = {
   deleted_at?: boolean
 }
 
-export type penaltyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "min_minutes" | "amount" | "comment" | "penalties_name_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["penalty"]>
+export type penaltyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "type" | "min_minutes" | "amount" | "comment" | "penalties_name_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["penalty"]>
 export type penaltyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }
 export type penaltyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }
 export type penaltyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.companyDefaultArgs<ExtArgs>
   penalties_name?: boolean | Prisma.penalties_nameDefaultArgs<ExtArgs>
 }
 
 export type $penaltyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "penalty"
   objects: {
+    company: Prisma.$companyPayload<ExtArgs>
     penalties_name: Prisma.$penalties_namePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    company_id: number
     type: $Enums.penalty_type
     min_minutes: number
     amount: number
@@ -1088,6 +1275,7 @@ readonly fields: penaltyFieldRefs;
  */
 export interface Prisma__penaltyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  company<T extends Prisma.companyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.companyDefaultArgs<ExtArgs>>): Prisma.Prisma__companyClient<runtime.Types.Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   penalties_name<T extends Prisma.penalties_nameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.penalties_nameDefaultArgs<ExtArgs>>): Prisma.Prisma__penalties_nameClient<runtime.Types.Result.GetResult<Prisma.$penalties_namePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1119,6 +1307,7 @@ export interface Prisma__penaltyClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface penaltyFieldRefs {
   readonly id: Prisma.FieldRef<"penalty", 'Int'>
+  readonly company_id: Prisma.FieldRef<"penalty", 'Int'>
   readonly type: Prisma.FieldRef<"penalty", 'penalty_type'>
   readonly min_minutes: Prisma.FieldRef<"penalty", 'Int'>
   readonly amount: Prisma.FieldRef<"penalty", 'Int'>

@@ -1,25 +1,35 @@
-import { ArrayNotEmpty, IsArray, IsNumber, IsString } from 'class-validator';
+import { IsInt, IsString, Matches, Max, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+
+/** "lat,lng" with optional spaces (decimal degrees). */
+export const FILIAL_COORDINATES_LAT_LNG =
+  /^\s*[-+]?\d+(?:\.\d+)?\s*,\s*[-+]?\d+(?:\.\d+)?\s*$/;
+
 export class CreateFilialDto {
-  @ApiProperty({ example: 'Asosiy filial', description: 'Uzbek title' })
+  @ApiProperty({ example: 'Markaziy filial' })
   @IsString()
-  title_uz: string;
+  name: string;
 
-  @ApiProperty({ example: 'Главный филиал', description: 'Russian title' })
+  @ApiProperty({ example: 'Toshkent, Amir Temur 1' })
   @IsString()
-  title_ru: string;
+  address: string;
 
-  @ApiProperty({ example: 'Main Branch', description: 'English title' })
+  @ApiProperty({
+    example: 100,
+    description: 'Radius in meters',
+  })
+  @IsInt()
+  @Min(1)
+  @Max(1_000_000)
+  radius: number;
+
+  @ApiProperty({
+    example: '41.55, 60.63',
+    description: 'Point as "latitude,longitude"',
+  })
   @IsString()
-  title_en: string;
-
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  company_id: number;
-
-  @ApiProperty({ example: [[41.2995, 69.2401]], description: 'Array of coordinates' })
-  @ArrayNotEmpty()
-  @IsArray()
-  @IsArray({ each: true })
-  coordinates: number[][];
+  @Matches(FILIAL_COORDINATES_LAT_LNG, {
+    message: 'coordinates must be "lat,lng" (e.g. 41.55,60.63)',
+  })
+  coordinates: string;
 }

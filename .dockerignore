@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.env
+*.log
+
+# Prisma CLI must load prisma.config.ts; a stray compiled prisma.config.js fails parsing in the image.
+prisma.config.js

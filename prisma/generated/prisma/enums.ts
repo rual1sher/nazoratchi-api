@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const attendance_resource = {
+  mobile: 'mobile',
+  terminal: 'terminal',
+  manual: 'manual'
+} as const
+
+export type attendance_resource = (typeof attendance_resource)[keyof typeof attendance_resource]
+
+
 export const payment_type = {
   income: 'income',
   bonus: 'bonus',
@@ -16,6 +25,14 @@ export const payment_type = {
 } as const
 
 export type payment_type = (typeof payment_type)[keyof typeof payment_type]
+
+
+export const penalties_name_type = {
+  active: 'active',
+  inactive: 'inactive'
+} as const
+
+export type penalties_name_type = (typeof penalties_name_type)[keyof typeof penalties_name_type]
 
 
 export const penalty_type = {
@@ -29,21 +46,21 @@ export type penalty_type = (typeof penalty_type)[keyof typeof penalty_type]
 
 
 export const salary_type = {
-  month: 'month',
-  day: 'day',
-  hours: 'hours'
+  monthly: 'monthly',
+  hourly: 'hourly',
+  project: 'project'
 } as const
 
 export type salary_type = (typeof salary_type)[keyof typeof salary_type]
 
 
-export const task_status = {
-  created: 'created',
-  inProgress: 'inProgress',
-  done: 'done'
+export const task_priority = {
+  low: 'low',
+  medium: 'medium',
+  high: 'high'
 } as const
 
-export type task_status = (typeof task_status)[keyof typeof task_status]
+export type task_priority = (typeof task_priority)[keyof typeof task_priority]
 
 
 export const user_role = {
@@ -60,3 +77,11 @@ export const worker_role = {
 } as const
 
 export type worker_role = (typeof worker_role)[keyof typeof worker_role]
+
+
+export const worker_schedule_type = {
+  adaptive: 'adaptive',
+  free: 'free'
+} as const
+
+export type worker_schedule_type = (typeof worker_schedule_type)[keyof typeof worker_schedule_type]

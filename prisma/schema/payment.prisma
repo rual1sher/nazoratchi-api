@@ -1,6 +1,7 @@
 model payment {
   id Int @id @default(autoincrement())
 
+  company_id Int
   amount     Int
   type       payment_type
   date       DateTime     @db.Date
@@ -10,7 +11,10 @@ model payment {
   updated_at DateTime     @default(now()) @updatedAt
   deleted_at DateTime?
 
-  worker worker @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payment_worker_id_foreign")
+  company company @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payment_company_id_foreign")
+  worker  worker  @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payment_worker_id_foreign")
+
+  @@index([company_id])
 }
 
 enum payment_type {

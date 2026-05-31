@@ -27,7 +27,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Login with phone + password (old flow, sends OTP)' })
+  @ApiOperation({
+    summary: 'Login with phone + password (old flow, sends OTP)',
+  })
   @Post('login')
   async login(@Body() createAuthDto: LoginDto) {
     const data = await this.authService.login(createAuthDto);
@@ -41,10 +43,16 @@ export class AuthController {
     return new ApiResponse({ message: `OTP sent`, code });
   }
 
-  @ApiOperation({ summary: 'Login with username + password → returns tokens directly (no OTP)' })
+  @ApiOperation({
+    summary:
+      'Login with username + password → returns tokens directly (no OTP)',
+  })
   @Post('login-username')
   async loginUsername(@Body() dto: LoginUsernameDto, @Res() res: Response) {
-    const { accessToken, refreshToken } = await this.authService.loginUsername(dto, res);
+    const { accessToken, refreshToken } = await this.authService.loginUsername(
+      dto,
+      res,
+    );
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,

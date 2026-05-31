@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { PrismaService } from 'src/helpers/prisma/prisma.service';
@@ -11,21 +6,38 @@ import { IPositionQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
-import { validateRelations } from 'src/helpers/validate/validate-relations';
+import { requireCompanyId } from 'src/helpers/company/require-company-id';
 
 @Injectable()
 export class PositionService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreatePositionDto) {
-    await validateRelations(this.prisma, {department_id: dto.department_id})
+  async create(dto: CreatePositionDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const dep = await this.prisma.department.findFirst({
+      where: { id: dto.department_id, company_id: cId, deleted_at: null },
+    });
+    if (!dep) {
+      throw new NotFoundException(
+        ErrorMessages.notFound.modelNotFound('Department'),
+      );
+    }
+
     return await this.prisma.position.create({ data: dto });
   }
 
-  async findAll(query: IPositionQuery) {
-    const where: Prisma.positionWhereInput = { deleted_at: null };
+  async findAll(query: IPositionQuery, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
 
-    if (query?.departmentId) where.department_id = +query.departmentId;
+    const where: Prisma.positionWhereInput = {
+      deleted_at: null,
+      department: { is: { company_id: cId, deleted_at: null } },
+    };
+
+    if (query?.departmentId) {
+      where.department_id = +query.departmentId;
+    }
+
     if (query.search) {
       where.OR = [
         { title_uz: { contains: query.search, mode: 'insensitive' } },
@@ -40,7 +52,10 @@ export class PositionService {
     const position = await this.prisma.position.findMany({
       where,
       orderBy: { created_at: 'desc' },
-      include: { _count: { select: { worker: true } }, worker: { take: 5 } },
+      include: {
+        department: true,
+        _count: { select: { worker: true } },
+      },
       take: pagination.limit,
       skip: pagination.offset,
     });
@@ -48,9 +63,14 @@ export class PositionService {
     return { position, pagination };
   }
 
-  async findOne(id: number) {
-    const position = await this.prisma.position.findUnique({
-      where: { id, deleted_at: null },
+  async findOne(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const position = await this.prisma.position.findFirst({
+      where: {
+        id,
+        deleted_at: null,
+        department: { company_id: cId, deleted_at: null },
+      },
       include: {
         worker: {
           include: {
@@ -68,19 +88,13 @@ export class PositionService {
     return position;
   }
 
-  async update(id: number, dto: UpdatePositionDto) {
-    const where: Prisma.positionWhereInput = { id, deleted_at: null };
+  async update(id: number, dto: UpdatePositionDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    await this.findOne(id, cId);
 
-    const position = await this.prisma.position.findFirst({ where });
-    if (!position) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Position'),
-      );
-    }
-
-    if (dto?.department_id) {
-      const department = await this.prisma.department.findUnique({
-        where: { id: dto.department_id, deleted_at: null },
+    if (dto?.department_id != null) {
+      const department = await this.prisma.department.findFirst({
+        where: { id: dto.department_id, company_id: cId, deleted_at: null },
       });
 
       if (!department) {
@@ -93,15 +107,9 @@ export class PositionService {
     return await this.prisma.position.update({ where: { id }, data: dto });
   }
 
-  async remove(id: number) {
-    const where: Prisma.positionWhereInput = { id, deleted_at: null };
-
-    const position = await this.prisma.position.findFirst({ where });
-    if (!position) {
-      throw new NotFoundException(
-        ErrorMessages.notFound.modelNotFound('Position'),
-      );
-    }
+  async remove(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    await this.findOne(id, cId);
 
     return await this.prisma.position.update({
       where: { id },

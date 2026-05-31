@@ -1,16 +1,18 @@
 model filial {
   id Int @id @default(autoincrement())
 
-  title_uz   String    @db.VarChar(255)
-  title_ru   String    @db.VarChar(255)
-  title_en   String    @db.VarChar(255)
-  company_id Int
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
+  name        String    @db.VarChar(255)
+  address     String    @db.VarChar(255)
+  radius      Int
+  coordinates String
+  company_id  Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
 
-  company    company      @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "filial_company_id_foreign")
-  worker     worker[]
-  coordinate coordinate[]
-  holidays   holiday[]
+  company         company          @relation(fields: [company_id], references: [id], onDelete: Cascade, map: "filial_company_id_foreign")
+  worker          worker[]
+  terminals       terminal[]
+  attendance      attendance[]
+  holiday_filials holiday_filial[]
 }

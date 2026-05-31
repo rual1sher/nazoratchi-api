@@ -1,24 +1,50 @@
-import { IsDateString, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsISO8601,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+export const MANUAL_ATTENDANCE_TYPES = ['check-in', 'check-out'] as const;
+export type ManualAttendanceType = (typeof MANUAL_ATTENDANCE_TYPES)[number];
+
 export class CreateAttendanceDto {
-  @ApiProperty({ example: '2026-04-24T00:00:00Z', description: 'Date of attendance' })
-  @IsDateString()
+  @ApiProperty({ example: 1, description: 'Worker (employee) id' })
+  @IsInt()
+  @IsNotEmpty()
+  employeeId: number;
+
+  @ApiProperty({ example: 1, description: 'Branch (filial) id' })
+  @IsInt()
+  @IsNotEmpty()
+  branchId: number;
+
+  @ApiProperty({
+    example: '2026-05-10T00:00:00.000Z',
+    description: 'Calendar date (ISO 8601); time part is ignored for storage',
+  })
+  @IsISO8601()
   @IsNotEmpty()
   date: string;
 
-  @ApiProperty({ example: 1, description: 'ID of the worker' })
-  @IsInt()
+  @ApiProperty({
+    example: '2026-05-10T09:15:00.000Z',
+    description: 'Clock time (ISO 8601); only time-of-day is stored',
+  })
+  @IsISO8601()
   @IsNotEmpty()
-  worker_id: number;
+  time: string;
 
-  @ApiPropertyOptional({ example: '2026-04-24T09:00:00Z', description: 'Arrival time' })
-  @IsDateString()
+  @ApiPropertyOptional({ example: 'Approved by manager' })
+  @IsString()
   @IsOptional()
-  arrival_at?: string;
+  description?: string;
 
-  @ApiPropertyOptional({ example: '2026-04-24T18:00:00Z', description: 'Departure time' })
-  @IsDateString()
-  @IsOptional()
-  departure_at?: string;
+  @ApiProperty({ enum: MANUAL_ATTENDANCE_TYPES, example: 'check-in' })
+  @IsIn(MANUAL_ATTENDANCE_TYPES)
+  @IsNotEmpty()
+  type: ManualAttendanceType;
 }

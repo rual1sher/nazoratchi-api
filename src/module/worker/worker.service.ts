@@ -17,67 +17,111 @@ import {
   validateRelations,
   validateRelationsQuery,
 } from 'src/helpers/validate/validate-relations';
+import { requireCompanyId } from 'src/helpers/company/require-company-id';
+
+const toPrismaDateOnly = (value: string): Date => {
+  const d = new Date(isNaN(Number(value)) ? value : Number(value));
+  if (Number.isNaN(d.getTime())) {
+    throw new BadRequestException('Invalid date');
+  }
+  return new Date(
+    Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()),
+  );
+};
+
+const timeToMinutes = (d: Date): number =>
+  d.getUTCHours() * 60 + d.getUTCMinutes();
+
+const parseIdFilter = (value?: string | string[]): number[] | undefined => {
+  if (value == null || value === '') return undefined;
+  const arr = Array.isArray(value) ? value : [value];
+  if (arr.length === 0) return undefined;
+  const ids = arr.map((v) => Number(v)).filter((n) => !Number.isNaN(n));
+  return ids.length ? ids : undefined;
+};
 
 @Injectable()
 export class WorkerService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createWorkerDto: CreateWorkerDto, role: user_role) {
-    let { user, user_id, ...data } = createWorkerDto;
+  async create(
+    createWorkerDto: CreateWorkerDto,
+    role: user_role,
+    companyId: number | null,
+  ) {
+    const cId = requireCompanyId(companyId);
+    let {
+      user,
+      user_id,
+      company_id: _omitCompany,
+      ...data
+    } = createWorkerDto as CreateWorkerDto & { company_id?: number };
 
-    if (user) {
-      const chechUser = await this.prisma.user.findUnique({
-        where: { phone: user.phone },
-      });
-      if (chechUser) {
-        throw new ConflictException(
-          ErrorMessages.conflict.alreadyExists('User'),
+    return await this.prisma.$transaction(async (tx) => {
+      if (user) {
+        const userWhere: Prisma.userWhereInput[] = [{ phone: user.phone }];
+        if (user.username) {
+          userWhere.push({ username: user.username });
+        }
+
+        const chechUser = await tx.user.findFirst({
+          where: { OR: userWhere },
+        });
+        if (chechUser) {
+          throw new ConflictException(
+            ErrorMessages.conflict.alreadyExists('User'),
+          );
+        }
+
+        const hashedPassword = hashingPassword(user.password);
+        user.password = hashedPassword;
+
+        user_id = (
+          await tx.user.create({
+            data: user,
+          })
+        ).id;
+      } else if (user_id) {
+        user_id = +user_id;
+      } else {
+        throw new BadRequestException(
+          ErrorMessages.badRequest.userOrUserIdNotFound,
         );
       }
 
-      const hashedPassword = hashingPassword(user.password);
-      user.password = hashedPassword;
+      const checkWorker = await tx.worker.findFirst({
+        where: {
+          user_id,
+          company_id: cId,
+          deleted_at: null,
+        },
+      });
+      if (checkWorker) {
+        throw new ConflictException(
+          ErrorMessages.conflict.alreadyExists(
+            'Worker with this User and Company',
+          ),
+        );
+      }
 
-      user_id = (
-        await this.prisma.user.create({
-          data: user,
-        })
-      ).id;
-    } else if (user_id) {
-      user_id = +user_id;
-    } else {
-      throw new BadRequestException(
-        ErrorMessages.badRequest.userOrUserIdNotFound,
-      );
-    }
+      await validateRelations(tx as typeof this.prisma, data);
 
-    const checkWorker = await this.prisma.worker.findFirst({
-      where: { user_id, company_id: data.company_id, deleted_at: null },
-    });
-    if (checkWorker) {
-      throw new ConflictException(
-        ErrorMessages.conflict.alreadyExists(
-          'Worker with this User and Company',
-        ),
-      );
-    }
+      if (data?.role && role !== 'admin') {
+        throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
+      }
 
-    await validateRelations(this.prisma, data);
-
-    if (data?.role && role !== 'admin') {
-      throw new ForbiddenException(ErrorMessages.forbidden.accessSufficient);
-    }
-
-    return await this.prisma.worker.create({
-      data: { ...data, user_id },
+      return await tx.worker.create({
+        data: { ...data, user_id, company_id: cId },
+      });
     });
   }
 
-  async findAll(query: IWorkerQuery, companyId: number) {
+  async findAll(query: IWorkerQuery, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
     const { search, ...wheresOptional } = query;
     const where: Prisma.workerWhereInput = {
       deleted_at: null,
-      company_id: companyId,
+      company_id: cId,
     };
 
     await validateRelationsQuery(this.prisma, wheresOptional, where);
@@ -101,7 +145,14 @@ export class WorkerService {
       include: {
         user: { omit: { token: true, password: true, role: true } },
         position: true,
-        day: true,
+        filial: true,
+        department: true,
+        company: true,
+        schedule: true,
+        tasks: true,
+        salary: true,
+        payment: true,
+        attendance: true,
       },
       take: pagination.limit,
       skip: pagination.offset,
@@ -110,39 +161,78 @@ export class WorkerService {
     return { worker, pagination };
   }
 
-  async getDashboardWorkers(query: IDashboardWorkerQuery, companyId: number) {
-    const { department_id, filial_id, date } = query;
-    const targetDate = new Date(isNaN(Number(date)) ? date : Number(date));
-    const dayOfWeek = targetDate.getDay(); // 0 (Sun) to 6 (Sat)
-    const dbDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+  async getWorkerAttendance(id: number, companyId: number, date: string) {
+    const cId = requireCompanyId(companyId);
+    const targetDate = toPrismaDateOnly(date ?? new Date().toISOString());
+
+    const worker = await this.prisma.worker.findFirst({
+      where: {
+        id,
+        company_id: cId,
+        deleted_at: null,
+        attendance: { some: { date: targetDate } },
+      },
+      include: {
+        attendance: {
+          where: {
+            date: targetDate,
+            deleted_at: null,
+            company_id: cId,
+          },
+        },
+      },
+    });
+    if (!worker?.attendance?.length) {
+      throw new BadRequestException(
+        ErrorMessages.badRequest.invalid('Worker has no attendance'),
+      );
+    }
+
+    return worker.attendance.map((attendance) => ({
+      id: attendance.id,
+      date: attendance.date,
+      check_in_at: attendance.check_in_at,
+      check_out_at: attendance.check_out_at,
+      resource: attendance.resource,
+      description: attendance.description,
+    }));
+  }
+
+  async getDashboardWorkers(
+    query: IDashboardWorkerQuery,
+    companyId: number | null,
+  ) {
+    const cId = requireCompanyId(companyId);
+
+    const targetDate = toPrismaDateOnly(query.date ?? new Date().toISOString());
+    const weekday = targetDate.getUTCDay() === 0 ? 7 : targetDate.getUTCDay();
 
     const where: Prisma.workerWhereInput = {
-      company_id: companyId,
       deleted_at: null,
+      company_id: cId,
     };
 
-    if (department_id) where.department_id = +department_id;
-    if (filial_id) where.filial_id = +filial_id;
+    const departmentIds = parseIdFilter(query.department_id);
+    const filialIds = parseIdFilter(query.filial_id);
+    if (departmentIds?.length) where.department_id = { in: departmentIds };
+    if (filialIds?.length) where.filial_id = { in: filialIds };
 
     const workers = await this.prisma.worker.findMany({
       where,
       include: {
-        day: {
+        schedule: {
+          where: { deleted_at: null },
           include: {
-            worker_schedule: {
-              where: {
-                day: dbDayOfWeek,
-                deleted_at: null,
-              },
+            days: {
+              where: { day: weekday, deleted_at: null },
             },
           },
         },
         attendance: {
           where: {
-            date: {
-              equals: targetDate,
-            },
+            date: targetDate,
             deleted_at: null,
+            company_id: cId,
           },
         },
       },
@@ -153,29 +243,22 @@ export class WorkerService {
     let not_work = 0;
 
     for (const worker of workers) {
-      const schedule = worker.day?.worker_schedule?.[0];
-      const attendance = worker.attendance?.[0];
+      const daySchedule = worker.schedule?.days?.[0];
+      if (!daySchedule) continue;
 
-      if (!schedule) {
+      const attendance = worker.attendance[0];
+      if (!attendance?.check_in_at) {
+        not_work++;
         continue;
       }
 
-      if (!attendance || !attendance.arrival_at) {
-        not_work++;
+      const arrivalMinutes = timeToMinutes(attendance.check_in_at);
+      const startMinutes = timeToMinutes(daySchedule.start_time);
+
+      if (arrivalMinutes <= startMinutes) {
+        on_time++;
       } else {
-        const arrivalTime = new Date(attendance.arrival_at);
-        const scheduleStartTime = new Date(schedule.start_time);
-
-        const arrivalTotalMinutes =
-          arrivalTime.getHours() * 60 + arrivalTime.getMinutes();
-        const scheduleTotalMinutes =
-          scheduleStartTime.getHours() * 60 + scheduleStartTime.getMinutes();
-
-        if (arrivalTotalMinutes <= scheduleTotalMinutes) {
-          on_time++;
-        } else {
-          late++;
-        }
+        late++;
       }
     }
 
@@ -187,15 +270,16 @@ export class WorkerService {
     };
   }
 
-  async findOne(id: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async findOne(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
       include: {
         user: { omit: { token: true, password: true, role: true } },
         department: true,
         position: true,
         company: true,
-        day: true,
+        schedule: true,
       },
     });
     if (!worker) {
@@ -220,9 +304,10 @@ export class WorkerService {
     return worker;
   }
 
-  async update(id: number, dto: UpdateWorkerDto) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async update(id: number, dto: UpdateWorkerDto, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
     });
     if (!worker) {
       throw new NotFoundException(
@@ -230,28 +315,21 @@ export class WorkerService {
       );
     }
 
-    await validateRelations(this.prisma, dto);
-
-    if (dto.company_id) {
-      const checkWorker = await this.prisma.worker.findFirst({
-        where: { id, company_id: dto.company_id, deleted_at: null },
-      });
-      if (checkWorker) {
-        throw new BadRequestException(
-          ErrorMessages.badRequest.invalid('Company'),
-        );
-      }
-    }
+    const { company_id: _omitCompany, ...dtoSafe } = dto as UpdateWorkerDto & {
+      company_id?: number;
+    };
+    await validateRelations(this.prisma, dtoSafe);
 
     return await this.prisma.worker.update({
       where: { id },
-      data: dto,
+      data: dtoSafe,
     });
   }
 
-  async remove(id: number) {
-    const worker = await this.prisma.worker.findUnique({
-      where: { id, deleted_at: null },
+  async remove(id: number, companyId: number | null) {
+    const cId = requireCompanyId(companyId);
+    const worker = await this.prisma.worker.findFirst({
+      where: { id, company_id: cId, deleted_at: null },
     });
     if (!worker) {
       throw new NotFoundException(

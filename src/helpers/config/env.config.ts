@@ -10,4 +10,5 @@ export const env = {
     refreshExpiresIn: process.env.REFRESH_EXPIRE,
   },
   node: process.env.NODE_ENV || 'development',
+  baseUrl: process.env.BASE_URL,
 };

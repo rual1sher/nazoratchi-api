@@ -53,10 +53,12 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   attendance: 'attendance',
   company: 'company',
-  coordinate: 'coordinate',
   day: 'day',
   department: 'department',
   filial: 'filial',
+  holiday_filial: 'holiday_filial',
+  holiday_department: 'holiday_department',
+  holiday_schedule_scope: 'holiday_schedule_scope',
   holiday: 'holiday',
   payment: 'payment',
   penalties_name: 'penalties_name',
@@ -64,6 +66,7 @@ export const ModelName = {
   position: 'position',
   salary: 'salary',
   task: 'task',
+  terminal: 'terminal',
   user: 'user',
   worker: 'worker',
   worker_schedule: 'worker_schedule'
@@ -88,9 +91,13 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const AttendanceScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  arrival_at: 'arrival_at',
-  departure_at: 'departure_at',
+  check_in_at: 'check_in_at',
+  check_out_at: 'check_out_at',
+  resource: 'resource',
+  description: 'description',
+  company_id: 'company_id',
   worker_id: 'worker_id',
+  branch_id: 'branch_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -110,26 +117,17 @@ export const CompanyScalarFieldEnum = {
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
-export const CoordinateScalarFieldEnum = {
-  id: 'id',
-  coordinate: 'coordinate',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  filial_id: 'filial_id'
-} as const
-
-export type CoordinateScalarFieldEnum = (typeof CoordinateScalarFieldEnum)[keyof typeof CoordinateScalarFieldEnum]
-
-
 export const DayScalarFieldEnum = {
   id: 'id',
-  title_uz: 'title_uz',
-  title_ru: 'title_ru',
-  title_en: 'title_en',
+  day: 'day',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  break_start: 'break_start',
+  break_end: 'break_end',
+  schedule_id: 'schedule_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at',
-  company_id: 'company_id'
+  deleted_at: 'deleted_at'
 } as const
 
 export type DayScalarFieldEnum = (typeof DayScalarFieldEnum)[keyof typeof DayScalarFieldEnum]
@@ -151,9 +149,10 @@ export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof
 
 export const FilialScalarFieldEnum = {
   id: 'id',
-  title_uz: 'title_uz',
-  title_ru: 'title_ru',
-  title_en: 'title_en',
+  name: 'name',
+  address: 'address',
+  radius: 'radius',
+  coordinates: 'coordinates',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -163,16 +162,37 @@ export const FilialScalarFieldEnum = {
 export type FilialScalarFieldEnum = (typeof FilialScalarFieldEnum)[keyof typeof FilialScalarFieldEnum]
 
 
+export const Holiday_filialScalarFieldEnum = {
+  holiday_id: 'holiday_id',
+  filial_id: 'filial_id'
+} as const
+
+export type Holiday_filialScalarFieldEnum = (typeof Holiday_filialScalarFieldEnum)[keyof typeof Holiday_filialScalarFieldEnum]
+
+
+export const Holiday_departmentScalarFieldEnum = {
+  holiday_id: 'holiday_id',
+  department_id: 'department_id'
+} as const
+
+export type Holiday_departmentScalarFieldEnum = (typeof Holiday_departmentScalarFieldEnum)[keyof typeof Holiday_departmentScalarFieldEnum]
+
+
+export const Holiday_schedule_scopeScalarFieldEnum = {
+  holiday_id: 'holiday_id',
+  type: 'type'
+} as const
+
+export type Holiday_schedule_scopeScalarFieldEnum = (typeof Holiday_schedule_scopeScalarFieldEnum)[keyof typeof Holiday_schedule_scopeScalarFieldEnum]
+
+
 export const HolidayScalarFieldEnum = {
   id: 'id',
+  company_id: 'company_id',
   name: 'name',
   description: 'description',
   date: 'date',
   yearly_loop: 'yearly_loop',
-  filial_id: 'filial_id',
-  department_id: 'department_id',
-  position_id: 'position_id',
-  schedule_id: 'schedule_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -183,6 +203,7 @@ export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeo
 
 export const PaymentScalarFieldEnum = {
   id: 'id',
+  company_id: 'company_id',
   amount: 'amount',
   type: 'type',
   date: 'date',
@@ -198,9 +219,8 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 
 export const Penalties_nameScalarFieldEnum = {
   id: 'id',
-  title_uz: 'title_uz',
-  title_ru: 'title_ru',
-  title_en: 'title_en',
+  title: 'title',
+  type: 'type',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -212,6 +232,7 @@ export type Penalties_nameScalarFieldEnum = (typeof Penalties_nameScalarFieldEnu
 
 export const PenaltyScalarFieldEnum = {
   id: 'id',
+  company_id: 'company_id',
   type: 'type',
   min_minutes: 'min_minutes',
   amount: 'amount',
@@ -241,11 +262,11 @@ export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typ
 
 export const SalaryScalarFieldEnum = {
   id: 'id',
+  company_id: 'company_id',
   amount: 'amount',
   type: 'type',
-  date_time: 'date_time',
-  status: 'status',
-  worker_id: 'worker_id',
+  start_date: 'start_date',
+  fixed: 'fixed',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -256,16 +277,34 @@ export type SalaryScalarFieldEnum = (typeof SalaryScalarFieldEnum)[keyof typeof 
 
 export const TaskScalarFieldEnum = {
   id: 'id',
+  company_id: 'company_id',
   name: 'name',
   description: 'description',
   priority: 'priority',
-  status: 'status',
+  col: 'col',
+  row: 'row',
+  file: 'file',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
 } as const
 
 export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+export const TerminalScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  unique_id: 'unique_id',
+  mac_address: 'mac_address',
+  branch_id: 'branch_id',
+  company_id: 'company_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+} as const
+
+export type TerminalScalarFieldEnum = (typeof TerminalScalarFieldEnum)[keyof typeof TerminalScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -291,9 +330,10 @@ export const WorkerScalarFieldEnum = {
   id: 'id',
   company_id: 'company_id',
   department_id: 'department_id',
-  day_id: 'day_id',
+  schedule_id: 'schedule_id',
   position_id: 'position_id',
   filial_id: 'filial_id',
+  salary_id: 'salary_id',
   user_id: 'user_id',
   role: 'role',
   created_at: 'created_at',
@@ -306,12 +346,11 @@ export type WorkerScalarFieldEnum = (typeof WorkerScalarFieldEnum)[keyof typeof 
 
 export const Worker_scheduleScalarFieldEnum = {
   id: 'id',
-  day: 'day',
-  start_time: 'start_time',
-  end_time: 'end_time',
-  break_start: 'break_start',
-  break_end: 'break_end',
-  day_id: 'day_id',
+  company_id: 'company_id',
+  name: 'name',
+  type: 'type',
+  starts_at: 'starts_at',
+  days_frequency: 'days_frequency',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -328,18 +367,18 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

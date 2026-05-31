@@ -22,10 +22,6 @@ export class CreateWorkerDto {
   @IsNumber()
   user_id?: number;
 
-  @ApiProperty({ example: 1 })
-  @IsNumber()
-  company_id: number;
-
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
   @IsNumber()
@@ -39,12 +35,17 @@ export class CreateWorkerDto {
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
   @IsNumber()
-  day_id?: number;
+  schedule_id?: number;
 
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
   @IsNumber()
   filial_id?: number;
+
+  @ApiPropertyOptional({ example: 1 })
+  @IsOptional()
+  @IsNumber()
+  salary_id?: number;
 
   @ApiProperty({ enum: worker_role })
   @IsOptional()
