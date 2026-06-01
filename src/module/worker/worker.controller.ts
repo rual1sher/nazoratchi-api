@@ -99,6 +99,22 @@ export class WorkerController {
     return new ApiResponse(payment, 200, pagination);
   }
 
+  @WorkerRoles(worker_role.worker)
+  @Get('my/attendance')
+  @ApiOperation({ summary: 'Get my attendance' })
+  async getMyAttendance(
+    @CompanyId() companyId: number,
+    @WorkerId() workerId: number | null,
+    @Query() query: IMyWorkerAttendanceQuery,
+  ) {
+    const data = await this.workerService.getMyAttendance(
+      query,
+      companyId,
+      workerId,
+    );
+    return new ApiResponse(data);
+  }
+
   @WorkerRoles(worker_role.maneger)
   @ApiOperation({ summary: 'Get worker attendance' })
   @Get(':id/attendance')
@@ -123,22 +139,6 @@ export class WorkerController {
     @CompanyId() companyId: number,
   ) {
     const data = await this.workerService.getDashboardWorkers(query, companyId);
-    return new ApiResponse(data);
-  }
-
-  @WorkerRoles(worker_role.worker)
-  @Get('my/attendance')
-  @ApiOperation({ summary: 'Get my attendance' })
-  async getMyAttendance(
-    @CompanyId() companyId: number,
-    @WorkerId() workerId: number | null,
-    @Query() query: IMyWorkerAttendanceQuery,
-  ) {
-    const data = await this.workerService.getMyAttendance(
-      query,
-      companyId,
-      workerId,
-    );
     return new ApiResponse(data);
   }
 

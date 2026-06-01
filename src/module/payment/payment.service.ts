@@ -54,6 +54,15 @@ export class PaymentService {
 
     const payment = await this.prisma.payment.findMany({
       where,
+      include: {
+        worker: {
+          include: {
+            user: {
+              omit: { password: true, token: true, role: true },
+            },
+          },
+        },
+      },
       orderBy: { created_at: 'desc' },
       take: pagination.limit,
       skip: pagination.offset,

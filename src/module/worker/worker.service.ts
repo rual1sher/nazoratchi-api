@@ -253,9 +253,13 @@ export class WorkerService {
         worker_id: workerId,
         company_id: cId,
         deleted_at: null,
-        date: query.date ? toPrismaDateOnly(query.date) : new Date(),
+        date: query.date
+          ? toPrismaDateOnly(query.date)
+          : toPrismaDateOnly(new Date().toISOString()),
       },
     });
+
+    console.log(toPrismaDateOnly(new Date().toISOString()));
     if (!attendance) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Attendance'),
