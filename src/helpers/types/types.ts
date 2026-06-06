@@ -30,6 +30,16 @@ export interface IWorkerQuery extends IQuery {
   scheduleId?: string;
 }
 
+// monitoring
+export type WorkerMonitoringType = 'on_time' | 'late' | 'not_work';
+
+export interface IWorkerMonitoringQuery extends IQuery {
+  branchId?: string;
+  departmentId?: string;
+  date?: string;
+  type?: WorkerMonitoringType;
+}
+
 export interface IMyWorkerAttendanceQuery {
   date?: string;
 }

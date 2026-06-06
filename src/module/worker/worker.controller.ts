@@ -22,6 +22,7 @@ import {
   IDashboardWorkerQuery,
   IQuery,
   IMyWorkerAttendanceQuery,
+  IWorkerMonitoringQuery,
 } from 'src/helpers/types/types';
 import { payment_type, worker_role } from 'prisma/generated/prisma/enums';
 import { Owner } from 'src/helpers/decorators/owner.decorator';
@@ -65,6 +66,39 @@ export class WorkerController {
     return new ApiResponse(worker, 200, pagination);
   }
 
+  @WorkerRoles(worker_role.maneger)
+  @Get('monitoring')
+  @ApiOperation({
+    summary: 'Get employees monitoring (on_time / late / not_work)',
+  })
+  async monitoring(
+    @Query() query: IWorkerMonitoringQuery,
+    @CompanyId() companyId: number | null,
+  ) {
+    const { worker, pagination } = await this.workerService.monitoring(
+      query,
+      companyId,
+    );
+    return new ApiResponse(worker, 200, pagination);
+  }
+
+  @WorkerRoles(worker_role.maneger)
+  @Get(':id/payments')
+  @ApiOperation({})
+  async workerPayments(
+    @Param('id') id: string,
+    @Query() query: IQuery,
+    @CompanyId() companyId: number,
+  ) {
+    const { payment, pagination } = await this.workerService.getMyPayments(
+      [payment_type.bonus, payment_type.income],
+      companyId,
+      Number(id),
+      query,
+    );
+    return new ApiResponse(payment, 200, pagination);
+  }
+
   @WorkerRoles(worker_role.worker)
   @Get('my/penalty')
   @ApiOperation({ summary: 'Get my penalties' })
@@ -74,10 +108,10 @@ export class WorkerController {
     @Query() query: IQuery,
   ) {
     const { payment, pagination } = await this.workerService.getMyPayments(
-      payment_type.penalty,
-      query,
+      [payment_type.penalty],
       companyId,
       workerId,
+      query,
     );
     return new ApiResponse(payment, 200, pagination);
   }
@@ -91,10 +125,10 @@ export class WorkerController {
     @Query() query: IQuery,
   ) {
     const { payment, pagination } = await this.workerService.getMyPayments(
-      payment_type.bonus,
-      query,
+      [payment_type.bonus, payment_type.income],
       companyId,
       workerId,
+      query,
     );
     return new ApiResponse(payment, 200, pagination);
   }

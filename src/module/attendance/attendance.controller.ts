@@ -28,6 +28,7 @@ import { WorkerRolesGuard } from 'src/helpers/guard/worker-role.guard';
 import { WorkerRoles } from 'src/helpers/decorators/roles.decorator';
 import { worker_role } from 'prisma/generated/prisma/enums';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
+import { AttendanceExportQueryDto } from 'src/helpers/export/export-query.dto';
 
 @ApiTags('manual-attendance')
 @Controller('manual-attendance')
@@ -107,6 +108,26 @@ export class AttendanceController {
   ) {
     const { buffer, filename } =
       await this.attendanceService.downloadChartExcel(query, companyId);
+    return new StreamableFile(buffer, {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      disposition: `attachment; filename="${filename}"`,
+    });
+  }
+
+  @Get('excel/download')
+  @Header(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  )
+  @ApiOperation({ summary: 'Download attendance records as Excel' })
+  async downloadExcel(
+    @Query() query: AttendanceExportQueryDto,
+    @CompanyId() companyId: number | null,
+  ) {
+    const { buffer, filename } = await this.attendanceService.downloadExcel(
+      query,
+      companyId,
+    );
     return new StreamableFile(buffer, {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       disposition: `attachment; filename="${filename}"`,

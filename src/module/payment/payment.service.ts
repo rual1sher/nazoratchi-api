@@ -7,8 +7,14 @@ import { IPaymentQuery } from 'src/helpers/types/types';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { Pagination } from 'src/helpers/pagination/pagination';
 import { ErrorMessages } from 'src/helpers/error/error.message';
-import { QueryWhere } from 'src/helpers/validate/validate-queryinwhere';
 import { requireCompanyId } from 'src/helpers/company/require-company-id';
+import { PaymentExportQueryDto } from 'src/helpers/export/export-query.dto';
+import {
+  assertExportFilial,
+  parseExportDateRange,
+  resolveExportWorkerIds,
+} from 'src/helpers/export/export-query.helpers';
+import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class PaymentService {
@@ -46,7 +52,6 @@ export class PaymentService {
       deleted_at: null,
       company_id: cId,
     };
-    QueryWhere(query, where);
     where.company_id = cId;
 
     const count = await this.prisma.payment.count({ where });
@@ -116,5 +121,90 @@ export class PaymentService {
       where: { id },
       data: { deleted_at: new Date() },
     });
+  }
+
+  async downloadExcel(
+    query: PaymentExportQueryDto,
+    companyId: number | null,
+  ): Promise<{ buffer: Buffer; filename: string }> {
+    const cId = requireCompanyId(companyId);
+    const filialId = await assertExportFilial(this.prisma, cId, query.filial);
+    const { dateFrom, dateTo } = parseExportDateRange(query);
+    const workerIds = await resolveExportWorkerIds(
+      this.prisma,
+      cId,
+      filialId,
+      query.workers,
+    );
+
+    const payments = await this.prisma.payment.findMany({
+      where: {
+        deleted_at: null,
+        company_id: cId,
+        date: { gte: dateFrom, lte: dateTo },
+        ...(workerIds === undefined
+          ? {
+              worker: {
+                filial_id: filialId,
+                deleted_at: null,
+              },
+            }
+          : { worker_id: { in: workerIds } }),
+      },
+      orderBy: [{ date: 'asc' }, { created_at: 'asc' }],
+      include: {  
+        worker: {
+          include: {
+            user: {
+              select: {
+                first_name: true,
+                last_name: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'Nazoratchi';
+    const sheet = workbook.addWorksheet('Payments');
+
+    sheet.columns = [
+      { header: '№', key: 'id', width: 8 },
+      { header: 'Date', key: 'date', width: 14 },
+      { header: 'Worker', key: 'worker', width: 28 },
+      { header: 'Type', key: 'type', width: 14 },
+      { header: 'Amount', key: 'amount', width: 14 },
+      { header: 'Comment', key: 'comment', width: 32 },
+    ];
+    sheet.getRow(1).font = { bold: true };
+
+    for (const payment of payments) {
+      const workerName = [
+        payment.worker.user.first_name,
+        payment.worker.user.last_name,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      sheet.addRow({
+        id: payment.id,
+        date: payment.date.toISOString().slice(0, 10),
+        worker: workerName || payment.worker.user.username,
+        type: payment.type,
+        amount: payment.amount,
+        comment: payment.comment ?? '',
+      });
+    }
+
+    const raw = await workbook.xlsx.writeBuffer();
+    const buffer = Buffer.from(raw);
+    const from = query.date_from.slice(0, 10);
+    const to = query.date_to.slice(0, 10);
+    const filename = `payments-${from}_${to}-filial-${filialId}.xlsx`;
+
+    return { buffer, filename };
   }
 }

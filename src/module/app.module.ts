@@ -18,7 +18,6 @@ import { TaskModule } from './task/task.module';
 import { HolidayModule } from './holiday/holiday.module';
 import { TerminalModule } from './terminal/terminal.module';
 import { UploadModule } from './upload/upload.module';
-
 @Module({
   imports: [
     ScheduleModule.forRoot(),

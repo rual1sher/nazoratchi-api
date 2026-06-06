@@ -14,6 +14,7 @@ import {
   IDashboardWorkerQuery,
   IQuery,
   IMyWorkerAttendanceQuery,
+  IWorkerMonitoringQuery,
 } from 'src/helpers/types/types';
 import {
   payment_type,
@@ -197,10 +198,10 @@ export class WorkerService {
   }
 
   async getMyPayments(
-    type: payment_type,
-    query: IQuery,
+    type: payment_type[],
     companyId: number,
     workerId: number | null,
+    query?: IQuery,
   ) {
     if (!workerId) throw new BadRequestException('Worker ID is required');
 
@@ -219,17 +220,21 @@ export class WorkerService {
         company_id: cId,
         deleted_at: null,
         worker_id: workerId,
-        type: type,
+        type: { in: type },
       },
     });
-    const pagination = new Pagination(count, query.page, query.limit);
+    const pagination = new Pagination(
+      count,
+      query?.page ?? 1,
+      query?.limit ?? 10,
+    );
 
     const payment = await this.prisma.payment.findMany({
       where: {
         company_id: cId,
         deleted_at: null,
         worker_id: workerId,
-        type: type,
+        type: { in: type },
       },
       orderBy: { created_at: 'desc' },
       take: pagination.limit,
@@ -237,6 +242,106 @@ export class WorkerService {
     });
 
     return { payment, pagination };
+  }
+
+  async monitoring(query: IWorkerMonitoringQuery, companyId?: number | null) {
+    const cId = requireCompanyId(companyId);
+    const targetDate = toPrismaDateOnly(query.date ?? new Date().toISOString());
+    const weekday = targetDate.getUTCDay() === 0 ? 7 : targetDate.getUTCDay();
+
+    const where: Prisma.workerWhereInput = {
+      deleted_at: null,
+      company_id: cId,
+    };
+
+    if (query.branchId) {
+      where.filial_id = Number(query.branchId);
+    }
+    if (query.departmentId) {
+      where.department_id = Number(query.departmentId);
+    }
+
+    const workers = await this.prisma.worker.findMany({
+      where,
+      include: {
+        user: { omit: { password: true, token: true, role: true } },
+        position: true,
+        filial: true,
+        schedule: {
+          where: { deleted_at: null },
+          include: {
+            days: {
+              where: { day: weekday, deleted_at: null },
+            },
+          },
+        },
+        attendance: {
+          where: {
+            date: targetDate,
+            deleted_at: null,
+            company_id: cId,
+          },
+        },
+      },
+    });
+
+    let items = workers.map((worker) => {
+      const daySchedule = worker.schedule?.days?.[0];
+      const attendance = worker.attendance[0];
+      let type: 'on_time' | 'late' | 'not_work' = 'not_work';
+
+      if (attendance?.check_in_at) {
+        if (daySchedule) {
+          const arrivalMinutes = timeToMinutes(attendance.check_in_at);
+          const startMinutes = timeToMinutes(daySchedule.start_time);
+          type = arrivalMinutes <= startMinutes ? 'on_time' : 'late';
+        } else {
+          type = 'on_time';
+        }
+      }
+
+      return {
+        id: worker.id,
+        type,
+        user: {
+          avatar: worker.user.avatar,
+          first_name: worker.user.first_name,
+          last_name: worker.user.last_name,
+          username: worker.user.username,
+          position: worker.position
+            ? {
+                title_uz: worker.position.title_uz,
+                title_ru: worker.position.title_ru,
+                title_en: worker.position.title_en,
+              }
+            : null,
+        },
+        filial: worker.filial
+          ? {
+              id: worker.filial.id,
+              name: worker.filial.name,
+              address: worker.filial.address,
+            }
+          : null,
+        schedule: worker.schedule
+          ? {
+              id: worker.schedule.id,
+              name: worker.schedule.name,
+              type: worker.schedule.type,
+              days_frequency: worker.schedule.days_frequency,
+            }
+          : null,
+      };
+    });
+
+    const count = items.length;
+    const pagination = new Pagination(count, query.page, query.limit);
+    const worker = items.slice(
+      pagination.offset,
+      pagination.offset + pagination.limit,
+    );
+
+    return { worker, pagination };
   }
 
   async getMyAttendance(
@@ -259,7 +364,6 @@ export class WorkerService {
       },
     });
 
-    console.log(toPrismaDateOnly(new Date().toISOString()));
     if (!attendance) {
       throw new NotFoundException(
         ErrorMessages.notFound.modelNotFound('Attendance'),

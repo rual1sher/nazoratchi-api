@@ -8,7 +8,10 @@ import {
   Delete,
   UseGuards,
   Query,
+  Header,
+  StreamableFile,
 } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
@@ -19,6 +22,7 @@ import { worker_role } from 'prisma/generated/prisma/enums';
 import { ApiResponse } from 'src/helpers/responce/api-responce';
 import { CompanyId } from 'src/helpers/decorators/company-id.decorator';
 import { IPaymentQuery } from 'src/helpers/types/types';
+import { PaymentExportQueryDto } from 'src/helpers/export/export-query.dto';
 
 @Controller('payment')
 @UseGuards(AuthGuard, WorkerRolesGuard)
@@ -42,6 +46,26 @@ export class PaymentController {
       companyId,
     );
     return new ApiResponse(payment, 200, pagination);
+  }
+
+  @Get('excel/download')
+  @Header(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  )
+  @ApiOperation({ summary: 'Download worker payments (oylik ish haqi) as Excel' })
+  async downloadExcel(
+    @Query() query: PaymentExportQueryDto,
+    @CompanyId() companyId: number | null,
+  ) {
+    const { buffer, filename } = await this.paymentService.downloadExcel(
+      query,
+      companyId,
+    );
+    return new StreamableFile(buffer, {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      disposition: `attachment; filename="${filename}"`,
+    });
   }
 
   @Get(':id')
