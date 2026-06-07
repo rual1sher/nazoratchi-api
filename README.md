@@ -1,98 +1,183 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Nazoratchi API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend для системы учёта персонала: сотрудники, посещаемость, зарплаты, штрафы, задачи, расписания.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+**Стек:** NestJS 11 · TypeScript · PostgreSQL · Prisma 7 · JWT · Swagger
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Быстрый старт
 
-## Project setup
+### Требования
+
+- Node.js 20+
+- PostgreSQL 15+
+- npm
+
+### 1. Установка
 
 ```bash
-$ npm install
+npm install
+cp .env.example .env
 ```
 
-## Compile and run the project
+Заполни `.env`:
+
+| Переменная       | Описание                          |
+|------------------|-----------------------------------|
+| `DATABASE_URL`   | PostgreSQL connection string      |
+| `PORT`           | Порт API (по умолчанию `7777`)    |
+| `ACCESS_SECRET`  | JWT access token secret           |
+| `REFRESH_SECRET` | JWT refresh token secret          |
+| `ACCESS_EXPIRE`  | Срок access token                 |
+| `REFRESH_EXPIRE` | Срок refresh token                |
+| `NODE_ENV`       | `development` / `production`      |
+| `BASE_URL`       | Базовый URL (для upload и т.д.)   |
+
+### 2. База данных
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npx prisma migrate dev
+npx prisma db seed   # создаёт admin: 998901234567 / admin123
+npx prisma generate
 ```
 
-## Run tests
+### 3. Запуск
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run dev          # dev с hot-reload
+npm run build        # сборка
+npm run prod         # production (node dist/main)
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Docker
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker compose up --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- API: `http://localhost:7777`
+- PostgreSQL: `localhost:5433` (внутри compose — `db:5432`)
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## API
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+| Параметр   | Значение                          |
+|------------|-----------------------------------|
+| Base URL   | `/api/v1`                         |
+| Swagger    | `/api/docs` (только не production)|
+| Auth       | `Authorization: Bearer <token>`   |
+| Tenant     | `x-company-id: <id>` (default: 1) |
 
-## Support
+### Формат ответа
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```json
+{
+  "data": {},
+  "status": 200,
+  "pagination": null,
+  "date": "2026-06-07T..."
+}
+```
 
-## Stay in touch
+### Аутентификация
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+| Метод | Endpoint | Описание |
+|-------|----------|----------|
+| POST | `/auth/login-phone` | Телефон → OTP |
+| POST | `/auth/login-username` | Username + password → токены сразу |
+| POST | `/auth/verify` | Подтверждение OTP |
+| POST | `/auth/refresh` | Refresh token из cookie |
+| POST | `/auth/logout` | Выход |
+| GET  | `/auth/me` | Текущий пользователь |
 
-## License
+Refresh token — в httpOnly cookie `refreshToken`.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Роли
+
+- **user.role:** `admin` | `worker`
+- **worker.role:** `worker` | `maneger`
+
+`admin` обходит проверки worker-ролей. Остальные — через `WorkerRolesGuard` + заголовок `x-company-id`.
+
+---
+
+## Модули
+
+| Модуль | Route prefix | Назначение |
+|--------|--------------|------------|
+| Auth | `auth` | Логин, OTP, токены |
+| User | `user` | Пользователи |
+| Company | `company` | Компании (admin) |
+| Filial | `filial` | Филиалы |
+| Department | `department` | Отделы |
+| Position | `position` | Должности |
+| Employee | `employee` | Сотрудники |
+| Schedule | `schedule`, `work-schedule` | Расписания |
+| Day | `day` | Рабочие/выходные дни |
+| Holiday | `holiday` | Праздники |
+| Attendance | `manual-attendance` | Ручная посещаемость |
+| Face ID | `face-id-attendance` | Check-in/out через Face ID |
+| Salary | `salary` | Зарплаты |
+| Payment | `payment` | Выплаты |
+| Penalty | `penalty` | Штрафы |
+| Task | `task` | Задачи |
+| Terminal | `terminal` | Терминалы |
+| Upload | `upload` | Загрузка файлов |
+
+---
+
+## Структура проекта
+
+```
+src/
+├── main.ts                 # Bootstrap, CORS, Swagger, pipes
+├── module/                 # NestJS-модули (controller/service/dto)
+└── helpers/
+    ├── config/             # env, upload
+    ├── guard/              # AuthGuard, AdminGuard, WorkerRolesGuard
+    ├── decorators/         # @CompanyId, @WorkerId, @Owner, @WorkerRoles
+    ├── prisma/             # PrismaService
+    ├── jwt/                # JWT
+    ├── error/              # HttpExceptionFilter, сообщения
+    └── pagination/         # Пагинация
+
+prisma/
+├── schema/                 # Модели (multi-file schema)
+├── migrations/
+└── seed.ts
+```
+
+---
+
+## Multi-tenancy
+
+Данные изолированы по `company_id`. Заголовок `x-company-id` определяет компанию; если не передан — используется `1`.
+
+---
+
+## Cron
+
+`AttendancePenaltyCron` — каждый день в `00:00` финализирует штрафы за вчерашнюю посещаемость.
+
+---
+
+## Полезные команды
+
+```bash
+npx prisma studio              # GUI для БД
+npx prisma migrate dev --name  # новая миграция
+npx prisma db push             # синхронизация без миграции (dev)
+```
+
+---
+
+## Конвенции для разработчиков
+
+1. Новый модуль: `src/module/<name>/` — module, controller, service, dto.
+2. Защищённые роуты: `@UseGuards(AuthGuard)` + при необходимости `WorkerRolesGuard` / `AdminGuard`.
+3. Company scope: декоратор `@CompanyId()`.
+4. DTO с `class-validator`; глобальный `ValidationPipe` включён.
+5. Ответы через `new ApiResponse(data, status?, pagination?)`.
+6. Prisma client: `prisma/generated/prisma`.
